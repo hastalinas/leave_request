@@ -13,7 +13,7 @@ public class Account : BaseTable
     public Guid Guid { get; set; }
     
     [Column("profil_picture")] 
-    public Blob ProfilPicture { get; set; }
+    public byte[] ProfilPicture { get; set; }
     
     [Column("password")]
     public string Password { get; set; }

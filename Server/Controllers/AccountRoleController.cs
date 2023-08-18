@@ -6,5 +6,5 @@ namespace Server.Controllers;
 [Route("api/account-role")]
 public class AccountRoleController : ControllerBase
 {
-    private readonly AccountRole
+    //private readonly AccountRole
 }
