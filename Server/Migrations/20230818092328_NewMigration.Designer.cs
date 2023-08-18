@@ -12,8 +12,8 @@ using Server.Data;
 namespace Server.Migrations
 {
     [DbContext(typeof(LeaveDbContext))]
-    [Migration("20230818054854_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230818092328_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,7 +32,7 @@ namespace Server.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_time");
+                        .HasColumnName("created_date");
 
                     b.Property<DateTime?>("ExpiredTime")
                         .HasColumnType("datetime2")
@@ -79,7 +79,7 @@ namespace Server.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_time");
+                        .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2")
@@ -113,7 +113,7 @@ namespace Server.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_time");
+                        .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2")
@@ -142,7 +142,7 @@ namespace Server.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_time");
+                        .HasColumnName("created_date");
 
                     b.Property<Guid>("DepartmentGuid")
                         .HasColumnType("uniqueidentifier")
@@ -206,15 +206,7 @@ namespace Server.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_time");
-
-                    b.Property<string>("FeedbackNotes")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("feedback_notes");
-
-                    b.Property<int>("FeedbackStatus")
-                        .HasColumnType("int")
-                        .HasColumnName("feedback_status");
+                        .HasColumnName("created_date");
 
                     b.Property<Guid>("LeaveRequestGuid")
                         .HasColumnType("uniqueidentifier")
@@ -223,6 +215,14 @@ namespace Server.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("notes");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
 
                     b.HasKey("Guid");
 
@@ -246,7 +246,7 @@ namespace Server.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_time");
+                        .HasColumnName("created_date");
 
                     b.Property<Guid>("EmployeeGuid")
                         .HasColumnType("uniqueidentifier")
@@ -292,7 +292,7 @@ namespace Server.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2")
-                        .HasColumnName("created_time");
+                        .HasColumnName("created_date");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2")
@@ -310,23 +310,23 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Guid = new Guid("b52fed99-9d48-4d59-acb0-b2252f7a16da"),
-                            CreatedDate = new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2705),
-                            ModifiedDate = new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2708),
+                            Guid = new Guid("cb821f06-efb1-44db-88d6-6dc4405de080"),
+                            CreatedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1388),
+                            ModifiedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1390),
                             Name = "admin"
                         },
                         new
                         {
-                            Guid = new Guid("062f261d-790b-47d4-b250-ca9f6cf25cb0"),
-                            CreatedDate = new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2710),
-                            ModifiedDate = new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2711),
+                            Guid = new Guid("7a9ac9ab-d473-4954-89d5-eb085c7d474b"),
+                            CreatedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1392),
+                            ModifiedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1392),
                             Name = "employee"
                         },
                         new
                         {
-                            Guid = new Guid("071fbe77-34e6-4baf-8739-9ebf03f5bb38"),
-                            CreatedDate = new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2734),
-                            ModifiedDate = new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2735),
+                            Guid = new Guid("5dc74b69-3bde-48f2-95e6-0fc1dadf2aa7"),
+                            CreatedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1395),
+                            ModifiedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1395),
                             Name = "manager"
                         });
                 });

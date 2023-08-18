@@ -308,23 +308,23 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Guid = new Guid("f9c6411e-2425-4c0f-9fc1-855b64cabe21"),
-                            CreatedDate = new DateTime(2023, 8, 18, 8, 20, 59, 549, DateTimeKind.Utc).AddTicks(7554),
-                            ModifiedDate = new DateTime(2023, 8, 18, 8, 20, 59, 549, DateTimeKind.Utc).AddTicks(7555),
+                            Guid = new Guid("cb821f06-efb1-44db-88d6-6dc4405de080"),
+                            CreatedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1388),
+                            ModifiedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1390),
                             Name = "admin"
                         },
                         new
                         {
-                            Guid = new Guid("ee3786e8-ed47-4b85-a12c-351f25838f2e"),
-                            CreatedDate = new DateTime(2023, 8, 18, 8, 20, 59, 549, DateTimeKind.Utc).AddTicks(7559),
-                            ModifiedDate = new DateTime(2023, 8, 18, 8, 20, 59, 549, DateTimeKind.Utc).AddTicks(7559),
+                            Guid = new Guid("7a9ac9ab-d473-4954-89d5-eb085c7d474b"),
+                            CreatedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1392),
+                            ModifiedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1392),
                             Name = "employee"
                         },
                         new
                         {
-                            Guid = new Guid("90990fc7-36b4-47c0-ad9e-5f5c0ea02de6"),
-                            CreatedDate = new DateTime(2023, 8, 18, 8, 20, 59, 549, DateTimeKind.Utc).AddTicks(7563),
-                            ModifiedDate = new DateTime(2023, 8, 18, 8, 20, 59, 549, DateTimeKind.Utc).AddTicks(7563),
+                            Guid = new Guid("5dc74b69-3bde-48f2-95e6-0fc1dadf2aa7"),
+                            CreatedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1395),
+                            ModifiedDate = new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1395),
                             Name = "manager"
                         });
                 });

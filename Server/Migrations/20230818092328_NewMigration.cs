@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Server.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class NewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace Server.Migrations
                     guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    created_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -30,7 +30,7 @@ namespace Server.Migrations
                 {
                     guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    created_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -53,7 +53,7 @@ namespace Server.Migrations
                     phone_number = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     department_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     manager_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    created_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -82,7 +82,7 @@ namespace Server.Migrations
                     otp = table.Column<int>(type: "int", nullable: false),
                     is_used = table.Column<bool>(type: "bit", nullable: false),
                     expired_time = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    created_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -108,7 +108,7 @@ namespace Server.Migrations
                     notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     attachment = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     status = table.Column<int>(type: "int", nullable: false),
-                    created_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -128,7 +128,7 @@ namespace Server.Migrations
                 {
                     guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     account_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    created_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -154,9 +154,9 @@ namespace Server.Migrations
                 {
                     guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     leave_request = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    feedback_status = table.Column<int>(type: "int", nullable: false),
-                    feedback_notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    created_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    status = table.Column<int>(type: "int", nullable: false),
+                    notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -172,18 +172,18 @@ namespace Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "tb_m_roles",
-                columns: new[] { "guid", "created_time", "modified_date", "name" },
-                values: new object[] { new Guid("062f261d-790b-47d4-b250-ca9f6cf25cb0"), new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2710), new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2711), "employee" });
+                columns: new[] { "guid", "created_date", "modified_date", "name" },
+                values: new object[] { new Guid("5dc74b69-3bde-48f2-95e6-0fc1dadf2aa7"), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1395), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1395), "manager" });
 
             migrationBuilder.InsertData(
                 table: "tb_m_roles",
-                columns: new[] { "guid", "created_time", "modified_date", "name" },
-                values: new object[] { new Guid("071fbe77-34e6-4baf-8739-9ebf03f5bb38"), new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2734), new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2735), "manager" });
+                columns: new[] { "guid", "created_date", "modified_date", "name" },
+                values: new object[] { new Guid("7a9ac9ab-d473-4954-89d5-eb085c7d474b"), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1392), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1392), "employee" });
 
             migrationBuilder.InsertData(
                 table: "tb_m_roles",
-                columns: new[] { "guid", "created_time", "modified_date", "name" },
-                values: new object[] { new Guid("b52fed99-9d48-4d59-acb0-b2252f7a16da"), new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2705), new DateTime(2023, 8, 18, 5, 48, 54, 268, DateTimeKind.Utc).AddTicks(2708), "admin" });
+                columns: new[] { "guid", "created_date", "modified_date", "name" },
+                values: new object[] { new Guid("cb821f06-efb1-44db-88d6-6dc4405de080"), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1388), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1390), "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_tb_m_employees_department_guid",
