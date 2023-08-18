@@ -9,7 +9,7 @@ public abstract class BaseTable
     [Column("guid")]
     public Guid Guid { get; set; }
     
-    [Column("created_time")]
+    [Column("created_date")]
     public DateTime CreatedDate { get; set; }
     
     [Column("modified_date")]

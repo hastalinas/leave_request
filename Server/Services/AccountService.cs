@@ -1,7 +1,5 @@
 ﻿using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
 using Server.Contracts;
-using Server.DTOs.AccountRoles;
 using Server.DTOs.Accounts;
 using Server.Models;
 using Server.Utilities.Handler;
@@ -12,28 +10,19 @@ public class AccountService
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IEmployeeRepository _employeeRepository;
-    // private readonly IUniversityRepository _universityRepository;
-    // private readonly IEducationRepository _educationRepository;
     private readonly IAccountRoleRepository _accountRoleRepository;
-    // private readonly DbContext _dbContext;
     private readonly IEmailHandler _emailHandler;
     private readonly ITokenHandler _tokenHandler;
 
     public AccountService(IAccountRepository accountRepository, 
-        IEmployeeRepository employeeRepository, 
-        // IEducationRepository educationRepository, 
-        // IUniversityRepository universityRepository, 
-        // BookingDbContext dbContext, 
+        IEmployeeRepository employeeRepository,
         IEmailHandler emailHandler, 
         ITokenHandler tokenHandler, 
         IAccountRoleRepository accountRoleRepository)
     {
         _accountRepository = accountRepository;
         _employeeRepository = employeeRepository;
-        // _educationRepository = educationRepository;
-        // _universityRepository = universityRepository;
-        // _dbContext = dbContext;
-        // _emailHandler = emailHandler;
+        _emailHandler = emailHandler;
         _tokenHandler = tokenHandler;
         _accountRoleRepository = accountRoleRepository;
     }

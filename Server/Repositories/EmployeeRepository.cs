@@ -6,7 +6,6 @@ namespace Server.Repositories;
 
 public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeRepository
 {
-    /// <inheritdoc />
     public EmployeeRepository(LeaveDbContext context) : base(context)
     {
     }

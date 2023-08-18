@@ -11,11 +11,11 @@ public class Feedback : BaseTable
     [ForeignKey("LeaveRequest")]
     public Guid LeaveRequestGuid { get; set; }
 
-    [Column("feedback_status")]
-    public FeedbackStatus FeedbackStatus { get; set; }
+    [Column("status")]
+    public FeedbackStatus Status { get; set; }
 
-    [Column("feedback_notes")]
-    public string? FeedbackNotes { get; set; }
+    [Column("notes")]
+    public string? Notes { get; set; }
     
     public virtual LeaveRequest LeaveRequest { get; set; }
 }

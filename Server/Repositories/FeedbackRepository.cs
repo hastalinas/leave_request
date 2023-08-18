@@ -1,11 +1,12 @@
-﻿using Server.Data;
+﻿using Server.Contracts;
+using Server.Data;
 using Server.Models;
 
 namespace Server.Repositories;
 
-public class FeedbackRepository : GeneralRepository<Feedback>
+public class FeedbackRepository : GeneralRepository<Feedback>, IFeedbackRepository
 {
-    protected FeedbackRepository(LeaveDbContext context) : base(context)
+    public FeedbackRepository(LeaveDbContext context) : base(context)
     {
     }
 }

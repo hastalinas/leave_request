@@ -1,11 +1,12 @@
-﻿using Server.Data;
+﻿using Server.Contracts;
+using Server.Data;
 using Server.Models;
 
 namespace Server.Repositories;
 
-public class DepartmentRepository : GeneralRepository<Department>
+public class DepartmentRepository : GeneralRepository<Department>, IDepartmentRepository
 {
-    protected DepartmentRepository(LeaveDbContext context) : base(context)
+    public DepartmentRepository(LeaveDbContext context) : base(context)
     {
     }
 }

@@ -1,11 +1,12 @@
-﻿using Server.Data;
+﻿using Server.Contracts;
+using Server.Data;
 using Server.Models;
 
 namespace Server.Repositories;
 
-public class LeaveRequestRepository : GeneralRepository<LeaveRequest>
+public class LeaveRequestRepository : GeneralRepository<LeaveRequest>, ILeaveRequestRepository
 {
-    protected LeaveRequestRepository(LeaveDbContext context) : base(context)
+    public LeaveRequestRepository(LeaveDbContext context) : base(context)
     {
     }
 }

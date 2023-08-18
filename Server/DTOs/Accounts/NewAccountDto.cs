@@ -12,6 +12,7 @@ public class NewAccountDto
     {
         return new Account
         {
+            Guid = new Guid(),
             Password = accountDto.Password,
             OTP = 111111,
             IsUsed = accountDto.IsUsed,
