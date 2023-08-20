@@ -3,7 +3,7 @@ using Server.DTOs.Employees;
 
 namespace Server.Utilities.Validations.Employees
 {
-    public class NewEmployeeValidator : AbstractValidator<EmployeeDto>
+    public class NewEmployeeValidator : AbstractValidator<NewEmployeeDto>
     {
         public NewEmployeeValidator()
         {

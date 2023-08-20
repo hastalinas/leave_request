@@ -32,6 +32,7 @@ public class EmployeeDto
             Email = employeeDto.Email,
             PhoneNumber = employeeDto.PhoneNumber,
             DepartmentGuid = employeeDto.DepartmentGuid,
+            ManagerGuid = employeeDto.ManagerGuid,
             CreatedDate = DateTime.Now,
             ModifiedDate = DateTime.Now
         };
@@ -50,7 +51,8 @@ public class EmployeeDto
             HiringDate = employee.HiringDate,
             Email = employee.Email,
             PhoneNumber = employee.PhoneNumber,
-            DepartmentGuid = employee.DepartmentGuid
+            DepartmentGuid = employee.DepartmentGuid,
+            ManagerGuid = employee.ManagerGuid
         };
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Employees;
+using Server.DTOs.LeaveRequests;
 using Server.Services;
 using Server.Utilities.Handler;
 
@@ -57,6 +58,54 @@ public class EmployeeController : ControllerBase
         }
 
         return Ok(new ResponseHandler<EmployeeDto>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Success retrieving data",
+                Data = result
+            }
+        );
+    }
+    
+    [HttpGet("{guid}/request-detail")]
+    public IActionResult RequestInformation(Guid guid)
+    {
+        var result = _employeeService.RequestInformation(guid);
+        if (result is null)
+        {
+            return NotFound(new ResponseHandler<RequestInformationDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<RequestInformationDto>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Success retrieving data",
+                Data = result
+            }
+        );
+    }
+    
+    [HttpGet("{guid}/leave-request-detail")]
+    public IActionResult LeaveRequestDetail(Guid guid)
+    {
+        var result = _employeeService.LeaveRequestDetail(guid);
+        if (result is null)
+        {
+            return NotFound(new ResponseHandler<LeaveRequestDetailDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<LeaveRequestDetailDto>>
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
