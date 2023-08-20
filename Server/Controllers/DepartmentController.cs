@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Departments;
 using Server.Services;
@@ -8,7 +10,8 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/departments")]
-// [Authorize]
+[Authorize(Roles = "admin")]
+[EnableCors]
 public class DepartmentController : ControllerBase
 {
     private readonly DepartmentService _departmentService;

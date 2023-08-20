@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Employees;
 using Server.DTOs.LeaveRequests;
@@ -9,7 +10,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/employees")]
-// [Authorize]
+[Authorize(Roles = "manager")]
 public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
@@ -68,6 +69,7 @@ public class EmployeeController : ControllerBase
     }
     
     [HttpGet("{guid}/request-detail")]
+    [Authorize(Roles = "employee")]
     public IActionResult RequestInformation(Guid guid)
     {
         var result = _employeeService.RequestInformation(guid);
@@ -92,6 +94,7 @@ public class EmployeeController : ControllerBase
     }
     
     [HttpGet("{guid}/leave-request-detail")]
+    [Authorize(Roles = "employee")]
     public IActionResult LeaveRequestDetail(Guid guid)
     {
         var result = _employeeService.LeaveRequestDetail(guid);

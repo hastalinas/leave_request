@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Accounts;
 using Server.Services;
@@ -9,24 +10,16 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/accounts")]
-// [Authorize]
+[Authorize]
+[EnableCors]
 public class AccountController : ControllerBase
 {
     private readonly AccountService _accountService;
-    // private readonly EducationService _educationService;
-    // private readonly EmployeeService _employeeService;
-    // private readonly UniversityService _universityService;
-    
-    public AccountController(AccountService accountService 
-        // EducationService educationService, 
-        // EmployeeService employeeService, 
-        // UniversityService universityService
-        )
+
+    public AccountController(AccountService accountService
+    )
     {
         _accountService = accountService;
-        // _educationService = educationService;
-        // _employeeService = employeeService;
-        // _universityService = universityService;
     }
 
     [HttpGet]
@@ -228,6 +221,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
+    [AllowAnonymous]
     public IActionResult ForgetPassword(ForgotPasswordDto forgotPasswordDto)
     {
         var isUpdated = _accountService.ForgotPassword(forgotPasswordDto);
@@ -253,6 +247,7 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost("change-password")]
+    [AllowAnonymous]
     public IActionResult UpdatePassword(ChangePasswordDto changePasswordDto)
     {
         var update = _accountService.ChangePassword(changePasswordDto);
