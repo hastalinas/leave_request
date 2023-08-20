@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using ClientServer.Utilities.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +9,8 @@ using Server.Data;
 using Server.Repositories;
 using Server.Services;
 using TokenHandler = ClientServer.Utilities.Handlers.TokenHandler;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +42,10 @@ builder.Services.AddScoped<RoleService>();
 
 // Add Service
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
+
+// Register FluentValidation
+builder.Services.AddFluentValidationAutoValidation()
+    .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 // Add SmtpClient to the container.
 builder.Services.AddTransient<IEmailHandler, EmailHandler>(_ => new EmailHandler(

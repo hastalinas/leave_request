@@ -36,6 +36,11 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
 
     public Guid GetLastEmployeeGuid()
     {
-        return _context.Set<Employee>().LastOrDefault().Guid;
+        return _context.Set<Employee>().LastOrDefault()!.Guid;
+    }
+    
+    public Employee? GetByNik(string nik)
+    {
+        return _context.Set<Employee>().SingleOrDefault(e => e.Nik.Contains(nik));
     }
 }

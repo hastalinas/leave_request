@@ -22,7 +22,7 @@ public class AccountRoleController : ControllerBase
    {
       var result = _accountRoleService.GetAll();
       var accountRoleDtos = result.ToList();
-      if (accountRoleDtos.Any())
+      if (!accountRoleDtos.Any())
       {
          return NotFound(new ResponseHandler<AccountRoleDto>()
          {

@@ -1,6 +1,9 @@
 ﻿using System.Security.Claims;
 using Server.Contracts;
+using Server.Data;
+using Server.DTOs.AccountRoles;
 using Server.DTOs.Accounts;
+using Server.DTOs.Employees;
 using Server.Models;
 using Server.Utilities.Handler;
 
@@ -11,20 +14,26 @@ public class AccountService
     private readonly IAccountRepository _accountRepository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IAccountRoleRepository _accountRoleRepository;
+    private readonly IDepartmentRepository _departmentRepository;
     private readonly IEmailHandler _emailHandler;
     private readonly ITokenHandler _tokenHandler;
+    private readonly LeaveDbContext _dbContext;
 
     public AccountService(IAccountRepository accountRepository, 
         IEmployeeRepository employeeRepository,
+        IDepartmentRepository departmentRepository,
         IEmailHandler emailHandler, 
         ITokenHandler tokenHandler, 
-        IAccountRoleRepository accountRoleRepository)
+        IAccountRoleRepository accountRoleRepository,
+        LeaveDbContext dbContext)
     {
         _accountRepository = accountRepository;
         _employeeRepository = employeeRepository;
+        _departmentRepository = departmentRepository;
         _emailHandler = emailHandler;
         _tokenHandler = tokenHandler;
         _accountRoleRepository = accountRoleRepository;
+        _dbContext = dbContext;
     }
 
     public IEnumerable<AccountDto> GetAll()
@@ -131,80 +140,78 @@ public class AccountService
         return generateToken;                
     }
 
-    // public int Register(RegisterDto registerDto)
-    //     {
-    //         // ini untuk cek emaik sama phone number udah ada atau belum
-    //         if (!_employeeRepository.IsNotExist(registerDto.Email) ||
-    //             !_employeeRepository.IsNotExist(registerDto.PhoneNumber))
-    //         {
-    //             return 0; // kalau sudah ada, pendaftaran gagal.
-    //         }
-    //
-    //         using var transaction = _dbContext.Database.BeginTransaction();
-    //         try
-    //         {
-    //             var university = _universityRepository.GetByCode(registerDto.UniversityCode);
-    //             if (university is null)
-    //             {
-    //                 // Jika universitas belum ada, buat objek University baru dan simpan
-    //                 var createUniversity = _universityRepository.Create(new University {
-    //                     Code = registerDto.UniversityCode,
-    //                     Name = registerDto.UniversityName
-    //                 });
-    //
-    //                 university = createUniversity;
-    //             }
-    //
-    //             var newNik =
-    //                 GenerateHandler.NIK(_employeeRepository
-    //                                        .GetLastNik()); //karena niknya generate, sebelumnya kalo ga dikasih ini niknya null jadi error
-    //             var employeeGuid = Guid.NewGuid(); // Generate GUID baru untuk employee
-    //
-    //             // Buat objek Employee dengan nilai GUID baru
-    //             var employee = _employeeRepository.Create(new Employee {
-    //                 Guid = employeeGuid, //ambil dari variabel yang udah dibuat diatas
-    //                 NIK = newNik,        //ini juga
-    //                 FirstName = registerDto.FirstName,
-    //                 LastName = registerDto.LastName,
-    //                 BirthDate = registerDto.BirthDate,
-    //                 Gender = registerDto.Gender,
-    //                 HiringDate = registerDto.HiringDate,
-    //                 Email = registerDto.Email,
-    //                 PhoneNumber = registerDto.PhoneNumber
-    //             });
-    //
-    //
-    //             var education = _educationRepository.Create(new Education {
-    //                 Guid = employeeGuid, // Gunakan employeeGuid
-    //                 Major = registerDto.Major,
-    //                 Degree = registerDto.Degree,
-    //                 GPA = registerDto.GPA,
-    //                 UniversityGuid = university.Guid
-    //             });
-    //
-    //             var account = _accountRepository.Create(new Account {
-    //                 Guid = employeeGuid, // Gunakan employeeGuid
-    //                 OTP = 1,             //sementara ini dicoba gabisa diisi angka nol didepan, tadi masukin 098 error
-    //                 IsUsed = true,
-    //                 Password = HashingHandler.GenerateHash(registerDto.Password),
-    //                 CreatedDate = DateTime.Now,
-    //                 ModifiedDate = DateTime.Now,
-    //                 ExpiredTime = DateTime.Now
-    //             });
-    //             var accountRole = _accountRoleRepository.Create((new NewAccountRoleDto()
-    //             {
-    //                 AccountGuid = account.Guid,
-    //                 RoleGuid = Guid.Parse("4887ec13-b482-47b3-9b24-08db91a71770")
-    //             }));
-    //             transaction.Commit();
-    //             return 1;
-    //         }
-    //         catch
-    //         {
-    //             transaction.Rollback();
-    //             return -1;
-    //         }
-    //     }
+    public int Register(RegisterDto registerDto)
+        {
+            // ini untuk cek emaik sama phone number udah ada atau belum
+            if (!_employeeRepository.IsNotExist(registerDto.Email) ||
+                !_employeeRepository.IsNotExist(registerDto.PhoneNumber))
+            {
+                return -1; // kalau sudah ada, pendaftaran gagal.
+            }
+            
+            var department = _departmentRepository.GetByCode(registerDto.DepartmentCode);
+            if (department is null)
+            {
+                return -1; // Kalau department tidak ditemukan maka pendaftaran gagal
+            }
+    
+            using var transaction = _dbContext.Database.BeginTransaction();
+            try
+            {
+                var newNik =
+                    GenerateHandler.Nik(_employeeRepository.GetLastNik()); //karena niknya generate, sebelumnya kalo ga dikasih ini niknya null jadi error
+                var employeeGuid = Guid.NewGuid(); // Generate GUID baru untuk employee
+    
+                var manager = _employeeRepository.GetByNik(registerDto.ManagerNik);
+                Guid? managerGuid = null; // Inisialisasi dengan null
+
+                if (manager is not null)
+                {
+                    managerGuid = manager.Guid; // Set managerGuid jika manager tidak null
+                }
+
+                var employee = _employeeRepository.Create(new EmployeeDto {
+                    Guid = employeeGuid,
+                    Nik = newNik,
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                    BirthDate = registerDto.BirthDate,
+                    Gender = registerDto.Gender,
+                    HiringDate = registerDto.HiringDate,
+                    Email = registerDto.Email,
+                    PhoneNumber = registerDto.PhoneNumber,
+                    DepartmentGuid = department.Guid,
+                    ManagerGuid = managerGuid // Assign managerGuid to the EmployeeDto
+                });
+                _accountRepository.Clear();
+                var account = _accountRepository.Create(new AccountDto {
+                    Guid = employeeGuid, // Gunakan employeeGuid
+                    ProfilPicture = new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10 },
+                    IsUsed = true,
+                    Password = HashingHandler.GenerateHash(registerDto.Password),
+                    ExpiredTime = null
+                });
+                _accountRepository.Clear();
+                var accountRole = _accountRoleRepository.Create((new NewAccountRoleDto()
+                {
+                    AccountGuid = employeeGuid,
+                    RoleGuid = Guid.Parse("4887ec13-b482-47b3-9b24-08db91a71770") // Register as employee
+                }));
+
+                if (employee is null || account is null || accountRole is null)
+                {
+                    throw new Exception("Custom error message: One or more required entities are null.");
+                }
+
+                transaction.Commit();
+                return 1;
+            }
+            catch
+            {
+                transaction.Rollback();
+                return -1;
+            }
+        }
 
     public int ChangePassword(ChangePasswordDto changePasswordDto)
         {

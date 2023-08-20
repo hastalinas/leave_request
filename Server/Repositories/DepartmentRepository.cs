@@ -9,4 +9,10 @@ public class DepartmentRepository : GeneralRepository<Department>, IDepartmentRe
     public DepartmentRepository(LeaveDbContext context) : base(context)
     {
     }
+    
+    public Department? GetByCode(string code)
+    {
+        
+        return _context.Set<Department>().SingleOrDefault(u => u.Code.Contains(code));
+    }
 }

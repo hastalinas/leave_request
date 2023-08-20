@@ -9,4 +9,5 @@ public interface IEmployeeRepository : IGeneralRepository<Employee>
     Employee? GetByEmail(string email);
     Employee? CheckEmail(string email);
     Guid GetLastEmployeeGuid();
+    Employee? GetByNik(string nik);
 }

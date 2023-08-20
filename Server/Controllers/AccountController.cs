@@ -198,34 +198,34 @@ public class AccountController : ControllerBase
         });
     }
 
-    // [HttpPost("register")]
-    // [AllowAnonymous]
-    // public IActionResult Register(RegisterDto registerDto)
-    // {
-    //     var result = _accountService.Register(registerDto);
-    //     if (result is -1)
-    //     {
-    //         return NotFound(new ResponseHandler<LoginDto> {
-    //             Code = StatusCodes.Status404NotFound,
-    //             Status = HttpStatusCode.NotFound.ToString(),
-    //             Message = "Registration failed"
-    //         });
-    //     }
-    //     if (result < -1)
-    //     {
-    //         return NotFound(new ResponseHandler<int> {
-    //             Code = StatusCodes.Status404NotFound,
-    //             Status = HttpStatusCode.NotFound.ToString(),
-    //             Message = "Registration failed",
-    //             Data = result
-    //         });
-    //     }
-    //     return Ok(new ResponseHandler<LoginDto> {
-    //         Code = StatusCodes.Status200OK,
-    //         Status = HttpStatusCode.OK.ToString(),
-    //         Message = "Registration success"
-    //     });
-    // }
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public IActionResult Register(RegisterDto registerDto)
+    {
+        var result = _accountService.Register(registerDto);
+        if (result is -1)
+        {
+            return NotFound(new ResponseHandler<LoginDto> {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Registration failed"
+            });
+        }
+        if (result < -1)
+        {
+            return NotFound(new ResponseHandler<int> {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Registration failed",
+                Data = result
+            });
+        }
+        return Ok(new ResponseHandler<LoginDto> {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Registration success"
+        });
+    }
 
     [HttpPost("forgot-password")]
     public IActionResult ForgetPassword(ForgotPasswordDto forgotPasswordDto)

@@ -10,7 +10,7 @@ public class AccountRole : BaseTable
     [ForeignKey("Account")]
     public Guid AccountGuid { get; set; }
     
-    [Column("account_guid")]
+    [Column("account_role")]
     [ForeignKey("Role")]
     public Guid RoleGuid { get; set; }
     
