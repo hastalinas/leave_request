@@ -20,7 +20,7 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
         contextAccessor = new HttpContextAccessor();
         httpClient = new HttpClient
         {
-            BaseAddress = new Uri("https://localhost:7237/api/")
+            BaseAddress = new Uri("https://localhost:7293/api/")
         };
 
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", contextAccessor.HttpContext?.Session.GetString("JWToken"));
