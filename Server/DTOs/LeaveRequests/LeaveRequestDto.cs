@@ -12,8 +12,7 @@ public class LeaveRequestDto
     public DateTime LeaveEnd { get; set; }
     public string? Notes { get; set; }
     public byte[]? Attachment { get; set; }
-    public Status Status { get; set; }
-    
+
     public static implicit operator LeaveRequest(LeaveRequestDto leaveRequestDto)
     {
         return new LeaveRequest

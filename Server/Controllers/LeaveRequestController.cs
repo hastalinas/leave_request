@@ -153,4 +153,28 @@ public class LeaveRequestController : ControllerBase
             Message = "Success retrieving data"
         });
     }
+
+    [HttpGet("{guid}/detail")]
+    public IActionResult RequestInformation(Guid guid)
+    {
+        var result = _leaveRequestService.RequestInformation(guid);
+        if (result is null)
+        {
+            return NotFound(new ResponseHandler<RequestInformationDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<RequestInformationDto>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Success retrieving data",
+                Data = result
+            }
+        );
+    }
 }

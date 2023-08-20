@@ -1,4 +1,5 @@
-﻿using Server.Contracts;
+﻿using System.ComponentModel.Design;
+using Server.Contracts;
 using Server.DTOs.LeaveRequests;
 using Server.Models;
 
@@ -7,10 +8,16 @@ namespace Server.Services;
 public class LeaveRequestService
 {
     private readonly ILeaveRequestRepository _leaveRequestRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IDepartmentRepository _departmentRepository;
 
-    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository)
+    public LeaveRequestService(ILeaveRequestRepository leaveRequestRepository,
+        IEmployeeRepository employeeRepository,
+        IDepartmentRepository departmentRepository)
     {
         _leaveRequestRepository = leaveRequestRepository;
+        _employeeRepository = employeeRepository;
+        _departmentRepository = departmentRepository;
     }
     
     public IEnumerable<LeaveRequestDto> GetAll()
@@ -77,5 +84,45 @@ public class LeaveRequestService
 
         var result = _leaveRequestRepository.Delete(leaveRequest);
         return result ? 1 : 0;
+    }
+
+    public RequestInformationDto? RequestInformation(Guid guid)
+    {
+        var requestInformation = (
+            from employee in _employeeRepository.GetAll()
+            where employee.Guid == guid
+            join department in _departmentRepository.GetAll() on employee.DepartmentGuid equals department.Guid
+            select new RequestInformationDto
+            {
+                Requester = $"{employee.Nik} - {employee.FirstName} {employee.LastName}",
+                Department = $"{department.Code} - {department.Name}",
+                AvailableLeave = 12, // Set your calculation here
+                TotalLeave = 0,      // Set your calculation here
+                EligibleLeave = 2    // Set your calculation here
+            }
+        ).FirstOrDefault();
+
+        return requestInformation;
+    }
+
+    public LeaveRequestDetailDto? LeaveRequestDetail(Guid guid)
+    {
+        var employee = _employeeRepository.GetByGuid(guid);
+        string nik = employee?.Nik ?? "000000";
+        string year = DateTime.Now.Year.ToString();
+        int requestNumber = 1; // You need to calculate this based on existing records
+
+        // var leaveRequest = _leaveRequestRepository.GetByGuid(guid);
+        
+        var query = from employees in _employeeRepository.GetAll()
+            join leaveRequest in _leaveRequestRepository.GetAll()
+                on employee.Guid equals leaveRequest.EmployeeGuid
+            select employee;
+
+        return new LeaveRequestDetailDto()
+        {
+            RequestNumber = $" {nik}{year}{requestNumber:D3}",
+            
+        };
     }
 }

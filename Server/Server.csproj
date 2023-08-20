@@ -24,8 +24,6 @@
 
     <ItemGroup>
       <Folder Include="Migrations\" />
-      <Folder Include="Utilities\Validations\AccountRoles\" />
-      <Folder Include="Utilities\Validations\Accounts\" />
     </ItemGroup>
 
 </Project>

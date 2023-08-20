@@ -8,6 +8,8 @@ namespace Server.Models;
 [Table("tb_m_leave_requests")]
 public class LeaveRequest : BaseTable
 {
+    
+    
     [Column("employee_guid")]
     [ForeignKey("Employee")]
     public Guid EmployeeGuid { get; set; }
@@ -25,7 +27,7 @@ public class LeaveRequest : BaseTable
     public string? Notes { get; set; }
 
     [Column("attachment")]
-    public byte[] Attachment { get; set; }
+    public byte[]? Attachment { get; set; }
     
     public virtual Employee Employee { get; set; }
     public virtual Feedback Feedback { get; set; }
