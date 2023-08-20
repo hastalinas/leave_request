@@ -4,25 +4,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Accounts;
 using Server.Models;
-using Server.Utilities.Handler;
 using System.Diagnostics;
-using System.Net;
-
 
 namespace Client.Controllers;
 public class AccountController : Controller
 {
-    private readonly IAccountRepository repository;
+    private readonly IAccountRepository _repository;
 
     public AccountController(IAccountRepository repository)
     {
-        this.repository = repository;
+        _repository = repository;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var result = await repository.Get();
+        var result = await _repository.Get();
         var ListAccount = new List<Account>();
 
         if (result.Data != null)
@@ -48,11 +45,11 @@ public class AccountController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> Login(LoginDto login)
     {
-        var result = await repository.Login(login);
+        var result = await _repository.Login(login);
         if (result is null)
         {
             //TempData["Error"] = $"Failed to Login! - {result.Message}!";
-            return RedirectToAction("Login", "Accoount");
+            return RedirectToAction("Login", "Account");
         }
         else if (result.Code == 409)
         {
@@ -79,7 +76,7 @@ public class AccountController : Controller
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterDto register)
     {
-        var result = await repository.Register(register);
+        var result = await _repository.Register(register);
         if (result is null)
         {
             return RedirectToAction("Error", "Home");
