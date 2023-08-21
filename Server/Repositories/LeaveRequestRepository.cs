@@ -9,4 +9,10 @@ public class LeaveRequestRepository : GeneralRepository<LeaveRequest>, ILeaveReq
     public LeaveRequestRepository(LeaveDbContext context) : base(context)
     {
     }
+
+    public int CountStatus0(Guid guid)
+    {
+        return _context.Set<LeaveRequest>()
+            .Count(lr => lr.EmployeeGuid == guid && lr.Status == 0);
+    }
 }

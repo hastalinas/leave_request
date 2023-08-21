@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Employees;
-using Server.DTOs.LeaveRequests;
 using Server.Services;
 using Server.Utilities.Handler;
 
@@ -10,14 +9,17 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/employees")]
-[Authorize(Roles = "manager")]
+[Authorize]
 public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
+    private readonly LeaveRequestService _leaveRequestService;
     
-    public EmployeeController(EmployeeService employeeService)
+    public EmployeeController(EmployeeService employeeService,
+        LeaveRequestService leaveRequestService)
     {
         _employeeService = employeeService;
+        _leaveRequestService = leaveRequestService;
     }
 
     [HttpGet]
@@ -68,56 +70,6 @@ public class EmployeeController : ControllerBase
         );
     }
     
-    [HttpGet("{guid}/request-detail")]
-    [Authorize(Roles = "employee")]
-    public IActionResult RequestInformation(Guid guid)
-    {
-        var result = _employeeService.RequestInformation(guid);
-        if (result is null)
-        {
-            return NotFound(new ResponseHandler<RequestInformationDto>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Guid is not found"
-            });
-        }
-
-        return Ok(new ResponseHandler<RequestInformationDto>
-            {
-                Code = StatusCodes.Status200OK,
-                Status = HttpStatusCode.OK.ToString(),
-                Message = "Success retrieving data",
-                Data = result
-            }
-        );
-    }
-    
-    [HttpGet("{guid}/leave-request-detail")]
-    [Authorize(Roles = "employee")]
-    public IActionResult LeaveRequestDetail(Guid guid)
-    {
-        var result = _employeeService.LeaveRequestDetail(guid);
-        if (result is null)
-        {
-            return NotFound(new ResponseHandler<LeaveRequestDetailDto>
-            {
-                Code = StatusCodes.Status404NotFound,
-                Status = HttpStatusCode.NotFound.ToString(),
-                Message = "Guid is not found"
-            });
-        }
-
-        return Ok(new ResponseHandler<IEnumerable<LeaveRequestDetailDto>>
-            {
-                Code = StatusCodes.Status200OK,
-                Status = HttpStatusCode.OK.ToString(),
-                Message = "Success retrieving data",
-                Data = result
-            }
-        );
-    }
-
     [HttpPost]
     public IActionResult Insert(NewEmployeeDto newEmployeeDto)
     {

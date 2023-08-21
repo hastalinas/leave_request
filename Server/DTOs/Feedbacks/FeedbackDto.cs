@@ -7,7 +7,6 @@ public class FeedbackDto
 {
     public Guid Guid { get; set; }
     public Guid LeaveRequestGuid { get; set; }
-    public FeedbackStatus Status { get; set; }
     public string? Notes { get; set; }
     
     public static implicit operator Feedback(FeedbackDto feedbackDto)
@@ -16,7 +15,6 @@ public class FeedbackDto
         {
             Guid = feedbackDto.Guid,
             LeaveRequestGuid = feedbackDto.LeaveRequestGuid,
-            Status = feedbackDto.Status,
             Notes = feedbackDto.Notes,
             CreatedDate = DateTime.Now,
             ModifiedDate = DateTime.Now
@@ -29,7 +27,6 @@ public class FeedbackDto
         {
             Guid = feedback.Guid,
             LeaveRequestGuid = feedback.LeaveRequestGuid,
-            Status = feedback.Status,
             Notes = feedback.Notes,
         };
     }

@@ -11,9 +11,6 @@ public class Feedback : BaseTable
     [ForeignKey("LeaveRequest")]
     public Guid LeaveRequestGuid { get; set; }
 
-    [Column("status")]
-    public FeedbackStatus Status { get; set; }
-
     [Column("notes")]
     public string? Notes { get; set; }
     
