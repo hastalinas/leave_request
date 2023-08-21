@@ -1,5 +1,8 @@
+using System.Text;
 using Client.Contracts;
 using Client.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +16,15 @@ builder.Services.AddScoped(typeof(IRepository<,>), typeof(GeneralRepository<,>))
 /*builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();*/
 
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    // Atur opsi sesuai kebutuhan Anda
+});
+
 // JWT Configuration
-/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
        .AddJwtBearer(options =>
        {
            options.RequireHttpsMetadata = false;
@@ -32,7 +42,7 @@ builder.Services.AddHttpContextAccessor();*/
                ValidateLifetime = true,
                ClockSkew = TimeSpan.Zero
            };
-       });*/
+       });
 
 var app = builder.Build();
 
@@ -48,6 +58,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 
