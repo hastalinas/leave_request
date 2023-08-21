@@ -161,6 +161,11 @@
                                 </a>
                             </li>
                             <li class="menu-item">
+                                <a asp-area="" asp-controller="Role" asp-action="Index" class="menu-link">
+                                    <div data-i18n="Without navbar">Role</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
                                 <a href="layouts-container.html" class="menu-link">
                                     <div data-i18n="Container">Leave Request</div>
                                 </a>
@@ -225,6 +230,7 @@
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
                             <!-- Place this tag where you want the button to render. -->
+                            
                             <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -263,7 +269,7 @@
                                             <span class="align-middle">Settings</span>
                                         </a>
                                     </li>
-
+                                    
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
@@ -317,7 +323,7 @@
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-    <script src="~/js/Employee.js" asp-append-version="true"></script>
+    @*<script src="~/js/Employee.js" asp-append-version="true"></script>*@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="~/assets/vendor/libs/jquery/jquery.js"></script>
@@ -340,9 +346,6 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <!--Tambahan-->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
     <!-- Export data-->
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
