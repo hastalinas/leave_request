@@ -1,13 +1,16 @@
 ﻿using Client.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Server.Controllers;
+using Server.Data;
 using Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Client.Controllers;
 
 public class DepartmentController : Controller
 {
     private readonly IDepartmentRepository repository;
+    private readonly LeaveDbContext dbContext;
 
     public DepartmentController(IDepartmentRepository repository)
     {
@@ -86,5 +89,12 @@ public class DepartmentController : Controller
         }
 
         return RedirectToAction("Index", "Department");
+    }
+
+    public async Task<IActionResult> YourAction()
+    {
+        var departments = await dbContext.Departments.ToListAsync(); // dbContext represents your DbContext instance
+
+        return View(departments);
     }
 }

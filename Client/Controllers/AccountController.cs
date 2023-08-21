@@ -2,6 +2,7 @@
 using Client.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Server.Data;
 using Server.DTOs.Accounts;
 using Server.Models;
 using Server.Utilities.Handler;
@@ -13,8 +14,8 @@ namespace Client.Controllers;
 public class AccountController : Controller
 {
     private readonly IAccountRepository repository;
-
-    public AccountController(IAccountRepository repository)
+    //private readonly LeaveDbContext dbContext;
+   public AccountController(IAccountRepository repository)
     {
         this.repository = repository;
     }
@@ -72,6 +73,8 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Register()
     {
+        //var departmentCodes = dbContext.Departments.Select(d => d.Code).ToList();
+        //ViewBag.DepartmentCodes = departmentCodes;
         return View();
     }
 
@@ -79,6 +82,7 @@ public class AccountController : Controller
     //[ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterDto register)
     {
+       
         var result = await repository.Register(register);
         if (result is null)
         {
@@ -128,6 +132,45 @@ public class AccountController : Controller
             }
         }
         return View(forgotPassword); 
+    }
+
+    [HttpGet]
+    public IActionResult ChangePassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    //[ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordDto changePassword)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await repository.ChangePassword(changePassword); // You need to implement this method in your repository
+
+            if (result is null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            else if (result.Code == 400)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                TempData["Error"] = $"Invalid request! - {result.Message}!";
+                return View();
+            }
+            else if (result.Code == 404)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                TempData["Error"] = $"User not found! - {result.Message}!";
+                return View();
+            }
+            else if (result.Code == 200)
+            {
+                TempData["Success"] = $"Password has been successfully changed! - {result.Message}!";
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        return View(changePassword);
     }
 
 
