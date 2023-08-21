@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 
 $(document).ready(function () {
-    $('#table').DataTable({
+    $('#departmentTable').DataTable({
         dom: 'Blfrtip',
         buttons: [
             {
@@ -20,15 +20,26 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $.ajax({
-        url: "https://localhost:7237/api/employees"
+        url: "https://localhost:7293/api/departments"
     }).done(function (result) {
         // Assuming the API response contains a property named "totalEmployees"
-        var totalEmployees = result.data.length;
-        $("#total-employees").text(totalEmployees);
+        var totalDepartment = result.data.length;
+        $("#total-departments").text(totalDepartment);
     }).fail(function () {
-        $("#total-employees").text("Failed to fetch data");
+        $("#total-departments").text("Failed to fetch data");
     });
 });
+
+$.ajax({
+    url: "https://localhost:7293/api/employees"
+}).done((result) => {
+    let selectEmployee = ""
+    $.each(result.data, (key, val) => {
+        console.log(val)
+        selectEmployee += ` <option value="${val.guid}">${val.firstName} ${val.lastName}</option>`
+    })
+    $('.employeeSelect').html(selectEmployee)
+})
 
 $(document).ready(function () {
     $('.datepicker').datepicker({

@@ -2,76 +2,79 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "_LayoutAdmin";
+   
 }
 
-<h1>Create New Employee</h1>
-
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form action="/Employee/Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-            
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+    <div class="col-7">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h1>Create New Employee</h1>
+                <hr />
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+            <div class="card-body">
+                <form action="/Employee/Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="col-sm-2 control-label">First Name</label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label">Last Name</label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BirthDate" class="control-label">Birth Date</label>
+                        <input asp-for="BirthDate" class="form-control" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label"></label>
+                        <select class="form-control" asp-for="Gender" aria-label="Floating label select example">
+                            <option selected>Open this select menu</option>
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HiringDate" class="control-label">Hiring Date</label>
+                        <input asp-for="HiringDate" class="form-control" />
+                        <span asp-validation-for="HiringDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DepartmentGuid" class="control-label">Department Guid</label>
+                        <input asp-for="DepartmentGuid" class="form-control" />
+                        <span asp-validation-for="DepartmentGuid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ManagerGuid" class="control-label">Manager Guid</label>
+                        <input asp-for="ManagerGuid" class="form-control" />
+                        <span asp-validation-for="ManagerGuid" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+                <br />
+                <a href="Index">Back to List</a>
             </div>
-            <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <select class="form-control" asp-for="Gender" aria-label="Floating label select example">
-                    <option selected>Open this select menu</option>
-                    <option value="0">Male</option>
-                    <option value="1">Female</option>
-                </select>
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HiringDate" class="control-label"></label>
-                <input asp-for="HiringDate" class="form-control" />
-                <span asp-validation-for="HiringDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentGuid" class="control-label"></label>
-                <input asp-for="DepartmentGuid" class="form-control" />
-                <span asp-validation-for="DepartmentGuid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ManagerGuid" class="control-label"></label>
-                <input asp-for="ManagerGuid" class="form-control" />
-                <span asp-validation-for="ManagerGuid" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a href="Index">Back to List</a>
-</div>
 

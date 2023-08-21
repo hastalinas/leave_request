@@ -2,18 +2,23 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "_layoutAdmin";
+    
 }
 
-<h1>Data Employees</h1>
 
-<p>
-    <a class="btn btn-primary" href="/Employee/Create">Add Employee <i class="fa-solid fa-plus"></i></a>
-    @*<a asp-action="Create">Create New</a>*@
-</p>
-<table class="table" id="table">
-    <thead>
+<div class="card">
+    <h1 class="card-header">Data Employees</h1>
+    <p>
+        <a class="btn btn-primary" href="/Employee/Create">Add Employee <i class="fa-solid fa-plus"></i></a>
+        @*<a asp-action="Create">Create New</a>*@
+    </p>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover" id="employeeTable">
+        <thead>
         <tr>
+            <th>
+                No.
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nik)
             </th>
@@ -60,8 +65,14 @@
         </tr>
     </thead>
     <tbody>
+                @{
+                    int rowNumber = 1;
+                }
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @rowNumber
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nik)
             </td>
@@ -113,9 +124,12 @@
                 </form>
             </td>
         </tr>
+        rowNumber++;
 }
     </tbody>
 </table>
+</div>
+</div>
 
 @*@section Scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

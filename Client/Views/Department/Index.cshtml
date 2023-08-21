@@ -2,18 +2,24 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "_LayoutAdmin";
+    
 }
 
-<h1>Data Department</h1>
 
-<p>
-    <a class="btn btn-primary" href="/Department/Create">Add Department <i class="fa-solid fa-plus"></i></a>
-   @* <a asp-action="Create">Create New</a>*@
-</p>
-<table class="table">
-    <thead>
+
+<div class="card">
+    <h1 class="card-header">Data Departments</h1>
+    <p>
+        <a class="btn btn-primary" href="/Department/Create">Add Department <i class="fa-solid fa-plus"></i></a>
+        @* <a asp-action="Create">Create New</a>*@
+    </p>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover" id="departmentTable">
+        <thead>
         <tr>
+            <th>
+                No.
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -33,8 +39,14 @@
         </tr>
     </thead>
     <tbody>
+                @{
+                    int rowNumber = 1;
+                }
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @rowNumber
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -51,7 +63,7 @@
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>*@
             <td>
-                 <a href=departemen/edit/@item.Guid asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                 <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
                 <form action="/Department/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
                 @*<a asp-action="Delete" onclick="return true" asp-route-id="@item.Guid" class="fas fa-trash text-danger"></a>*@
                    <input type="hidden" value="@item.Guid" name="guid" />
@@ -59,6 +71,9 @@
                 </form>
             </td>
         </tr>
+        rowNumber++;
 }
     </tbody>
 </table>
+</div>
+</div>

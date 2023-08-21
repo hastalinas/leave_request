@@ -109,7 +109,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="DepartmentCode" class="control-label"></label>
-                <input asp-for="DepartmentCode" class="form-control" />
+                <select asp-for="DepartmentCode" class="selectDepartment form-control">
+                    
+                </select>
+                
                 <span asp-validation-for="DepartmentCode" class="text-danger"></span>
             </div>
 

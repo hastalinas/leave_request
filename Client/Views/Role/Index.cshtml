@@ -2,21 +2,24 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "_LayoutAdmin";
+    
 }
 
-<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" href="/Role/Create">Add Role <i class="fa-solid fa-plus"></i></a>
+    @*<a asp-action="Create">Create New</a>*@
 </p>
-<table class="table">
-    <thead>
+<div class="card">
+    <h1 class="card-header">Data Roles</h1>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+        <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Guid)
             </th>
             <th>
@@ -24,7 +27,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>
+            </th>*@
             <th>Action</th>
         </tr>
     </thead>
@@ -34,7 +37,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Guid)
             </td>
             <td>
@@ -42,7 +45,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
-            </td>
+            </td>*@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
@@ -52,3 +55,5 @@
 }
     </tbody>
 </table>
+</div>
+</div>
