@@ -1,30 +1,24 @@
-﻿@model Server.DTOs.Departments.DepartmentDto
+﻿@model Server.DTOs.Roles.RoleDto
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit Department</h1>
+<h1>Edit Role</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form action="/Department/Update" method="post">
+        <form action="/Role/Update" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                
-                <input asp-for="Guid" class="form-control" hidden />
+                <input asp-for="Guid" class="form-control" hidden/>
                 <span asp-validation-for="Guid" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

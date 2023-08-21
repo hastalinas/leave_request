@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Server.Models.Feedback>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="card">
+    <h1 class="card-header">Data Feedback</h1>
+    <p>
+        <a class="btn btn-primary" href="/Feedback/Create">Add Feedback <i class="fa-solid fa-plus"></i></a>
+    </p>
+    <div class="table-responsive text-nowrap">
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveRequestGuid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Guid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveRequestGuid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+</div>

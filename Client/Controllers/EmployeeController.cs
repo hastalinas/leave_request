@@ -1,5 +1,6 @@
 ﻿using Client.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Server.DTOs.Employees;
 using Server.Models;
 
 namespace Client.Controllers;
@@ -47,11 +48,11 @@ public class EmployeeController : Controller
     public async Task<IActionResult> Edit(Guid id)
     {
         var result = await repository.Get(id);
-        var ListEmployee = new Employee();
+        var ListEmployee = new EmployeeDto();
 
         if (result.Data != null)
         {
-            ListEmployee = result.Data;
+            ListEmployee = (EmployeeDto)result.Data;
         }
         return View(ListEmployee);
     }

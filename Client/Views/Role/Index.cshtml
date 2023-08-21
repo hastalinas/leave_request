@@ -5,17 +5,19 @@
     
 }
 
-
-<p>
-    <a class="btn btn-primary" href="/Role/Create">Add Role <i class="fa-solid fa-plus"></i></a>
-    @*<a asp-action="Create">Create New</a>*@
-</p>
 <div class="card">
     <h1 class="card-header">Data Roles</h1>
+    <p>
+        <a class="btn btn-primary" href="/Role/Create">Add Role <i class="fa-solid fa-plus"></i></a>
+        @*<a asp-action="Create">Create New</a>*@
+    </p>
     <div class="table-responsive text-nowrap">
-        <table class="table table-hover">
+        <table class="table table-hover" id="roleTable">
         <thead>
         <tr>
+            <th>
+               No.
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -32,8 +34,14 @@
         </tr>
     </thead>
     <tbody>
+                @{
+                    int rowNumber = 1;
+                }
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @rowNumber
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -47,11 +55,14 @@
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>*@
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                <form action="/Role/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                    <input type="hidden" value="@item.Guid" name="guid" />
+                    <button value="" class="fas fa-trash text-danger" onclick="return true"></button>
+                </form>
             </td>
         </tr>
+        rowNumber++;
 }
     </tbody>
 </table>

@@ -1,17 +1,18 @@
 ﻿using Client.Contracts;
 using Client.Models;
 using Microsoft.AspNetCore.Mvc;
+using Server.DTOs.Feedbacks;
 using Server.DTOs.Roles;
 using Server.Models;
 using System.Diagnostics;
 
 namespace Client.Controllers;
 
-public class RoleController : Controller
+public class FeedbackController : Controller
 {
-    private readonly IRoleRepository repository;
+    private readonly IFeedbackRepository repository;
 
-    public RoleController(IRoleRepository repository)
+    public FeedbackController(IFeedbackRepository repository)
     {
         this.repository = repository;
     }
@@ -19,13 +20,13 @@ public class RoleController : Controller
     public async Task<IActionResult> Index()
     {
         var result = await repository.Get();
-        var ListRole = new List<Role>();
+        var ListFeedback = new List<Feedback>();
 
         if (result.Data != null)
         {
-            ListRole = result.Data.ToList();
+            ListFeedback = result.Data.ToList();
         }
-        return View(ListRole);
+        return View(ListFeedback);
     }
 
     [HttpGet]
@@ -35,9 +36,9 @@ public class RoleController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Role role)
+    public async Task<IActionResult> Create(Feedback feedback)
     {
-        var result = await repository.Post(role);
+        var result = await repository.Post(feedback);
 
         if (result.Code == 200)
         {
@@ -50,19 +51,19 @@ public class RoleController : Controller
     public async Task<IActionResult> Edit(Guid id)
     {
         var result = await repository.Get(id);
-        var ListRole = new RoleDto();
+        var ListFeedback = new FeedbackDto();
 
         if (result.Data != null)
         {
-            ListRole = (RoleDto)result.Data;
+            ListFeedback = (FeedbackDto)result.Data;
         }
-        return View(ListRole);
+        return View(ListFeedback);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(Role role)
+    public async Task<IActionResult> Update(Feedback feedback)
     {
-        var result = await repository.Put(role.Guid, role);
+        var result = await repository.Put(feedback.Guid, feedback);
 
         if (result.Code == 200)
         {

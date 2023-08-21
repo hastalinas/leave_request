@@ -1,5 +1,7 @@
 ﻿using Client.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Server.DTOs.Departments;
+using Server.DTOs.LeaveRequests;
 using Server.Models;
 
 namespace Client.Controllers;
@@ -22,5 +24,66 @@ public class LeaveRequestController : Controller
             ListRequest = result.Data.ToList();
         }
         return View(ListRequest);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(LeaveRequest leaveRequest)
+    {
+        var result = await repository.Post(leaveRequest);
+
+        if (result.Code == 200)
+        {
+            RedirectToAction("Index");
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(Guid id)
+    {
+        var result = await repository.Get(id);
+        var ListDepartment = new LeaveRequestDto();
+
+        if (result.Data != null)
+        {
+            ListDepartment = (LeaveRequestDto)result.Data;
+        }
+        return View(ListDepartment);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(LeaveRequest leave)
+    {
+        var result = await repository.Put(leave.Guid, leave);
+
+        if (result.Code == 200)
+        {
+            TempData["Success"] = $"Data has been Successfully Updated! - {result.Message}!";
+            return RedirectToAction("Index", "LeaveRequests");
+        }
+        return RedirectToAction(nameof(Edit));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid guid)
+    {
+        var result = await repository.Delete(guid);
+
+        if (result.Code == 200)
+        {
+            TempData["Success"] = $"Data has been Successfully Deleted! - {result.Message}!";
+        }
+        else
+        {
+            TempData["Error"] = $"Failed to Delete Data - {result.Message}!";
+        }
+
+        return RedirectToAction("Index", "LeaveRequests");
     }
 }
