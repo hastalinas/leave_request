@@ -95,7 +95,39 @@ public class AccountController : Controller
             TempData["Success"] = $"Data has been Successfully Registered! - {result.Message}!";
             return RedirectToAction("Login", "Account");
         }
+        return View(register);
+    }
+
+    [HttpGet]
+    public IActionResult ForgotPassword()
+    {
         return View();
+    }
+
+    [HttpPost]
+    //[ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPassword)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await repository.ForgotPassword(forgotPassword);
+            if (result is null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            else if (result.Code == 404)
+            {
+                ModelState.AddModelError(string.Empty, result.Message);
+                TempData["Error"] = $"User not found! - {result.Message}!";
+                return View();
+            }
+            else if (result.Code == 200)
+            {
+                TempData["Success"] = $"Password reset link has been sent to your email! - {result.Message}!";
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        return View(forgotPassword); 
     }
 
 

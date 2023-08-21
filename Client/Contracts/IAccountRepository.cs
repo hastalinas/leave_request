@@ -9,5 +9,6 @@ public interface IAccountRepository : IRepository<Account, Guid>
 {
     public Task<ResponseHandler<TokenDto>> Login(LoginDto entity);
     public Task<ResponseHandler<RegisterDto>> Register(RegisterDto entity);
-    
+    public Task<ResponseHandler<ForgotPasswordDto>> ForgotPassword(ForgotPasswordDto entity);
+
 }

@@ -34,6 +34,7 @@ public class AccountRepository : GeneralRepository<Account, Guid>, IAccountRepos
         return entityVM;
     }
 
+
     public async Task<ResponseHandler<RegisterDto>> Register(RegisterDto entity)
     {
         ResponseHandler<RegisterDto> entityVM = null;
@@ -42,6 +43,18 @@ public class AccountRepository : GeneralRepository<Account, Guid>, IAccountRepos
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<RegisterDto>>(apiResponse);
+        }
+        return entityVM;
+    }
+
+    public async Task<ResponseHandler<ForgotPasswordDto>> ForgotPassword(ForgotPasswordDto entity)
+    {
+        ResponseHandler<ForgotPasswordDto> entityVM = null;
+        StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+        using (var response = await httpClient.PostAsync(request + "ForgotPassword", content))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            entityVM = JsonConvert.DeserializeObject<ResponseHandler<ForgotPasswordDto>>(apiResponse);
         }
         return entityVM;
     }

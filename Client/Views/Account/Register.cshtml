@@ -1,7 +1,7 @@
-﻿@model Server.DTOs.Accounts.LoginDto
+﻿@model Server.DTOs.Accounts.RegisterDto
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
     Layout = "_LayoutLogin";
 }
 
@@ -51,54 +51,85 @@
                 </g>
             </svg>
         </span>
-        <span class="app-brand-text demo text-body fw-bolder">Login</span>
+        <span class="app-brand-text demo text-body fw-bolder">Form Register</span>
     </a>
 </div>
+
 
 <hr />
 <div class="row">
     <div class="col">
-        <form id="formAuthentication" action="Account/Login" method="post">
+        <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate" class="control-label"></label>
+                <input asp-for="BirthDate" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <input asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfilPicture" class="control-label"></label>
+                <input asp-for="ProfilPicture" class="form-control" />
+                <span asp-validation-for="ProfilPicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HiringDate" class="control-label"></label>
+                <input asp-for="HiringDate" class="form-control" />
+                <span asp-validation-for="HiringDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartmentCode" class="control-label"></label>
+                <input asp-for="DepartmentCode" class="form-control" />
+                <span asp-validation-for="DepartmentCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagerNik" class="control-label"></label>
+                <input asp-for="ManagerNik" class="form-control" />
+                <span asp-validation-for="ManagerNik" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <br />
             <div class="mb-3">
-                <label asp-for="Email" class="control-label">Email</label>
-                <input asp-for="Email" type="text"
-                       class="form-control"
-                       id="email"
-                       name="email"
-                       placeholder="Enter your email"
-                       autofocus />
+                <button type="submit" value="Create" class="btn btn-primary">Create Account</button>
             </div>
-            <div class="mb-3 form-password-toggle">
-                <div class="d-flex justify-content-between">
-                    <label class="form-label" asp-for="Password">Password</label>
-                    <a href="auth-forgot-password-basic.html">
-                        <small>Forgot Password?</small>
-                    </a>
-                </div>
-                <div class="input-group input-group-merge">
-                    <input type="password"
-                           id="password"
-                           class="form-control"
-                           name="password"
-                           placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                           aria-describedby="password" />
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <button class="btn btn-primary d-grid w-100" type="submit" value="Login">Login</button>
-            </div>
-            <p class="text-center">
-                <span>Don't have an account yet? Click</span>
-                <a href="Register">
-                    <span>Register</span>
-                </a>
-            </p>
         </form>
     </div>
 </div>
 
-
+<div>
+    <a href="Login">Back to Login</a>
+</div>
 
