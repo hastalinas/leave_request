@@ -9,6 +9,30 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped(typeof(IRepository<,>), typeof(GeneralRepository<,>));
+/*builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();*/
+
+// JWT Configuration
+/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+       .AddJwtBearer(options =>
+       {
+           options.RequireHttpsMetadata = false;
+           options.SaveToken = true;
+           options.TokenValidationParameters = new TokenValidationParameters
+           {
+               ValidateIssuerSigningKey = true,
+               IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JWTConfig:SecretKey"])),
+               ValidateIssuer = false,
+               //Usually, this is your application base URL
+               ValidIssuer = builder.Configuration["JWTConfig:Issuer"],
+               ValidateAudience = false,
+               //If the JWT is created using a web service, then this would be the consumer URL.
+               ValidAudience = builder.Configuration["JWTConfig:Audience"],
+               ValidateLifetime = true,
+               ClockSkew = TimeSpan.Zero
+           };
+       });*/
 
 var app = builder.Build();
 
