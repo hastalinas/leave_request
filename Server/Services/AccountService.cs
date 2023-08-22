@@ -181,7 +181,8 @@ public class AccountService
                     Email = registerDto.Email,
                     PhoneNumber = registerDto.PhoneNumber,
                     DepartmentGuid = department.Guid,
-                    ManagerGuid = managerGuid // Assign managerGuid to the EmployeeDto
+                    ManagerGuid = managerGuid, // Assign managerGuid to the EmployeeDto
+                    LastLeaveUpdate = registerDto.HiringDate
                 });
                 _accountRepository.Clear();
                 var account = _accountRepository.Create(new AccountDto {

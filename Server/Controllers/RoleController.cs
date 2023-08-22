@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Roles;
 using Server.Services;
@@ -8,7 +9,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/roles")]
-// [Authorize]
+[Authorize(Roles = "admin")]
 public class RoleController : ControllerBase
 {
     private readonly RoleService _roleService;

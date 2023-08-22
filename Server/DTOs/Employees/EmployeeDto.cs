@@ -17,7 +17,9 @@ public class EmployeeDto
     public string PhoneNumber { get; set; }
     public Guid DepartmentGuid { get; set; }
     public Guid? ManagerGuid { get; set; }
-    
+    public int LeaveRemain { get; set; }
+    public DateTime LastLeaveUpdate { get; set; }
+
     public static implicit operator Employee(EmployeeDto employeeDto)
     {
         return new Employee
@@ -32,6 +34,9 @@ public class EmployeeDto
             Email = employeeDto.Email,
             PhoneNumber = employeeDto.PhoneNumber,
             DepartmentGuid = employeeDto.DepartmentGuid,
+            ManagerGuid = employeeDto.ManagerGuid,
+            LastLeaveUpdate = employeeDto.LastLeaveUpdate,
+            LeaveRemain = employeeDto.LeaveRemain,
             CreatedDate = DateTime.Now,
             ModifiedDate = DateTime.Now
         };
@@ -50,7 +55,10 @@ public class EmployeeDto
             HiringDate = employee.HiringDate,
             Email = employee.Email,
             PhoneNumber = employee.PhoneNumber,
-            DepartmentGuid = employee.DepartmentGuid
+            DepartmentGuid = employee.DepartmentGuid,
+            ManagerGuid = employee.ManagerGuid,
+            LeaveRemain = employee.LeaveRemain,
+            LastLeaveUpdate = employee.LastLeaveUpdate
         };
     }
 }

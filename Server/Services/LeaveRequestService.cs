@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Design;
 using Server.Contracts;
+using Server.DTOs.Employees;
 using Server.DTOs.LeaveRequests;
 using Server.Models;
 
@@ -85,9 +86,34 @@ public class LeaveRequestService
         var result = _leaveRequestRepository.Delete(leaveRequest);
         return result ? 1 : 0;
     }
-
+    
     public RequestInformationDto? RequestInformation(Guid guid)
     {
+        var employeeDto = _employeeRepository.GetByGuid(guid);
+        if (employeeDto is null)
+        {
+            return null;
+        }
+        
+        var lastLeaveUpdate = employeeDto.LastLeaveUpdate;
+
+        DateTime today = DateTime.Now;
+
+        var totalDays = (today - lastLeaveUpdate).TotalDays;
+        var yearsOfWork = (int)totalDays / 365;
+        if (today < lastLeaveUpdate.AddYears(yearsOfWork))
+        {
+            yearsOfWork--; // Reduce by 1 if the hiring anniversary hasn't occurred yet this year
+        }
+
+        if (yearsOfWork >= 1)
+        {
+            employeeDto.LeaveRemain = employeeDto.LeaveRemain + (yearsOfWork * 12); // Add 12 days per year
+            employeeDto.LastLeaveUpdate = lastLeaveUpdate.AddYears(yearsOfWork);
+        }
+
+        var result = _employeeRepository.Update(employeeDto);
+
         var requestInformation = (
             from employee in _employeeRepository.GetAll()
             where employee.Guid == guid
@@ -96,7 +122,7 @@ public class LeaveRequestService
             {
                 Requester = $"{employee.Nik} - {employee.FirstName} {employee.LastName}",
                 Department = $"{department.Code} - {department.Name}",
-                AvailableLeave = 12, // Set your calculation here
+                AvailableLeave = employee.LeaveRemain, // Set your calculation here
                 TotalLeave = 0,      // Set your calculation here
                 EligibleLeave = 2    // Set your calculation here
             }
@@ -104,25 +130,82 @@ public class LeaveRequestService
 
         return requestInformation;
     }
-
-    public LeaveRequestDetailDto? LeaveRequestDetail(Guid guid)
+    
+    public IEnumerable<LeaveRequestDetailDto>? LeaveRequestDetail(Guid guid)
     {
-        var employee = _employeeRepository.GetByGuid(guid);
-        string nik = employee?.Nik ?? "000000";
-        string year = DateTime.Now.Year.ToString();
         int requestNumber = 1; // You need to calculate this based on existing records
 
-        // var leaveRequest = _leaveRequestRepository.GetByGuid(guid);
-        
-        var query = from employees in _employeeRepository.GetAll()
+        var leaveRequestDetail = (
+            from employee in _employeeRepository.GetAll()
             join leaveRequest in _leaveRequestRepository.GetAll()
                 on employee.Guid equals leaveRequest.EmployeeGuid
-            select employee;
+            join manager in _employeeRepository.GetAll()
+                on employee.ManagerGuid equals manager.Guid
+            where employee.Guid == guid
+            select new LeaveRequestDetailDto
+            {
+                RequestNumber = $"{leaveRequest.LeaveType} - {employee.Nik}{DateTime.Now.Year}{requestNumber++}",
+                RelationManager = $"{manager.Nik} - {manager.FirstName} {manager.LastName}",
+                LeaveType = leaveRequest.LeaveType,
+                LeaveStart = leaveRequest.LeaveStart,
+                LeaveEnd = leaveRequest.LeaveEnd,
+                PhoneNumber = employee.PhoneNumber,
+                LeaveDays = leaveRequest.LeaveEnd - leaveRequest.LeaveStart,
+                Notes = leaveRequest.Notes,
+                Attachment = leaveRequest.Attachment,
+                Status = leaveRequest.Status
+            }
+        ).ToList();
+    
+        return leaveRequestDetail;
+    }
 
-        return new LeaveRequestDetailDto()
+    public IEnumerable<LeaveRequestDto> GetByEmployeeGuid(Guid guid)
+    {
+        var leaveRequests = from lr in _leaveRequestRepository.GetAll()
+            join e in _employeeRepository.GetAll() on lr.EmployeeGuid equals e.Guid
+            where e.Guid == guid && lr.Status == 0
+            select new LeaveRequestDto
+            {
+                Guid = lr.Guid,
+                EmployeeGuid = lr.EmployeeGuid,
+                LeaveType = lr.LeaveType,
+                LeaveStart = lr.LeaveStart,
+                LeaveEnd = lr.LeaveEnd,
+                Notes = lr.Notes,
+                Attachment = lr.Attachment,
+                Status = lr.Status
+            };
+        return leaveRequests;
+    }
+
+    public int CalculateAvailableLeave(Guid guid)
+    {
+        var employee = _employeeRepository.GetByGuid(guid);
+        if (employee is null)
         {
-            RequestNumber = $" {nik}{year}{requestNumber:D3}",
-            
-        };
+            return -1;
+        }
+        
+        var lastLeaveUpdate = employee.LastLeaveUpdate;
+
+        DateTime today = DateTime.Now;
+
+        var totalDays = (today - lastLeaveUpdate).TotalDays;
+        var yearsOfWork = (int)totalDays / 365;
+        if (today < lastLeaveUpdate.AddYears(yearsOfWork))
+        {
+            yearsOfWork--; // Reduce by 1 if the hiring anniversary hasn't occurred yet this year
+        }
+
+        if (yearsOfWork >= 1)
+        {
+            employee.LeaveRemain = employee.LeaveRemain + (yearsOfWork * 12); // Add 12 days per year
+            employee.LastLeaveUpdate = lastLeaveUpdate.AddYears(yearsOfWork);
+        }
+
+        var result = _employeeRepository.Update(employee);
+        
+        return result? 1 : 0;
     }
 }

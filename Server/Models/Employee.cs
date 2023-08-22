@@ -45,6 +45,7 @@ public class Employee : BaseTable
     
     [Column("leave_remain")]
     public int LeaveRemain { get; set; }
+    public DateTime LastLeaveUpdate { get; set; }
 
     public virtual Employee Manager { get; set; }
     public virtual Account Account { get; set; }

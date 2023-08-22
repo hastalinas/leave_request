@@ -1,5 +1,6 @@
 ﻿using Server.Contracts;
 using Server.DTOs.Employees;
+using Server.DTOs.LeaveRequests;
 using Server.Models;
 using Server.Utilities.Handler;
 
@@ -8,10 +9,16 @@ namespace Server.Services;
 public class EmployeeService
 {
     private readonly IEmployeeRepository _employeeRepository;
+    private readonly IDepartmentRepository _departmentRepository;
+    private readonly ILeaveRequestRepository _leaveRequestRepository;
 
-    public EmployeeService(IEmployeeRepository employeeRepository)
+    public EmployeeService(IEmployeeRepository employeeRepository,
+        IDepartmentRepository departmentRepository,
+        ILeaveRequestRepository leaveRequestRepository)
     {
         _employeeRepository = employeeRepository;
+        _departmentRepository = departmentRepository;
+        _leaveRequestRepository = leaveRequestRepository;
     }
     
     public IEnumerable<EmployeeDto> GetAll()

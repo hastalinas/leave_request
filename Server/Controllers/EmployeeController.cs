@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Employees;
 using Server.Services;
@@ -8,14 +9,17 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/employees")]
-// [Authorize]
+[Authorize]
 public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
+    private readonly LeaveRequestService _leaveRequestService;
     
-    public EmployeeController(EmployeeService employeeService)
+    public EmployeeController(EmployeeService employeeService,
+        LeaveRequestService leaveRequestService)
     {
         _employeeService = employeeService;
+        _leaveRequestService = leaveRequestService;
     }
 
     [HttpGet]
@@ -65,7 +69,7 @@ public class EmployeeController : ControllerBase
             }
         );
     }
-
+    
     [HttpPost]
     public IActionResult Insert(NewEmployeeDto newEmployeeDto)
     {

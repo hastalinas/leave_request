@@ -1,6 +1,14 @@
-﻿namespace Server.Utilities.Validations.Feedbacks;
+﻿using FluentValidation;
+using Server.DTOs.Feedbacks;
 
-public class FeedbackValidator
+namespace Server.Utilities.Validations.Feedbacks
 {
-    
+    public class FeedbackValidator : AbstractValidator<FeedbackDto>
+    {
+        public FeedbackValidator()
+        {
+            RuleFor(dto => dto.LeaveRequestGuid).NotEmpty().WithMessage("Guid Leave Request harus diisi.");
+            RuleFor(dto => dto.Notes).MaximumLength(200).WithMessage("Catatan tidak boleh lebih dari 200 karakter.");
+        }
+    }
 }

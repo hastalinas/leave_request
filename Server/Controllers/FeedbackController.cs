@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Feedbacks;
 using Server.Services;
@@ -8,7 +9,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/feedbacks")]
-// [Authorize]
+[Authorize(Roles = "manager")]
 public class FeedbackController : ControllerBase
 {
     private readonly FeedbackService _feedbackService;

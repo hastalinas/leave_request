@@ -128,80 +128,80 @@ namespace Server.Migrations
                         {
                             Guid = new Guid("b41e4d54-2ffe-4619-53c8-08dba0d4ed05"),
                             Code = "SALES",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2043),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2044),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4026),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4026),
                             Name = "Sales"
                         },
                         new
                         {
                             Guid = new Guid("51d55a47-1cab-42e6-53c9-08dba0d4ed05"),
                             Code = "MARKETING",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2046),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2046),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4030),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4030),
                             Name = "Marketing"
                         },
                         new
                         {
                             Guid = new Guid("1fcc1546-78e3-4baf-53ca-08dba0d4ed05"),
                             Code = "FINANCE",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2048),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2048),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4032),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4032),
                             Name = "Finance"
                         },
                         new
                         {
                             Guid = new Guid("e707fb58-cdb1-4c2a-53cb-08dba0d4ed05"),
                             Code = "HR",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2050),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2050),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4034),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4035),
                             Name = "Human Resources"
                         },
                         new
                         {
                             Guid = new Guid("02988287-198d-4dab-53cc-08dba0d4ed05"),
                             Code = "RND",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2052),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2053),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4036),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4037),
                             Name = "Research and Development"
                         },
                         new
                         {
                             Guid = new Guid("8ccd5722-3f93-484d-53cd-08dba0d4ed05"),
                             Code = "IT",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2054),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2054),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4039),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4039),
                             Name = "Information Technology"
                         },
                         new
                         {
                             Guid = new Guid("9b3c7c65-c99a-4e97-53ce-08dba0d4ed05"),
                             Code = "OPS",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2056),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2057),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4042),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4042),
                             Name = "Operations"
                         },
                         new
                         {
                             Guid = new Guid("1e4f0537-3ca0-4d64-53cf-08dba0d4ed05"),
                             Code = "CS",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2058),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2059),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4044),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4045),
                             Name = "Customer Service"
                         },
                         new
                         {
                             Guid = new Guid("bb4e21b9-f8ac-40ad-53d0-08dba0d4ed05"),
                             Code = "PROD",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2065),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2065),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4047),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4048),
                             Name = "Production"
                         },
                         new
                         {
                             Guid = new Guid("5eac3979-fc26-4017-53d1-08dba0d4ed05"),
                             Code = "QA",
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2066),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(2067),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4049),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(4050),
                             Name = "Quality Assurance"
                         });
                 });
@@ -242,6 +242,9 @@ namespace Server.Migrations
                     b.Property<DateTime>("HiringDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("hiring_date");
+
+                    b.Property<DateTime>("LastLeaveUpdate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)")
@@ -301,10 +304,6 @@ namespace Server.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("notes");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("status");
-
                     b.HasKey("Guid");
 
                     b.HasIndex("LeaveRequestGuid")
@@ -352,6 +351,9 @@ namespace Server.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("notes");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Guid");
 
                     b.HasIndex("EmployeeGuid");
@@ -387,22 +389,22 @@ namespace Server.Migrations
                         new
                         {
                             Guid = new Guid("36350d33-42d7-4c63-a244-29b0a8d13bce"),
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(1876),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(1880),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(3885),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(3888),
                             Name = "admin"
                         },
                         new
                         {
                             Guid = new Guid("4887ec13-b482-47b3-9b24-08db91a71770"),
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(1884),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(1884),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(3891),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(3891),
                             Name = "employee"
                         },
                         new
                         {
                             Guid = new Guid("a7e15d29-9c74-4e72-ae63-5a47d69b27d6"),
-                            CreatedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(1888),
-                            ModifiedDate = new DateTime(2023, 8, 20, 11, 35, 44, 600, DateTimeKind.Utc).AddTicks(1889),
+                            CreatedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(3894),
+                            ModifiedDate = new DateTime(2023, 8, 21, 19, 53, 13, 532, DateTimeKind.Utc).AddTicks(3894),
                             Name = "manager"
                         });
                 });

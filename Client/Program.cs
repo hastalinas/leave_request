@@ -3,6 +3,7 @@ using Client.Contracts;
 using Client.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Server.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                ClockSkew = TimeSpan.Zero
            };
        });
+
+// Add session
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    // Atur opsi sesuai kebutuhan Anda
+});
 
 var app = builder.Build();
 

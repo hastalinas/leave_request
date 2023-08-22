@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.AccountRoles;
 using Server.Services;
@@ -8,6 +10,8 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/account-role")]
+[Authorize(Roles = "admin")]
+[EnableCors]
 public class AccountRoleController : ControllerBase
 {
    private readonly AccountRoleService _accountRoleService;
@@ -18,6 +22,7 @@ public class AccountRoleController : ControllerBase
    }
 
    [HttpGet]
+   [AllowAnonymous]
    public IActionResult GetAll()
    {
       var result = _accountRoleService.GetAll();
@@ -42,6 +47,7 @@ public class AccountRoleController : ControllerBase
    }
 
    [HttpGet("{guid}")]
+   [AllowAnonymous]
    public IActionResult GetByGuid(Guid guid)
    {
       var result = _accountRoleService.GetByGuid(guid);
