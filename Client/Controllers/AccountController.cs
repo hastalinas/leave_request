@@ -34,7 +34,7 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
-        var result = await repository.Get(id);
+        var result = await _repository.Get(id);
         var ListAccount = new AccountDto();
 
         if (result.Data != null)
@@ -47,7 +47,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Update(Account account)
     {
-        var result = await repository.Put(account.Guid, account);
+        var result = await _repository.Put(account.Guid, account);
 
         if (result.Code == 200)
         {
@@ -60,7 +60,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
-        var result = await repository.Delete(guid);
+        var result = await _repository.Delete(guid);
 
         if (result.Code == 200)
         {
@@ -154,7 +154,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var result = await repository.ForgotPassword(forgotPassword);
+            var result = await _repository.ForgotPassword(forgotPassword);
             if (result is null)
             {
                 return RedirectToAction("Error", "Home");
@@ -186,7 +186,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var result = await repository.ChangePassword(changePassword); // You need to implement this method in your repository
+            var result = await _repository.ChangePassword(changePassword); // You need to implement this method in your repository
 
             if (result is null)
             {
