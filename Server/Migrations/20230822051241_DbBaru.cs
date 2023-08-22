@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Server.Migrations
 {
-    public partial class NewMigration : Migration
+    public partial class DbBaru : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,6 +53,8 @@ namespace Server.Migrations
                     phone_number = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     department_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     manager_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    leave_remain = table.Column<int>(type: "int", nullable: false),
+                    LastLeaveUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -77,7 +79,7 @@ namespace Server.Migrations
                 columns: table => new
                 {
                     guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    profil_picture = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    profil_picture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     otp = table.Column<int>(type: "int", nullable: false),
                     is_used = table.Column<bool>(type: "bit", nullable: false),
@@ -106,8 +108,8 @@ namespace Server.Migrations
                     leave_start = table.Column<DateTime>(type: "datetime2", nullable: false),
                     leave_end = table.Column<DateTime>(type: "datetime2", nullable: false),
                     notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    attachment = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    status = table.Column<int>(type: "int", nullable: false),
+                    attachment = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -128,6 +130,7 @@ namespace Server.Migrations
                 {
                     guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     account_guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    account_role = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -141,8 +144,8 @@ namespace Server.Migrations
                         principalColumn: "guid",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tb_tr_account_roles_tb_m_roles_account_guid",
-                        column: x => x.account_guid,
+                        name: "FK_tb_tr_account_roles_tb_m_roles_account_role",
+                        column: x => x.account_role,
                         principalTable: "tb_m_roles",
                         principalColumn: "guid",
                         onDelete: ReferentialAction.Cascade);
@@ -154,7 +157,6 @@ namespace Server.Migrations
                 {
                     guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     leave_request = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    status = table.Column<int>(type: "int", nullable: false),
                     notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     created_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modified_date = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -171,19 +173,31 @@ namespace Server.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "tb_m_roles",
-                columns: new[] { "guid", "created_date", "modified_date", "name" },
-                values: new object[] { new Guid("5dc74b69-3bde-48f2-95e6-0fc1dadf2aa7"), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1395), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1395), "manager" });
+                table: "tb_m_departments",
+                columns: new[] { "guid", "code", "created_date", "modified_date", "name" },
+                values: new object[,]
+                {
+                    { new Guid("02988287-198d-4dab-53cc-08dba0d4ed05"), "RND", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4036), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4036), "Research and Development" },
+                    { new Guid("1e4f0537-3ca0-4d64-53cf-08dba0d4ed05"), "CS", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4072), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4073), "Customer Service" },
+                    { new Guid("1fcc1546-78e3-4baf-53ca-08dba0d4ed05"), "FINANCE", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4033), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4033), "Finance" },
+                    { new Guid("51d55a47-1cab-42e6-53c9-08dba0d4ed05"), "MARKETING", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4030), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4031), "Marketing" },
+                    { new Guid("5eac3979-fc26-4017-53d1-08dba0d4ed05"), "QA", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4076), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4077), "Quality Assurance" },
+                    { new Guid("8ccd5722-3f93-484d-53cd-08dba0d4ed05"), "IT", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4069), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4069), "Information Technology" },
+                    { new Guid("9b3c7c65-c99a-4e97-53ce-08dba0d4ed05"), "OPS", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4071), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4071), "Operations" },
+                    { new Guid("b41e4d54-2ffe-4619-53c8-08dba0d4ed05"), "SALES", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4028), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4029), "Sales" },
+                    { new Guid("bb4e21b9-f8ac-40ad-53d0-08dba0d4ed05"), "PROD", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4075), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4075), "Production" },
+                    { new Guid("e707fb58-cdb1-4c2a-53cb-08dba0d4ed05"), "HR", new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4034), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4035), "Human Resources" }
+                });
 
             migrationBuilder.InsertData(
                 table: "tb_m_roles",
                 columns: new[] { "guid", "created_date", "modified_date", "name" },
-                values: new object[] { new Guid("7a9ac9ab-d473-4954-89d5-eb085c7d474b"), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1392), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1392), "employee" });
-
-            migrationBuilder.InsertData(
-                table: "tb_m_roles",
-                columns: new[] { "guid", "created_date", "modified_date", "name" },
-                values: new object[] { new Guid("cb821f06-efb1-44db-88d6-6dc4405de080"), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1388), new DateTime(2023, 8, 18, 9, 23, 28, 496, DateTimeKind.Utc).AddTicks(1390), "admin" });
+                values: new object[,]
+                {
+                    { new Guid("36350d33-42d7-4c63-a244-29b0a8d13bce"), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3891), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3894), "admin" },
+                    { new Guid("4887ec13-b482-47b3-9b24-08db91a71770"), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3896), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3896), "employee" },
+                    { new Guid("a7e15d29-9c74-4e72-ae63-5a47d69b27d6"), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3899), new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3900), "manager" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_tb_m_employees_department_guid",
@@ -210,6 +224,11 @@ namespace Server.Migrations
                 name: "IX_tb_tr_account_roles_account_guid",
                 table: "tb_tr_account_roles",
                 column: "account_guid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tb_tr_account_roles_account_role",
+                table: "tb_tr_account_roles",
+                column: "account_role");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
