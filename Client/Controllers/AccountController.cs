@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Data;
 using Server.DTOs.Accounts;
+using Server.DTOs.Departments;
 using Server.Models;
 using Server.Utilities.Handler;
 using System.Diagnostics;
@@ -30,7 +31,50 @@ public class AccountController : Controller
         {
             ListAccount = result.Data.ToList();
         }
-        return View();
+        return View(ListAccount);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(Guid id)
+    {
+        var result = await repository.Get(id);
+        var ListAccount = new AccountDto();
+
+        if (result.Data != null)
+        {
+            ListAccount = (AccountDto)result.Data;
+        }
+        return View(ListAccount);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(Account account)
+    {
+        var result = await repository.Put(account.Guid, account);
+
+        if (result.Code == 200)
+        {
+            TempData["Success"] = $"Data has been Successfully Updated! - {result.Message}!";
+            return RedirectToAction("Index", "Account");
+        }
+        return RedirectToAction(nameof(Edit));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid guid)
+    {
+        var result = await repository.Delete(guid);
+
+        if (result.Code == 200)
+        {
+            TempData["Success"] = $"Data has been Successfully Deleted! - {result.Message}!";
+        }
+        else
+        {
+            TempData["Error"] = $"Failed to Delete Data - {result.Message}!";
+        }
+
+        return RedirectToAction("Index", "Account");
     }
 
     public IActionResult Privacy()

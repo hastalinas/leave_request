@@ -5,7 +5,7 @@ namespace Client.Repositories;
 
 public class AccountRoleRepository : GeneralRepository<AccountRole, Guid>, IAccountRoleRepository
 {
-    public AccountRoleRepository(string request = "accountroles/") : base(request)
+    public AccountRoleRepository(string request = "account-role/") : base(request)
     {
 
     }
