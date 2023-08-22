@@ -4,20 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
+<h1>Index</h1>
 
-<div class="card">
-    <h1 class="card-header">Data Feedback</h1>
-    <p>
-        <a class="btn btn-primary" href="/Feedback/Create">Add Feedback <i class="fa-solid fa-plus"></i></a>
-    </p>
-    <div class="table-responsive text-nowrap">
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.LeaveRequestGuid)
             </th>
-            
             <th>
                 @Html.DisplayNameFor(model => model.Notes)
             </th>
@@ -39,7 +36,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.LeaveRequestGuid)
             </td>
-          
             <td>
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>
@@ -61,5 +57,3 @@
 }
     </tbody>
 </table>
-</div>
-</div>

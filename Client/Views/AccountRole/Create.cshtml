@@ -1,4 +1,4 @@
-﻿@model Server.Models.Feedback
+﻿@model Server.Models.AccountRole
 
 @{
     ViewData["Title"] = "Create";
@@ -6,21 +6,21 @@
 
 <h1>Create</h1>
 
-<h4>Feedback</h4>
+<h4>AccountRole</h4>
 <hr />
 <div class="row">
-    <div class="col">
-        <form action="/Feedback/Create" method="post">
+    <div class="col-md-4">
+        <form action="/AccountRole/Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="LeaveRequestGuid" class="control-label"></label>
-                <input asp-for="LeaveRequestGuid" class="form-control" />
-                <span asp-validation-for="LeaveRequestGuid" class="text-danger"></span>
+                <label asp-for="AccountGuid" class="control-label"></label>
+                <input asp-for="AccountGuid" class="form-control" />
+                <span asp-validation-for="AccountGuid" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
+                <label asp-for="RoleGuid" class="control-label"></label>
+                <input asp-for="RoleGuid" class="form-control" />
+                <span asp-validation-for="RoleGuid" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Guid" class="control-label"></label>
@@ -42,11 +42,12 @@
             </div>
         </form>
     </div>
-
-    
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

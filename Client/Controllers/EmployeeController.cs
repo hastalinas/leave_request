@@ -7,7 +7,7 @@ using Server.Models;
 using System.Data;
 
 namespace Client.Controllers;
-[Authorize]
+[Authorize(Roles = "employee,manager, admin")]
 public class EmployeeController : Controller
 {
     private readonly IEmployeeRepository repository;

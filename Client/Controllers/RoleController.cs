@@ -11,7 +11,7 @@ using System.Diagnostics;
 namespace Client.Controllers;
 
 [Authorize(Roles = "admin")]
-[EnableCors]
+
 public class RoleController : Controller
 {
     private readonly IRoleRepository repository;

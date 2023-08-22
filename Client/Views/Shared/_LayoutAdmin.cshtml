@@ -179,6 +179,11 @@
                                         <div data-i18n="Without navbar">Role</div>
                                     </a>
                                 </li>
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="Department" asp-action="Index" class="menu-link">
+                                        <div data-i18n="Without navbar">Department</div>
+                                    </a>
+                                </li>
                             }
 
                             @if (User.IsInRole("employee") || User.IsInRole("admin") || User.IsInRole("manager"))
@@ -197,21 +202,14 @@
 
                             @if (User.IsInRole("admin") || User.IsInRole("manager"))
                             {
-                            <li class="menu-item">
-                                <a asp-area="" asp-controller="Department" asp-action="Index" class="menu-link">
-                                    <div data-i18n="Without navbar">Department</div>
-                                </a>
-                            </li>
-                            }
-
-                            @if (User.IsInRole("manager"))
-                            {
                                 <li class="menu-item">
                                     <a asp-area="" asp-controller="Feedback" asp-action="Index" class="menu-link">
                                         <div data-i18n="Container">Feedback</div>
                                     </a>
                                 </li>
                             }
+
+                            
                         </ul>
 
                     </li>

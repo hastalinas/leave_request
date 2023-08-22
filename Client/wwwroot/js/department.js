@@ -18,6 +18,7 @@ $(document).ready(function () {
     });
 });
 
+
 $.ajax({
     url: "https://localhost:7293/api/employees"
 }).done((result) => {

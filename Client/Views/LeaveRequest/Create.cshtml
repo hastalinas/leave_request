@@ -1,4 +1,4 @@
-﻿@model Server.Models.LeaveRequest
+﻿@model Server.DTOs.Employees.RegisterLeaveDto
 
 @{
     ViewData["Title"] = "Create";
@@ -6,22 +6,16 @@
 
 <h1>Create</h1>
 
-<h4>LeaveRequest</h4>
+<h4>RegisterLeaveDto</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form action="/LeaveRequest/Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="EmployeeGuid" class="control-label"></label>
-                <input asp-for="EmployeeGuid" class="form-control" />
-                <span asp-validation-for="EmployeeGuid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="LeaveType" class="control-label"></label>
-                
                 <select class="form-control" asp-for="LeaveType" aria-label="Floating label select example">
-                    <option selected>Choose leave type</option>
+                    <option selected>Open this select menu</option>
                     <option value="0">Vacation</option>
                     <option value="1">Sick</option>
                     <option value="2">Personal</option>
@@ -45,30 +39,22 @@
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Attachment" class="control-label"></label>
-                <input asp-for="Attachment" class="form-control" />
+                <label asp-for="Attachment" class="form-label"></label>
+                <input asp-for="Attachment" class="form-control" type="file" />
                 <span asp-validation-for="Attachment" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <select class="form-control" asp-for="Status" aria-label="Floating label select example">
+                    <option selected>Open this select menu</option>
+                    <option value="0">Draft</option>
+                    <option value="1">On Process</option>
+                    <option value="2">Success</option>
+                    <option value="3">Rejected</option>
+                   
+                </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="Guid" class="control-label"></label>
-                <input asp-for="Guid" class="form-control" />
-                <span asp-validation-for="Guid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedDate" class="control-label"></label>
-                <input asp-for="ModifiedDate" class="form-control" />
-                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

@@ -3,6 +3,7 @@ using Client.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 using Server.Data;
 using Server.DTOs.Accounts;
 using Server.DTOs.Departments;
@@ -10,7 +11,7 @@ using Server.Models;
 using System.Diagnostics;
 
 namespace Client.Controllers;
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "admin")]
 
 public class AccountController : Controller
 {
@@ -32,6 +33,24 @@ public class AccountController : Controller
             ListAccount = result.Data.ToList();
         }
         return View(ListAccount);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(Account account)
+    {
+        var result = await _repository.Post(account);
+
+        if (result.Code == 200)
+        {
+            RedirectToAction("Index");
+        }
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
@@ -117,8 +136,6 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Register()
     {
-        //var departmentCodes = dbContext.Departments.Select(d => d.Code).ToList();
-        //ViewBag.DepartmentCodes = departmentCodes;
         return View();
     }
 

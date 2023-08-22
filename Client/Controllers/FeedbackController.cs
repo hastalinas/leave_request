@@ -11,8 +11,8 @@ using System.Diagnostics;
 
 namespace Client.Controllers;
 
-[Authorize(Roles = "manager")]
-[EnableCors]
+[Authorize(Roles = "manager, admin")]
+
 
 public class FeedbackController : Controller
 {

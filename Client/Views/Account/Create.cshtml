@@ -1,16 +1,17 @@
 ﻿@model Server.DTOs.Accounts.AccountDto
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h1>Edit</h1>
-
-<h4>AccountDto</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form action="/Account/Update" method="post">
+    <div class="col">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h1>Create New Employee</h1>
+                <hr />
+            </div>
+        <form action="/Account/Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Guid" class="control-label"></label>
@@ -38,13 +39,18 @@
                 <span asp-validation-for="ExpiredTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
+</div>
+</div>
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

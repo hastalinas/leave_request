@@ -1,13 +1,15 @@
 ﻿using Client.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Departments;
 using Server.DTOs.LeaveRequests;
 using Server.Models;
+using System.Data;
 
 namespace Client.Controllers;
 
-
+[Authorize(Roles = "employee, manager, admin")]
 public class LeaveRequestController : Controller
 {
     private readonly ILeaveRequestRepository repository;
@@ -50,13 +52,13 @@ public class LeaveRequestController : Controller
     public async Task<IActionResult> Edit(Guid id)
     {
         var result = await repository.Get(id);
-        var ListDepartment = new LeaveRequestDto();
+        var ListRequest = new LeaveRequestDto();
 
         if (result.Data != null)
         {
-            ListDepartment = (LeaveRequestDto)result.Data;
+            ListRequest = (LeaveRequestDto)result.Data;
         }
-        return View(ListDepartment);
+        return View(ListRequest);
     }
 
     [HttpPost]

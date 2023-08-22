@@ -6,7 +6,7 @@
 }
 
 <div class="row">
-    <div class="col-7">
+    <div class="col">
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h1>Create New Employee</h1>
@@ -15,16 +15,20 @@
             <div class="card-body">
                 <form action="/Employee/Create" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    <div class="form-group">
+                    <div class="row mb-3">
                         <label asp-for="FirstName" class="col-sm-2 control-label">First Name</label>
-                        <input asp-for="FirstName" class="form-control" />
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <div class="col-sm-10">
+                            <input asp-for="FirstName" class="form-control" placeholder="Input your first name" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        
                     </div>
-                    <div class="form-group">
-                        <label asp-for="LastName" class="control-label">Last Name</label>
-                        <input asp-for="LastName" class="form-control" />
-                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    <div class="row mb-3">
+                        <label asp-for="LastName" class="col-sm-2 control-label">Last Name</label>
+                        <div class="col-sm-10">
+                            <input asp-for="LastName" class="form-control" placeholder="Input your first name" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="BirthDate" class="control-label">Birth Date</label>
@@ -76,5 +80,7 @@
         </div>
     </div>
 </div>
+
+
 
 

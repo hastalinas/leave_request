@@ -52,9 +52,11 @@
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>*@
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                    <form action="/AccountRole/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                       <input type="hidden" value="@item.Guid" name="guid" />
+                       <button value="" class="fas fa-trash text-danger" onclick="return true"></button>
+                    </form>
             </td>
         </tr>
 }

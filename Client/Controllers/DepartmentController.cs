@@ -12,7 +12,6 @@ using System.Data;
 namespace Client.Controllers;
 
 [Authorize(Roles = "admin")]
-[EnableCors]
 
 public class DepartmentController : Controller
 {
