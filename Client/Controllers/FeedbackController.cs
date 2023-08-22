@@ -1,12 +1,18 @@
 ﻿using Client.Contracts;
 using Client.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Feedbacks;
 using Server.DTOs.Roles;
 using Server.Models;
+using System.Data;
 using System.Diagnostics;
 
 namespace Client.Controllers;
+
+[Authorize(Roles = "manager")]
+[EnableCors]
 
 public class FeedbackController : Controller
 {

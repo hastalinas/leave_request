@@ -5,6 +5,7 @@ using Server.DTOs.AccountRoles;
 using Server.DTOs.Accounts;
 using Server.DTOs.Employees;
 using Server.Models;
+using Server.Repositories;
 using Server.Utilities.Handler;
 
 namespace Server.Services;
@@ -193,7 +194,18 @@ public class AccountService
                     ExpiredTime = null
                 });
                 _accountRepository.Clear();
-                var accountRole = _accountRoleRepository.Create((new NewAccountRoleDto()
+            var accountrole = _accountRoleRepository.GetAll();
+                if (!accountrole.Any())// Jika Account Role Kosong maka Inputan Register pertama akan menjadi Admin
+                {
+                    var accountroleadmin = _accountRoleRepository.Create(new NewAccountRoleDto
+                    {
+                        AccountGuid = account.Guid,
+                        RoleGuid = Guid.Parse("36350d33-42d7-4c63-a244-29b0a8d13bce") // Register pertama sebagai admin
+                    });
+                    transaction.Commit();
+                    return 1;
+                }
+            var accountRole = _accountRoleRepository.Create((new NewAccountRoleDto()
                 {
                     AccountGuid = employeeGuid,
                     RoleGuid = Guid.Parse("4887ec13-b482-47b3-9b24-08db91a71770") // Register as employee

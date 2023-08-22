@@ -1,10 +1,12 @@
 ﻿using Client.Contracts;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Departments;
 using Server.DTOs.LeaveRequests;
 using Server.Models;
 
 namespace Client.Controllers;
+
 
 public class LeaveRequestController : Controller
 {

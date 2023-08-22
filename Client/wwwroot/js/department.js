@@ -18,18 +18,6 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
-    $.ajax({
-        url: "https://localhost:7293/api/departments"
-    }).done(function (result) {
-        // Assuming the API response contains a property named "totalEmployees"
-        var totalDepartment = result.data.length;
-        $("#total-departments").text(totalDepartment);
-    }).fail(function () {
-        $("#total-departments").text("Failed to fetch data");
-    });
-});
-
 $.ajax({
     url: "https://localhost:7293/api/employees"
 }).done((result) => {

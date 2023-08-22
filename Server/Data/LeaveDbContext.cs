@@ -36,6 +36,8 @@ namespace Server.Data
                 new Department { Guid = Guid.Parse("5eac3979-fc26-4017-53d1-08dba0d4ed05"), Name = "Quality Assurance", Code = "QA", CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow }
             );
 
+           
+
             // Other model configurations
 
             base.OnModelCreating(modelBuilder);

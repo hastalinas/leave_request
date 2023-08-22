@@ -1,6 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using System.Net.Http
 @{
     
 }
@@ -125,3 +123,43 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+        const Token = '@Context.Session.GetString("JWToken")'
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/employees",
+                headers:
+                {
+                    "Authorization" : "Bearer "+ Token
+                }
+            }).done(function (result) {
+                // Assuming the API response contains a property named "totalEmployees"
+                var totalEmployees = result.data.length;
+                $("#total-employees").text(totalEmployees);
+            }).fail(function (error) {
+                $("#total-employees").text("Failed to fetch data");
+                console.log(error)
+            });
+        });
+        //Departements Counts
+        
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/departments",
+                headers:
+                {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                // Assuming the API response contains a property named "totalDepartments"
+                var totalDepartments = result.data.length;
+                $("#total-departments").text(totalDepartments);
+            }).fail(function (error) {
+                $("#total-departments").text("Failed to fetch data");
+                console.log(error)
+            });
+        });
+
+    </script>
+}

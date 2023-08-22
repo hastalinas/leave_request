@@ -144,10 +144,14 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
                     <li class="menu-item active">
-                        <a asp-area="" asp-controller="Dashboard" asp-action="Index" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Dashboard</div>
-                        </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-area="" asp-controller="Dashboard" asp-action="Index" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                                <div data-i18n="Analytics">Dashboard</div>
+                            </a>
+                        }
+                        
                     </li>
 
                     <!-- Layouts -->
@@ -158,70 +162,86 @@
                         </a>
 
                         <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a asp-area="" asp-controller="Account" asp-action="Index" class="menu-link">
-                                    <div data-i18n="Without menu">Account</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a asp-area="" asp-controller="AccountRole" asp-action="Index" class="menu-link">
-                                    <div data-i18n="Without menu">Account Role</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a asp-area="" asp-controller="Employee" asp-action="Index" class="menu-link">
-                                    <div data-i18n="Without menu">Employee</div>
-                                </a>
-                            </li>
+                            @if (User.IsInRole("admin"))
+                            {
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="Account" asp-action="Index" class="menu-link">
+                                        <div data-i18n="Without menu">Account</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="AccountRole" asp-action="Index" class="menu-link">
+                                        <div data-i18n="Without menu">Account Role</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="Role" asp-action="Index" class="menu-link">
+                                        <div data-i18n="Without navbar">Role</div>
+                                    </a>
+                                </li>
+                            }
 
+                            @if (User.IsInRole("employee") || User.IsInRole("admin") || User.IsInRole("manager"))
+                            {
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="Employee" asp-action="Index" class="menu-link">
+                                        <div data-i18n="Without menu">Employee</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="LeaveRequest" asp-action="Index" class="menu-link">
+                                        <div data-i18n="Container">Leave Request</div>
+                                    </a>
+                                </li>
+                            }
+
+                            @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                            {
                             <li class="menu-item">
                                 <a asp-area="" asp-controller="Department" asp-action="Index" class="menu-link">
                                     <div data-i18n="Without navbar">Department</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a asp-area="" asp-controller="Role" asp-action="Index" class="menu-link">
-                                    <div data-i18n="Without navbar">Role</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a asp-area="" asp-controller="LeaveRequest" asp-action="Index" class="menu-link">
-                                    <div data-i18n="Container">Leave Request</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a asp-area="" asp-controller="Feedback" asp-action="Index" class="menu-link">
-                                    <div data-i18n="Container">Feedback</div>
-                                </a>
-                            </li>
+                            }
 
+                            @if (User.IsInRole("manager"))
+                            {
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="Feedback" asp-action="Index" class="menu-link">
+                                        <div data-i18n="Container">Feedback</div>
+                                    </a>
+                                </li>
+                            }
                         </ul>
 
+                    </li>
 
-                    </li>
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                            <div data-i18n="Account Settings">Employee Leave Report</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="pages-account-settings-account.html" class="menu-link">
-                                    <div data-i18n="Account">Account</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-account-settings-notifications.html" class="menu-link">
-                                    <div data-i18n="Notifications">Notifications</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-account-settings-connections.html" class="menu-link">
-                                    <div data-i18n="Connections">Connections</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                    {
+                        <li class="menu-item">
+                            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div data-i18n="Account Settings">Employee Leave Report</div>
+                            </a>
+                            <ul class="menu-sub">
+                                <li class="menu-item">
+                                    <a href="pages-account-settings-account.html" class="menu-link">
+                                        <div data-i18n="Account">Account</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="pages-account-settings-notifications.html" class="menu-link">
+                                        <div data-i18n="Notifications">Notifications</div>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="pages-account-settings-connections.html" class="menu-link">
+                                        <div data-i18n="Connections">Connections</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
 
 
                 </ul>
@@ -371,12 +391,12 @@
     <script src="~/js/employee.js" asp-append-version="true"></script>
     <script src="~/js/account.js" asp-append-version="true"></script>
     <script src="~/js/department.js" asp-append-version="true"></script>
-    <script src="~/js/role.js" asp-append-version="true"></script>
+    <script src="~/js/role.js" asp-append-version="true"></script>@*
     <script src="~/js/leaverequest.js" asp-append-version="true"></script>
     <script src="~/js/feedback.js" asp-append-version="true"></script>
-    <script src="~/js/accountrole.js" asp-append-version="true"></script>
+    <script src="~/js/accountrole.js" asp-append-version="true"></script>*@
 
-   
+    
 
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>

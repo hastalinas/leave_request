@@ -1,6 +1,7 @@
 ﻿using Client.Contracts;
 using Client.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.Data;
 using Server.DTOs.Accounts;
@@ -9,13 +10,15 @@ using Server.Models;
 using System.Diagnostics;
 
 namespace Client.Controllers;
+[Authorize(Roles = "Admin")]
+
 public class AccountController : Controller
 {
     private readonly IAccountRepository _repository;
 
     public AccountController(IAccountRepository repository)
     {
-        repository = repository;
+        _repository = repository;
     }
 
     [HttpGet]

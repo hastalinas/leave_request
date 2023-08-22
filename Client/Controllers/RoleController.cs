@@ -1,12 +1,17 @@
 ﻿using Client.Contracts;
 using Client.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Roles;
 using Server.Models;
+using System.Data;
 using System.Diagnostics;
 
 namespace Client.Controllers;
 
+[Authorize(Roles = "admin")]
+[EnableCors]
 public class RoleController : Controller
 {
     private readonly IRoleRepository repository;

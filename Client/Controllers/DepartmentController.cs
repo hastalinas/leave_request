@@ -5,8 +5,14 @@ using Server.Data;
 using Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Server.DTOs.Departments;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using System.Data;
 
 namespace Client.Controllers;
+
+[Authorize(Roles = "admin")]
+[EnableCors]
 
 public class DepartmentController : Controller
 {

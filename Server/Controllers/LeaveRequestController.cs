@@ -11,7 +11,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/leave-request")]
-[Authorize]
+/*[Authorize]*/
 public class LeaveRequestController : ControllerBase
 {
     private readonly LeaveRequestService _leaveRequestService;

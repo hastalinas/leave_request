@@ -10,7 +10,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/accounts")]
-[Authorize]
+/*[Authorize]*/
 [EnableCors]
 public class AccountController : ControllerBase
 {

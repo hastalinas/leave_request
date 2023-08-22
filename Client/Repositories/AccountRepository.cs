@@ -26,7 +26,7 @@ public class AccountRepository : GeneralRepository<Account, Guid>, IAccountRepos
     {
         ResponseHandler<TokenDto> entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-        using (var response = httpClient.PostAsync(request + "Login", content).Result)
+        using (var response = httpClient.PostAsync(request + "login", content).Result)
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<TokenDto>>(apiResponse);
@@ -39,7 +39,7 @@ public class AccountRepository : GeneralRepository<Account, Guid>, IAccountRepos
     {
         ResponseHandler<RegisterDto> entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-        using (var response = httpClient.PostAsync(request + "Register", content).Result)
+        using (var response = httpClient.PostAsync(request + "register", content).Result)
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<RegisterDto>>(apiResponse);
@@ -51,7 +51,7 @@ public class AccountRepository : GeneralRepository<Account, Guid>, IAccountRepos
     {
         ResponseHandler<ForgotPasswordDto> entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-        using (var response = await httpClient.PostAsync(request + "ForgotPassword", content))
+        using (var response = await httpClient.PostAsync(request + "forgot-password", content))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<ForgotPasswordDto>>(apiResponse);
@@ -63,7 +63,7 @@ public class AccountRepository : GeneralRepository<Account, Guid>, IAccountRepos
     {
         ResponseHandler<ChangePasswordDto> entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-        using (var response = await httpClient.PostAsync(request + "ChangePassword", content))
+        using (var response = await httpClient.PostAsync(request + "change-password", content))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<ChangePasswordDto>>(apiResponse);
