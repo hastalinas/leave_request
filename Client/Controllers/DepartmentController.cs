@@ -1,28 +1,30 @@
 ﻿using Client.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Server.Controllers;
 using Server.Models;
 
 namespace Client.Controllers;
 
-public class EmployeeController : Controller
+public class DepartmentController : Controller
 {
-    private readonly IEmployeeRepository repository;
+    private readonly IDepartmentRepository repository;
 
-    public EmployeeController(IEmployeeRepository repository)
+    public DepartmentController(IDepartmentRepository repository)
     {
         this.repository = repository;
     }
 
+
     public async Task<IActionResult> Index()
     {
         var result = await repository.Get();
-        var ListEmployee = new List<Employee>();
+        var ListDepartment = new List<Department>();
 
         if (result.Data != null)
         {
-            ListEmployee = result.Data.ToList();
+            ListDepartment = result.Data.ToList();
         }
-        return View(ListEmployee);
+        return View(ListDepartment);
     }
 
     [HttpGet]
@@ -32,9 +34,9 @@ public class EmployeeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Employee employee)
+    public async Task<IActionResult> Create(Department department)
     {
-        var result = await repository.Post(employee);
+        var result = await repository.Post(department);
 
         if (result.Code == 200)
         {
@@ -47,24 +49,24 @@ public class EmployeeController : Controller
     public async Task<IActionResult> Edit(Guid id)
     {
         var result = await repository.Get(id);
-        var ListEmployee = new Employee();
+        var ListDepartment = new Department();
 
         if (result.Data != null)
         {
-            ListEmployee = result.Data;
+            ListDepartment = result.Data;
         }
-        return View(ListEmployee);
+        return View(ListDepartment);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(Employee employee)
+    public async Task<IActionResult> Update(Department department)
     {
-        var result = await repository.Put(employee.Guid, employee);
+        var result = await repository.Put(department.Guid, department);
 
         if (result.Code == 200)
         {
             TempData["Success"] = $"Data has been Successfully Updated! - {result.Message}!";
-            return RedirectToAction("Index", "Employee");
+            return RedirectToAction("Index", "Department");
         }
         return RedirectToAction(nameof(Edit));
     }
@@ -83,6 +85,6 @@ public class EmployeeController : Controller
             TempData["Error"] = $"Failed to Delete Data - {result.Message}!";
         }
 
-        return RedirectToAction("Index", "Employee");
+        return RedirectToAction("Index", "Department");
     }
 }

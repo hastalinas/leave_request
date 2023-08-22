@@ -4,25 +4,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Accounts;
 using Server.Models;
-using Server.Utilities.Handler;
 using System.Diagnostics;
-using System.Net;
-
 
 namespace Client.Controllers;
 public class AccountController : Controller
 {
-    private readonly IAccountRepository repository;
+    private readonly IAccountRepository _repository;
 
     public AccountController(IAccountRepository repository)
     {
-        this.repository = repository;
+        _repository = repository;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var result = await repository.Get();
+        var result = await _repository.Get();
         var ListAccount = new List<Account>();
 
         if (result.Data != null)
@@ -48,11 +45,11 @@ public class AccountController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> Login(LoginDto login)
     {
-        var result = await repository.Login(login);
+        var result = await _repository.Login(login);
         if (result is null)
         {
             //TempData["Error"] = $"Failed to Login! - {result.Message}!";
-            return RedirectToAction("Login", "Accoount");
+            return RedirectToAction("Login", "Account");
         }
         else if (result.Code == 409)
         {
@@ -70,71 +67,32 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public IActionResult Register()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(NewAccountDto newAccount)
+    //[ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterDto register)
     {
-
-        var result = await repository.Post(newAccount);
-        if (result.Status == "200")
+        var result = await _repository.Register(register);
+        if (result is null)
         {
-            TempData["Success"] = $"Data has been Successfully Registered! - {result.Message}!";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Error", "Home");
         }
-        else if (result.Status == "409")
+        else if (result.Code == 409)
         {
-            TempData["Error"] = $"Data failed Registered! - {result.Message}!";
             ModelState.AddModelError(string.Empty, result.Message);
+            TempData["Error"] = $"Something Went Wrong! - {result.Message}!";
             return View();
         }
-        return RedirectToAction(nameof(Index));
-
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Edit(Guid id)
-    {
-        var result = await repository.Get(id);
-        var ListAccount = new AccountDto();
-
-        if (result.Data != null)
+        else if (result.Code == 200)
         {
-            ListAccount = (AccountDto)result.Data;
+            TempData["Success"] = $"Data has been Successfully Registered! - {result.Message}!";
+            return RedirectToAction("Login", "Account");
         }
-        return View((AccountDto)ListAccount);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Update(Account account)
-    {
-        var result = await repository.Put(account.Guid, account);
-
-        if (result.Code == 200)
-        {
-            TempData["Success"] = $"Data has been Successfully Edited! - {result.Message}!";
-            return RedirectToAction("Index", "Account");
-        }
-        return RedirectToAction(nameof(Edit));
-
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Delete(Guid guid)
-    {
-        var result = await repository.Delete(guid);
-        if (result.Code == 200)
-        {
-            TempData["Success"] = $"Data has been Successfully Deleted! - {result.Message}!";
-        }
-        else
-        {
-            TempData["Error"] = $"Data failed Deleted! - {result.Message}!";
-        }
-        return RedirectToAction(nameof(Index));
+        return View();
     }
 
 
