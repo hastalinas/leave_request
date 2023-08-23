@@ -7,10 +7,20 @@ namespace Server.Services;
 public class AccountRoleService
 {
     private readonly IAccountRoleRepository _accountRoleRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IRoleRepository _roleRepository;
+    private readonly IAccountRepository _accountRepository;
 
-    public AccountRoleService(IAccountRoleRepository accountRoleRepository)
+    public AccountRoleService(
+        IAccountRoleRepository accountRoleRepository,
+        IEmployeeRepository employeeRepository,
+        IRoleRepository roleRepository,
+        IAccountRepository accountRepository)
     {
         _accountRoleRepository = accountRoleRepository;
+        _employeeRepository = employeeRepository;
+        _roleRepository = roleRepository;
+        _accountRepository = accountRepository;
     }
 
     public IEnumerable<AccountRoleDto> GetAll()
@@ -23,7 +33,7 @@ public class AccountRoleService
         }
 
         var accountRoleDtos = new List<AccountRoleDto>();
-        enumerable.ToList().ForEach( accountRole => accountRoleDtos.Add((AccountRoleDto)accountRole));
+        enumerable.ToList().ForEach(accountRole => accountRoleDtos.Add((AccountRoleDto)accountRole));
 
         return accountRoleDtos;
     }
@@ -75,5 +85,35 @@ public class AccountRoleService
 
         var result = _accountRoleRepository.Delete(accountRole);
         return result ? 1 : 0;
+    }
+
+    public IEnumerable<AccountRoleInfoDto> AccountRoleInfo()
+    {
+        var accountRoleInfoList = (
+    from emp in _employeeRepository.GetAll()
+    join acc in _accountRepository.GetAll() on emp.Guid equals acc.Guid
+    join accRole in _accountRoleRepository.GetAll() on acc.Guid equals accRole.AccountGuid
+    join role in _roleRepository.GetAll() on accRole.RoleGuid equals role.Guid
+    select new 
+    {
+        Guid = emp.Guid,
+        Nik = emp.Nik,
+        Name = $"{emp.FirstName} {emp.LastName}",
+        Role = role.Name
+    }
+).ToList();
+
+var groupedData = accountRoleInfoList
+    .GroupBy(info => new { info.Guid, info.Nik })
+    .Select(group => new AccountRoleInfoDto
+    {
+        Guid = group.Key.Guid,
+        Nik = group.Key.Nik,
+        Name = group.First().Name,
+        Role = group.Select(info => info.Role).ToList()
+    })
+    .ToList();
+
+    return groupedData;
     }
 }

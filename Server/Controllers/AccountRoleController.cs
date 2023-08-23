@@ -10,7 +10,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/account-role")]
-[Authorize(Roles = "admin")]
+[Authorize]
 [EnableCors]
 public class AccountRoleController : ControllerBase
 {
@@ -156,6 +156,30 @@ public class AccountRoleController : ControllerBase
          Code = StatusCodes.Status200OK,
          Status = HttpStatusCode.OK.ToString(),
          Message = "Success retrieving data"
+      });
+   }
+   
+   [HttpGet("info")]
+   public IActionResult AccountRoleInfo()
+   {
+      var result = _accountRoleService.AccountRoleInfo();
+      var accountRoleInfoDtos = result.ToList();
+      if (!accountRoleInfoDtos.Any())
+      {
+         return NotFound(new ResponseHandler<AccountRoleInfoDto>
+         {
+            Code = StatusCodes.Status404NotFound,
+            Status = HttpStatusCode.NotFound.ToString(),
+            Message = "Data not found"
+         });
+      }
+
+      return Ok(new ResponseHandler<IEnumerable<AccountRoleInfoDto>>
+      {
+         Code = StatusCodes.Status200OK,
+         Status = HttpStatusCode.OK.ToString(),
+         Message = "Success retrieving data",
+         Data = accountRoleInfoDtos
       });
    }
 }
