@@ -69,6 +69,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public IActionResult Insert(AccountDto accountDto)
     {
         var result = _accountService.Create(accountDto);
@@ -92,6 +93,7 @@ public class AccountController : ControllerBase
     }
     
     [HttpPut]
+    [AllowAnonymous]
     public IActionResult Update(AccountDto accountDto)
     {
         var result = _accountService.Update(accountDto);
