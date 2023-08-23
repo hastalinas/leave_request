@@ -87,7 +87,7 @@ public class AccountRoleService
         return result ? 1 : 0;
     }
 
-    public IEnumerable<AccountRoleInfoDto> AccountRoleInfo()
+    public IEnumerable<AccountRoleInfoDto>? AccountRoleInfo()
     {
         var accountRoleInfoList = (
     from emp in _employeeRepository.GetAll()

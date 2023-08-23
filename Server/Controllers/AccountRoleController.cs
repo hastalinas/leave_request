@@ -10,7 +10,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/account-role")]
-[Authorize]
+/*[Authorize]*/
 [EnableCors]
 public class AccountRoleController : ControllerBase
 {

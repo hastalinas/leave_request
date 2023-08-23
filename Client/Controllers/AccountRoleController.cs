@@ -33,6 +33,18 @@ public class AccountRoleController : Controller
         }
         return View(ListAccountRole);
     }
+    [HttpGet]
+    public async Task<IActionResult> Info()
+    {
+        var result = await repository.accountRoleInfo();
+        var ListAccountRole = new List<AccountRoleInfoDto>();
+
+        if (result.Data != null)
+        {
+            ListAccountRole = result.Data.ToList();
+        }
+        return View(ListAccountRole);
+    }
 
     [HttpGet]
     public async Task<IActionResult> Create()

@@ -1,4 +1,4 @@
-﻿@model Server.Models.AccountRole
+﻿@model Server.DTOs.AccountRoles.NewAccountRoleDto
 
 @{
     ViewData["Title"] = "Create";
@@ -6,48 +6,82 @@
 
 <h1>Create</h1>
 
-<h4>AccountRole</h4>
+<h4>NewAccountRoleDto</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form action="/AccountRole/Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="AccountGuid" class="control-label"></label>
-                <input asp-for="AccountGuid" class="form-control" />
+                <label asp-for="AccountGuid" class="control-label">Employee</label>
+                <select asp-for="AccountGuid" class="selectEmployee form-control">
+
+                </select>
                 <span asp-validation-for="AccountGuid" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RoleGuid" class="control-label"></label>
+                <label asp-for="RoleGuid" class="control-label">Role</label>
+                <select asp-for="RoleGuid" class="selectRole form-control">
+
+                </select>
+                @*<label asp-for="RoleGuid" class="control-label"></label>
                 <input asp-for="RoleGuid" class="form-control" />
-                <span asp-validation-for="RoleGuid" class="text-danger"></span>
+                <span asp-validation-for="RoleGuid" class="text-danger"></span>*@
+
+                
             </div>
             <div class="form-group">
-                <label asp-for="Guid" class="control-label"></label>
-                <input asp-for="Guid" class="form-control" />
-                <span asp-validation-for="Guid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ModifiedDate" class="control-label"></label>
-                <input asp-for="ModifiedDate" class="form-control" />
-                <span asp-validation-for="ModifiedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" href="/AccountRole/Info" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Info">Back to List</a>
 </div>
 
 @section Scripts {
+    <script>
+        const Token = '@Context.Session.GetString("JWToken")'
+        $.ajax({
+            url: "https://localhost:7293/api/roles",
+            headers:
+            {
+                "Authorization": "Bearer " + Token
+            }
+        }).done(function (result) {
+            // Assuming the API response contains a property named
+            let getRole = ""
+            $.each(result.data, (key, val) => {
+                console.log(result)
+                getRole += `<option value="${val.guid}">${val.name}</option>`
+            })
+            $('.selectRole').html(getRole)
+        }).fail(function () {
+            $(".selectRole").text("Failed to fetch data");
+        });
+
+
+        $.ajax({
+            url: "https://localhost:7293/api/employees",
+            headers:
+            {
+                "Authorization": "Bearer " + Token
+            }
+        }).done(function (result) {
+            // Assuming the API response contains a property named
+            let getEmployees = ""
+            $.each(result.data, (key, val) => {
+                console.log(result)
+                getEmployees += `<option value="${val.guid}">${val.nik} - ${val.firstName} ${val.lastName} </option>`
+            })
+            $('.selectEmployee').html(getEmployees)
+        }).fail(function () {
+            $(".selectEmployee").text("Failed to fetch data");
+        });
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }
