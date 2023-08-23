@@ -23,21 +23,13 @@ public class AccountRoleRepository : GeneralRepository<AccountRole>, IAccountRol
 
     public bool IsRoleDuplicate(Guid accountGuid, Guid roleGuid)
     {
-        var accountRole = (
-        from acc in _context.Accounts
-        join accRole in _context.AccountRoles on acc.Guid equals accRole.AccountGuid
-        join role in _context.Roles on accRole.RoleGuid equals role.Guid
-        where acc.Guid == accountGuid && role.Guid == roleGuid
-        select new
+        var exixtingData = _context.Set<AccountRole>()
+            .FirstOrDefault(accRole => accRole.AccountGuid == accountGuid && accRole.RoleGuid == roleGuid);
+        if (exixtingData is null)
         {
-            Guid = acc.Guid,
-            Name = role.Guid,
-        });
-        if (accountRole is null)
-        {
-            return true;
+            return false;
         }
-        return false;
 
+        return true;
     }
 }

@@ -15,8 +15,7 @@ public class AccountRoleInfoValidator : AbstractValidator<AccountRoleInfoDto>
             .NotEmpty().WithMessage("Guid is required");
         RuleFor(dto => dto.Name)
             .NotEmpty().WithMessage("Account GUID is required");
-           
-
+        
         RuleFor(dto => dto.Role)
             .NotEmpty().WithMessage("Role GUID is required");
     }

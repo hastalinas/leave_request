@@ -54,9 +54,9 @@ public class AccountRoleController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(AccountRoleDto accountRole)
+    public async Task<IActionResult> Create(AccountRoleDto accountRoleDto)
     {
-        var result = await _repository.Post(accountRole);
+        var result = await _repository.Post(accountRoleDto);
 
         if (result.Code == 200)
         {

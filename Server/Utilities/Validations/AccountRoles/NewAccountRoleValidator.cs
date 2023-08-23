@@ -13,19 +13,17 @@ public class NewAccountRoleDtoValidator : AbstractValidator<NewAccountRoleDto>
     {
         _accountRoleRepository = accountRoleRepository;
         RuleFor(dto => dto.AccountGuid)
-            .NotEmpty().WithMessage("Account GUID is required");
+            .NotEmpty().WithMessage("Account GUID is required")
+            .Must((dto, roleGuid) => IsDuplicate(dto.AccountGuid, roleGuid));
 
         RuleFor(dto => dto.RoleGuid)
             .NotEmpty().WithMessage("Role GUID is required")
             .Must((dto, roleGuid) => IsDuplicate(dto.AccountGuid, roleGuid));
     }
 
-    private bool IsDuplicate(Guid accountGuid, Guid roleGuid)
+    public bool IsDuplicate(Guid accountGuid, Guid roleGuid)
     {
         return _accountRoleRepository.IsRoleDuplicate(accountGuid, roleGuid);
-
+        
     }
-
-
-    
 }
