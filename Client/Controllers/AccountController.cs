@@ -134,13 +134,14 @@ public class AccountController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Register()
     {
         return View();
     }
 
     [HttpPost]
-    //[ValidateAntiForgeryToken]
+    [AllowAnonymous]
     public async Task<IActionResult> Register(RegisterDto register)
     {
         var result = await _repository.Register(register);
@@ -163,13 +164,14 @@ public class AccountController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult ForgotPassword()
     {
         return View();
     }
 
     [HttpPost]
-    //[ValidateAntiForgeryToken]
+    [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPassword)
     {
         if (ModelState.IsValid)
@@ -195,13 +197,14 @@ public class AccountController : Controller
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult ChangePassword()
     {
         return View();
     }
 
     [HttpPost]
-    //[ValidateAntiForgeryToken]
+    [AllowAnonymous]
     public async Task<IActionResult> ChangePassword(ChangePasswordDto changePassword)
     {
         if (ModelState.IsValid)

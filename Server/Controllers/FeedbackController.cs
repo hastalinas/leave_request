@@ -9,7 +9,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/feedbacks")]
-[Authorize(Roles = "manager")]
+[Authorize(Roles = "manager,admin")]
 public class FeedbackController : ControllerBase
 {
     private readonly FeedbackService _feedbackService;

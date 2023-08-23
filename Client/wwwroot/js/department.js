@@ -20,20 +20,22 @@ $(document).ready(function () {
 
 
 $.ajax({
-    url: "https://localhost:7293/api/employees"
-}).done((result) => {
-    let selectEmployee = ""
+    url: "https://localhost:7293/api/departments"
+}).done(function (result) {
+    let getDepartment = ""
     $.each(result.data, (key, val) => {
-        console.log(val)
-        selectEmployee += ` <option value="${val.guid}">${val.firstName} ${val.lastName}</option>`
+        console.log(result)
+        getDepartment += ` <option value="${val.guid}">${val.name} (${val.code})</option>`
     })
-    $('.employeeSelect').html(selectEmployee)
-})
+    $('.selectDepartment').html(getDepartment)
+}).fail(function () {
+    $(".selectDepartment").text("Failed to fetch data");
+});
 
-$(document).ready(function () {
+/*$(document).ready(function () {
     $('.datepicker').datepicker({
         format: 'yyyy-mm-dd',
         autoclose: true,
         todayHighlight: true
     });
-});
+});*/

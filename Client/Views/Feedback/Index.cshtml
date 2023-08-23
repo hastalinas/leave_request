@@ -4,13 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+
+<div class="card">
+    <h1 class="card-header">Data Feedbacks</h1>
+    <p>
+        <a class="btn btn-primary" href="/Feedback/Create">Add Feedback <i class="fa-solid fa-plus"></i></a>
+        @*<a asp-action="Create">Create New</a>*@
+    </p>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+        <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.LeaveRequestGuid)
@@ -21,13 +25,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.Guid)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>
-            <th></th>
+            </th>*@
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -42,18 +46,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Guid)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
-            </td>
+            </td>*@
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                <form action="/Feedback/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                     <input type="hidden" value="@item.Guid" name="guid" />
+                     <button value="" class="fas fa-trash text-danger" onclick="return true"></button>
+                </form>
             </td>
         </tr>
 }
     </tbody>
 </table>
+    </div>
+</div>

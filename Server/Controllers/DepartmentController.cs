@@ -22,6 +22,7 @@ public class DepartmentController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult GetAll()
     {
         var result = _departmentService.GetAll();

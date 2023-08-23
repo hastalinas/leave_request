@@ -1,4 +1,5 @@
-﻿@model Server.DTOs.Accounts.RegisterDto
+﻿@using System.Net.Http
+@model Server.DTOs.Accounts.RegisterDto
 
 
 @{
@@ -60,20 +61,20 @@
 <hr />
 <div class="row">
     <div class="col">
-        <form action="Account/Register" method="post">
+        <form action="/Account/Register" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+                <label asp-for="FirstName" class="control-label">First Name</label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <label asp-for="LastName" class="control-label">Last Name</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
+                <label asp-for="BirthDate" class="control-label">Birth Date</label>
                 <input asp-for="BirthDate" class="form-control" />
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
@@ -87,13 +88,13 @@
                 </select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ProfilPicture" class="control-label"></label>
+            @*<div class="form-group">
+                <label asp-for="ProfilPicture" class="control-label">Profil Picture</label>
                 <input asp-for="ProfilPicture" type="file" class="form-control" />
                 <span asp-validation-for="ProfilPicture" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
-                <label asp-for="HiringDate" class="control-label"></label>
+                <label asp-for="HiringDate" class="control-label">Hiring Date</label>
                 <input asp-for="HiringDate" class="form-control" />
                 <span asp-validation-for="HiringDate" class="text-danger"></span>
             </div>
@@ -103,12 +104,12 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
+                <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DepartmentCode" class="control-label"></label>
+                <label asp-for="DepartmentCode" class="control-label">Department</label>
                 <select asp-for="DepartmentCode" class="selectDepartment form-control">
                     
                 </select>
@@ -117,30 +118,18 @@
             </div>
 
             @*<div class="form-group">
-                <label asp-for="DepartmentCode" class="control-label"></label>
-                <select asp-for="DepartmentCode" class="form-control">
-                    <option value="">Select Department Code</option>
-                    @foreach (var departmentCode in ViewBag.DepartmentCodes)
-                    {
-                        <option value="@departmentCode">@departmentCode</option>
-                    }
-                </select>
-                <span asp-validation-for="DepartmentCode" class="text-danger"></span>
-            </div>*@
-
-            <div class="form-group">
-                <label asp-for="ManagerNik" class="control-label"></label>
+                <label asp-for="ManagerNik" class="control-label">Manager Nik</label>
                 <input asp-for="ManagerNik" class="form-control" />
                 <span asp-validation-for="ManagerNik" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" type="password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
+                <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
+                <input asp-for="ConfirmPassword" type="password" class="bx bx-hide form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <br />
@@ -154,4 +143,29 @@
 <div>
     <a href="Login">Back to Login</a>
 </div>
+
+@section Scripts{
+    <script>
+    const Token = '@Context.Session.GetString("JWToken")'
+        $.ajax({
+            url: "https://localhost:7293/api/departments",
+            headers:
+            {
+                "Authorization": "Bearer " + Token
+            }
+        }).done(function (result) {
+            // Assuming the API response contains a property named "totalEmployees"
+            let getDepartment = ""
+            $.each(result.data, (key, val) => {
+                console.log(result)
+                getDepartment += ` <option value="${val.guid}">${val.name} (${val.code})</option>`
+            })
+            $('.selectDepartment').html(getDepartment)
+        }).fail(function () {
+            $(".selectDepartment").text("Failed to fetch data");
+        });
+
+    </script>
+    }
+
 

@@ -9,7 +9,7 @@ using System.Data;
 
 namespace Client.Controllers;
 
-[Authorize(Roles = "employee, manager, admin")]
+[Authorize(Roles = "employee, anager, admin")]
 public class LeaveRequestController : Controller
 {
     private readonly ILeaveRequestRepository repository;
