@@ -152,7 +152,7 @@ public class LeaveRequestService
                 PhoneNumber = employee.PhoneNumber,
                 LeaveDays = leaveRequest.LeaveEnd - leaveRequest.LeaveStart,
                 Notes = leaveRequest.Notes,
-                Attachment = leaveRequest.Attachment,
+                Attachment = leaveRequest.AttachmentUrl,
                 Status = leaveRequest.Status
             }
         ).ToList();
@@ -173,7 +173,7 @@ public class LeaveRequestService
                 LeaveStart = lr.LeaveStart,
                 LeaveEnd = lr.LeaveEnd,
                 Notes = lr.Notes,
-                Attachment = lr.Attachment,
+                AttachmentUrl = lr.AttachmentUrl,
                 Status = lr.Status
             };
         return leaveRequests;

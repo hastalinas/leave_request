@@ -14,7 +14,7 @@ public class NewAccountDto
         {
             Guid = new Guid(),
             Password = accountDto.Password,
-            OTP = 111111,
+            Otp = 111111,
             IsUsed = accountDto.IsUsed,
             ExpiredTime = accountDto.ExpiredTime,
             CreatedDate = DateTime.Now,

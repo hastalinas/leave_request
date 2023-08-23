@@ -4,8 +4,10 @@ using Server.DTOs.Accounts;
 using Server.Utilities.Handler;
 using Client.Contracts;
 using System.Text;
+using Microsoft.Net.Http.Headers;
 using Server.Models;
 using NuGet.Protocol.Plugins;
+using ContentDispositionHeaderValue = System.Net.Http.Headers.ContentDispositionHeaderValue;
 
 namespace Client.Repositories;
 
@@ -13,13 +15,15 @@ public class AccountRepository : GeneralRepository<AccountDto, Guid>, IAccountRe
 {
     private readonly HttpClient _httpClient;
     private readonly string _request;
-    public AccountRepository(string request = "accounts/") : base(request)
+    private readonly IWebHostEnvironment _env;
+    public AccountRepository(IWebHostEnvironment env, string request = "accounts/") : base(request)
     {
         _httpClient = new HttpClient
         {
             BaseAddress = new Uri("https://localhost:7293/api/")
         };
         this._request = request;
+        _env = env;
     }
 
     public async Task<ResponseHandler<TokenDto>?> Login(LoginDto entity)
@@ -69,5 +73,39 @@ public class AccountRepository : GeneralRepository<AccountDto, Guid>, IAccountRe
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<ChangePasswordDto>>(apiResponse);
         }
         return entityVM;
+    }
+    
+    public async Task<bool> UploadAvatar(Guid accountId, IFormFile avatarFile)
+    {
+        if (avatarFile != null && avatarFile.Length > 0)
+        {
+            var uploadPath = Path.Combine(_env.WebRootPath, "avatars");
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(avatarFile.FileName);
+            var filePath = Path.Combine(uploadPath, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await avatarFile.CopyToAsync(stream);
+            }
+
+            var apiUrl = _request + accountId + "/upload-avatar"; // Sesuaikan dengan endpoint API Anda
+            var fileStreamContent = new StreamContent(new FileStream(filePath, FileMode.Open));
+            fileStreamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            {
+                Name = "avatar",
+                FileName = fileName
+            };
+
+            var multipartContent = new MultipartFormDataContent();
+            multipartContent.Add(fileStreamContent);
+
+            var response = await _httpClient.PostAsync(apiUrl, multipartContent);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

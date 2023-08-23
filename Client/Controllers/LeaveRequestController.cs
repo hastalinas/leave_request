@@ -60,7 +60,7 @@ public class LeaveRequestController : Controller
             LeaveStart = leaveRequest.LeaveStart,
             LeaveEnd = leaveRequest.LeaveEnd,
             Notes = leaveRequest.Notes,
-            Attachment = leaveRequest.Attachment
+            AttachmentUrl = leaveRequest.Attachment
         };
     
         var result = await _repository.Post(register);
