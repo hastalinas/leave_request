@@ -1,4 +1,3 @@
-﻿using Client.Contracts;
 using Newtonsoft.Json;
 using Server.DTOs.AccountRoles;
 using Server.DTOs.Accounts;
@@ -9,7 +8,7 @@ using System.Text;
 
 namespace Client.Repositories;
 
-public class AccountRoleRepository : GeneralRepository<AccountRole, Guid>, IAccountRoleRepository
+public class AccountRoleRepository : GeneralRepository<AccountRoleDto, Guid>, IAccountRoleRepository
 {
     private readonly HttpClient httpClient;
     private readonly string request;

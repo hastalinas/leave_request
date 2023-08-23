@@ -13,6 +13,6 @@ public class LeaveRequestDetailDto
     public string PhoneNumber { get; set; }
     public string? Notes { get; set; }
     public TimeSpan LeaveDays { get; set; }
-    public byte[]? Attachment { get; set; }
+    public string Attachment { get; set; }
     public Status Status { get; set; }
 }

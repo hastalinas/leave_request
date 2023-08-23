@@ -284,7 +284,7 @@ public class LeaveRequestController : ControllerBase
                 LeaveStart = registerLeaveDto.LeaveStart,
                 LeaveEnd = registerLeaveDto.LeaveEnd,
                 Notes = registerLeaveDto.Notes,
-                Attachment = registerLeaveDto.Attachment,
+                AttachmentUrl = registerLeaveDto.Attachment,
                 Status = registerLeaveDto.Status
             };
 

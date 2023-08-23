@@ -27,7 +27,7 @@ public class LeaveRequest : BaseTable
     public string? Notes { get; set; }
 
     [Column("attachment")]
-    public byte[]? Attachment { get; set; }
+    public string? AttachmentUrl { get; set; }
 
     public Status Status { get; set; }
     

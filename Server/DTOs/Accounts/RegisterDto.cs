@@ -8,7 +8,7 @@ public class RegisterDto
     public string? LastName { get; set; }
     public DateTime BirthDate { get; set; }
     public Gender Gender { get; set; }
-    public byte[]? ProfilPicture { get; set; }
+    public string? ProfilPictureUrl { get; set; }
     public DateTime HiringDate { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }

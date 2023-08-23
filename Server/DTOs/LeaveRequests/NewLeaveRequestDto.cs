@@ -10,7 +10,7 @@ public class NewLeaveRequestDto
     public DateTime LeaveStart { get; set; }
     public DateTime LeaveEnd { get; set; }
     public string? Notes { get; set; }
-    public byte[]? Attachment { get; set; }
+    public string? Attachment { get; set; }
     public Status Status { get; set; }
 
     public static implicit operator LeaveRequest(NewLeaveRequestDto newLeaveRequestDto)
@@ -23,7 +23,7 @@ public class NewLeaveRequestDto
             LeaveStart = newLeaveRequestDto.LeaveStart,
             LeaveEnd = newLeaveRequestDto.LeaveEnd,
             Notes = newLeaveRequestDto.Notes,
-            Attachment = newLeaveRequestDto.Attachment,
+            AttachmentUrl = newLeaveRequestDto.Attachment,
             Status = newLeaveRequestDto.Status,
             CreatedDate = DateTime.Now,
             ModifiedDate = DateTime.Now
@@ -39,7 +39,7 @@ public class NewLeaveRequestDto
             LeaveStart = leaveRequest.LeaveStart,
             LeaveEnd = leaveRequest.LeaveEnd,
             Notes = leaveRequest.Notes,
-            Attachment = leaveRequest.Attachment,
+            Attachment = leaveRequest.AttachmentUrl,
             Status = leaveRequest.Status
         };
     }

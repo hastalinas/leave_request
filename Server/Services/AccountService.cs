@@ -188,7 +188,7 @@ public class AccountService
                 _accountRepository.Clear();
                 var account = _accountRepository.Create(new AccountDto {
                     Guid = employeeGuid, // Gunakan employeeGuid
-                    ProfilPicture = new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10 },
+                    ProfilPictureUrl = null,
                     IsUsed = true,
                     Password = HashingHandler.GenerateHash(registerDto.Password),
                     ExpiredTime = null
@@ -235,7 +235,7 @@ public class AccountService
             }
 
             var getAccount = _accountRepository.GetByGuid(isExist.Guid);
-            if (getAccount.OTP != changePasswordDto.OTP)
+            if (getAccount.Otp != changePasswordDto.OTP)
             {
                 return 0;
             }
@@ -256,7 +256,7 @@ public class AccountService
                 IsUsed = true,
                 ModifiedDate = DateTime.Now,
                 CreatedDate = getAccount.CreatedDate,
-                OTP = getAccount.OTP,
+                Otp = getAccount.Otp,
                 ExpiredTime = getAccount.ExpiredTime,
                 Password = HashingHandler.GenerateHash(changePasswordDto.NewPassword)
             };
@@ -288,7 +288,7 @@ public class AccountService
                 Guid = getAccountDetail.Guid,
                 Password = HashingHandler.GenerateHash(getAccountDetail.Password),
                 ExpiredTime = DateTime.Now.AddMinutes(5),
-                OTP = otp,
+                Otp = otp,
                 IsUsed = false,
                 CreatedDate = getAccountDetail.CreatedDate,
                 ModifiedDate = DateTime.Now

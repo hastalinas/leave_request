@@ -1,6 +1,5 @@
 ﻿using Client.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,20 +8,12 @@ namespace Client.Controllers;
 
 public class DashboardController : Controller
 {
-    private readonly ILogger<DashboardController> _logger;
-
-    public DashboardController(ILogger<DashboardController> logger)
+    public DashboardController()
     {
-        _logger = logger;
     }
 
     [AllowAnonymous]
     public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
     {
         return View();
     }

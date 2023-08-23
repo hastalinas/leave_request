@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.Models.AccountRole>
+﻿@model List<Server.DTOs.AccountRoles.AccountRoleDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AccountGuid)
+                @Html.DisplayNameFor(model => model[0].AccountGuid)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RoleGuid)
+                @Html.DisplayNameFor(model => model[0].RoleGuid)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Guid)
+                @Html.DisplayNameFor(model => model[0].Guid)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedDate)

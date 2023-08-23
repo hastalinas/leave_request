@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.Models.LeaveRequest>
+﻿@model List<Server.DTOs.LeaveRequests.LeaveRequestDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,19 +19,22 @@
                 @Html.DisplayNameFor(model => model.EmployeeGuid)
             </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.LeaveType)
+                @Html.DisplayNameFor(model => model[0].LeaveType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LeaveStart)
+                @Html.DisplayNameFor(model => model[0].LeaveStart)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LeaveEnd)
+                @Html.DisplayNameFor(model => model[0].LeaveEnd)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Notes)
+                @Html.DisplayNameFor(model => model[0].Notes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Attachment)
+                @Html.DisplayNameFor(model => model[0].AttachmentUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Status)
             </th>
           @*  <th>
                 @Html.DisplayNameFor(model => model.Guid)
@@ -64,7 +67,10 @@
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Attachment)
+                @Html.DisplayFor(modelItem => item.AttachmentUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             @*<td>
                 @Html.DisplayFor(modelItem => item.Guid)
@@ -77,6 +83,10 @@
             </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                <form action="/LeaveRequest/Send" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin mengajukan cuti?')">
+                    <input type="hidden" value="@item.Guid" name="guid" />
+                    <button value="" class="fas fa-trash text-danger" onclick="return true"></button>
+                </form>
                 <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
                     <input type="hidden" value="@item.Guid" name="guid" />
                     <button value="" class="fas fa-trash text-danger" onclick="return true"></button>

@@ -8,6 +8,6 @@ public class RegisterLeaveDto
     public DateTime LeaveStart { get; set; }
     public DateTime LeaveEnd { get; set; }
     public string? Notes { get; set; }
-    public byte[]? Attachment { get; set; }
+    public string? Attachment { get; set; }
     public Status Status { get; set; }
 }
