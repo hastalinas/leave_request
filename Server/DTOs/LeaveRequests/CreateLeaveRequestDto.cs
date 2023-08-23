@@ -9,5 +9,5 @@ public class CreateLeaveRequestDto
     public DateTime LeaveStart { get; set; }
     public DateTime LeaveEnd { get; set; }
     public string? Notes { get; set; }
-    public byte[]? Attachment { get; set; }
+    public string? AttachmentUrl { get; set; }
 }

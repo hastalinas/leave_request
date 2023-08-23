@@ -13,13 +13,13 @@ public class Account : BaseTable
     public Guid Guid { get; set; }
     
     [Column("profil_picture")] 
-    public byte[]? ProfilPicture { get; set; }
+    public string? ProfilPictureUrl { get; set; }
     
     [Column("password")]
     public string Password { get; set; }
     
     [Column("otp")]
-    public int OTP { get; set; }
+    public int Otp { get; set; }
     
     [Column("is_used")]
     public bool IsUsed { get; set; }

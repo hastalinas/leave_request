@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.Models.Feedback>
+﻿@model List<Server.DTOs.Feedbacks.FeedbackDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -17,13 +17,13 @@
         <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LeaveRequestGuid)
+                @Html.DisplayNameFor(model => model[0].LeaveRequestGuid)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Notes)
+                @Html.DisplayNameFor(model => model[0].Notes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Guid)
+                @Html.DisplayNameFor(model => model[0].Guid)
             </th>
             @*<th>
                 @Html.DisplayNameFor(model => model.CreatedDate)

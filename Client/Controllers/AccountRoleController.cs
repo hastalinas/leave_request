@@ -6,6 +6,7 @@ using Server.DTOs.AccountRoles;
 using Server.DTOs.Departments;
 using Server.Models;
 using System.Data;
+using Server.Utilities.Handler;
 
 namespace Client.Controllers;
 
@@ -14,24 +15,24 @@ namespace Client.Controllers;
 
 public class AccountRoleController : Controller
 {
-    private readonly IAccountRoleRepository repository;
+    private readonly IAccountRoleRepository _repository;
   
     public AccountRoleController(IAccountRoleRepository repository)
     {
-        this.repository = repository;
+        this._repository = repository;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var result = await repository.Get();
-        var ListAccountRole = new List<AccountRole>();
+        var result = await _repository.Get();
+        var listAccountRole = new List<AccountRoleDto>();
 
         if (result.Data != null)
         {
-            ListAccountRole = result.Data.ToList();
+            listAccountRole = result.Data.ToList();
         }
-        return View(ListAccountRole);
+        return View(listAccountRole);
     }
 
     [HttpGet]
@@ -41,9 +42,9 @@ public class AccountRoleController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(AccountRole accountRole)
+    public async Task<IActionResult> Create(AccountRoleDto accountRole)
     {
-        var result = await repository.Post(accountRole);
+        var result = await _repository.Post(accountRole);
 
         if (result.Code == 200)
         {
@@ -55,20 +56,20 @@ public class AccountRoleController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
-        var result = await repository.Get(id);
-        var ListAccountRole = new AccountRoleDto();
+        var result = await _repository.Get(id);
+        var listAccountRole = new AccountRoleDto();
 
         if (result.Data != null)
         {
-            ListAccountRole = (AccountRoleDto)result.Data;
+            listAccountRole = (AccountRoleDto)result.Data;
         }
-        return View(ListAccountRole);
+        return View(listAccountRole);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(AccountRole accountRole)
+    public async Task<IActionResult> Update(AccountRoleDto accountRole)
     {
-        var result = await repository.Put(accountRole.Guid, accountRole);
+        var result = await _repository.Put(accountRole.Guid, accountRole);
 
         if (result.Code == 200)
         {
@@ -81,7 +82,7 @@ public class AccountRoleController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
-        var result = await repository.Delete(guid);
+        var result = await _repository.Delete(guid);
 
         if (result.Code == 200)
         {

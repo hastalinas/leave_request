@@ -26,9 +26,9 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", contextAccessor.HttpContext?.Session.GetString("JWToken"));
     }
 
-    public async Task<ResponseHandler<Entity>> Delete(TId id)
+    public async Task<ResponseHandler<Entity>?> Delete(TId id)
     {
-        ResponseHandler<Entity> entityVM = null;
+        ResponseHandler<Entity>? entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
 
         using (var response = httpClient.DeleteAsync(request + "?guid=" + id).Result)
@@ -39,9 +39,9 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
         return entityVM;
     }
 
-    public async Task<ResponseHandler<IEnumerable<Entity>>> Get()
+    public async Task<ResponseHandler<IEnumerable<Entity>>?> Get()
     {
-        ResponseHandler<IEnumerable<Entity>> entityVM = null;
+        ResponseHandler<IEnumerable<Entity>>? entityVM = null;
         using (var response = await httpClient.GetAsync(request))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
@@ -50,9 +50,9 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
         return entityVM;
     }
 
-    public async Task<ResponseHandler<Entity>> Get(TId id)
+    public async Task<ResponseHandler<Entity>?> Get(TId id)
     {
-        ResponseHandler<Entity> entity = null;
+        ResponseHandler<Entity>? entity = null;
 
         using (var response = await httpClient.GetAsync(request + id))
         {
@@ -62,9 +62,9 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
         return entity;
     }
 
-    public async Task<ResponseHandler<Entity>> Post(Entity entity)
+    public async Task<ResponseHandler<Entity>?> Post(Entity entity)
     {
-        ResponseHandler<Entity> entityVM = null;
+        ResponseHandler<Entity>? entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
         using (var response = httpClient.PostAsync(request, content).Result)
         {
@@ -74,9 +74,9 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
         return entityVM;
     }
 
-    public async Task<ResponseHandler<Entity>> Put(TId id, Entity entity)
+    public async Task<ResponseHandler<Entity>?> Put(TId id, Entity entity)
     {
-        ResponseHandler<Entity> entityVM = null;
+        ResponseHandler<Entity>? entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
         using (var response = httpClient.PutAsync(request, content).Result)
         {

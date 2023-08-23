@@ -5,28 +5,29 @@ using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Employees;
 using Server.Models;
 using System.Data;
+using Server.Utilities.Handler;
 
 namespace Client.Controllers;
 [Authorize(Roles = "employee,manager, admin")]
 public class EmployeeController : Controller
 {
-    private readonly IEmployeeRepository repository;
+    private readonly IEmployeeRepository _repository;
 
     public EmployeeController(IEmployeeRepository repository)
     {
-        this.repository = repository;
+        this._repository = repository;
     }
 
     public async Task<IActionResult> Index()
     {
-        var result = await repository.Get();
-        var ListEmployee = new List<Employee>();
+        var result = await _repository.Get();
+        var listEmployee = new List<EmployeeDto>();
 
         if (result.Data != null)
         {
-            ListEmployee = result.Data.ToList();
+            listEmployee = result.Data.ToList();
         }
-        return View(ListEmployee);
+        return View(listEmployee);
     }
 
     [HttpGet]
@@ -36,9 +37,9 @@ public class EmployeeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Employee employee)
+    public async Task<IActionResult> Create(EmployeeDto employee)
     {
-        var result = await repository.Post(employee);
+        var result = await _repository.Post(employee);
 
         if (result.Code == 200)
         {
@@ -50,20 +51,20 @@ public class EmployeeController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
-        var result = await repository.Get(id);
-        var ListEmployee = new EmployeeDto();
+        var result = await _repository.Get(id);
+        var listEmployee = new EmployeeDto();
 
         if (result.Data != null)
         {
-            ListEmployee = (EmployeeDto)result.Data;
+            listEmployee = (EmployeeDto)result.Data;
         }
-        return View(ListEmployee);
+        return View(listEmployee);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(Employee employee)
+    public async Task<IActionResult> Update(EmployeeDto employee)
     {
-        var result = await repository.Put(employee.Guid, employee);
+        var result = await _repository.Put(employee.Guid, employee);
 
         if (result.Code == 200)
         {
@@ -76,7 +77,7 @@ public class EmployeeController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
-        var result = await repository.Delete(guid);
+        var result = await _repository.Delete(guid);
 
         if (result.Code == 200)
         {

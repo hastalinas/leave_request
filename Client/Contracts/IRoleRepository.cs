@@ -1,7 +1,8 @@
-﻿using Server.Models;
+﻿using Server.DTOs.Roles;
+using Server.Models;
 
 namespace Client.Contracts;
 
-public interface IRoleRepository : IRepository<Role, Guid>
+public interface IRoleRepository : IRepository<RoleDto, Guid>
 {
 }

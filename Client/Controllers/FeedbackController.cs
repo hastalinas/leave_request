@@ -8,6 +8,7 @@ using Server.DTOs.Roles;
 using Server.Models;
 using System.Data;
 using System.Diagnostics;
+using Server.Utilities.Handler;
 
 namespace Client.Controllers;
 
@@ -16,23 +17,23 @@ namespace Client.Controllers;
 
 public class FeedbackController : Controller
 {
-    private readonly IFeedbackRepository repository;
+    private readonly IFeedbackRepository _repository;
 
     public FeedbackController(IFeedbackRepository repository)
     {
-        this.repository = repository;
+        this._repository = repository;
     }
 
     public async Task<IActionResult> Index()
     {
-        var result = await repository.Get();
-        var ListFeedback = new List<Feedback>();
+        var result = await _repository.Get();
+        var listFeedback = new List<FeedbackDto>();
 
         if (result.Data != null)
         {
-            ListFeedback = result.Data.ToList();
+            listFeedback = result.Data.ToList();
         }
-        return View(ListFeedback);
+        return View(listFeedback);
     }
 
     [HttpGet]
@@ -42,9 +43,9 @@ public class FeedbackController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Feedback feedback)
+    public async Task<IActionResult> Create(FeedbackDto feedback)
     {
-        var result = await repository.Post(feedback);
+        var result = await _repository.Post(feedback);
 
         if (result.Code == 200)
         {
@@ -56,7 +57,7 @@ public class FeedbackController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
-        var result = await repository.Get(id);
+        var result = await _repository.Get(id);
         var ListFeedback = new FeedbackDto();
 
         if (result.Data != null)
@@ -67,9 +68,9 @@ public class FeedbackController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(Feedback feedback)
+    public async Task<IActionResult> Update(FeedbackDto feedback)
     {
-        var result = await repository.Put(feedback.Guid, feedback);
+        var result = await _repository.Put(feedback.Guid, feedback);
 
         if (result.Code == 200)
         {
@@ -82,7 +83,7 @@ public class FeedbackController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
-        var result = await repository.Delete(guid);
+        var result = await _repository.Delete(guid);
 
         if (result.Code == 200)
         {
