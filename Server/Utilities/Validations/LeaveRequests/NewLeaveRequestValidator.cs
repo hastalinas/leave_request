@@ -13,7 +13,6 @@ namespace Server.Utilities.Validations.LeaveRequests
             RuleFor(dto => dto.LeaveEnd).NotEmpty().WithMessage("Tanggal Selesai Cuti harus diisi.")
                 .GreaterThanOrEqualTo(dto => dto.LeaveStart).WithMessage("Tanggal Selesai Cuti harus setelah Tanggal Mulai Cuti.");
             RuleFor(dto => dto.Notes).MaximumLength(200).WithMessage("Catatan tidak boleh lebih dari 200 karakter.");
-            RuleFor(dto => dto.Attachment).NotEmpty().WithMessage("Lampiran harus diisi.");
         }
     }
 }

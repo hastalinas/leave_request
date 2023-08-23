@@ -11,7 +11,7 @@ using Server.Models;
 using System.Diagnostics;
 
 namespace Client.Controllers;
-[Authorize(Roles = "admin")]
+[AllowAnonymous]
 
 public class AccountController : Controller
 {
@@ -184,18 +184,19 @@ public class AccountController : Controller
             else if (result.Code == 404)
             {
                 ModelState.AddModelError(string.Empty, result.Message);
-                TempData["Error"] = $"User not found! - {result.Message}!";
+                TempData["Error"] = $"{result.Message}!";
                 return View();
             }
             else if (result.Code == 200)
             {
-                TempData["Success"] = $"Password reset link has been sent to your email! - {result.Message}!";
-                return RedirectToAction("Login", "Account");
+                TempData["Success"] = $"{result.Message}!";
+
+                return RedirectToAction("ChangePassword", "Account");
             }
         }
         return View(forgotPassword); 
     }
-
+    
     [HttpGet]
     [AllowAnonymous]
     public IActionResult ChangePassword()
@@ -230,7 +231,8 @@ public class AccountController : Controller
             else if (result.Code == 200)
             {
                 TempData["Success"] = $"Password has been successfully changed! - {result.Message}!";
-                return RedirectToAction("Login", "Account");
+                await Task.Delay(3000);
+                return View("Login");
             }
         }
         return View(changePassword);

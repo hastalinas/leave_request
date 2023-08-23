@@ -157,7 +157,7 @@ public class LeaveRequestController : ControllerBase
         });
     }
 
-    [HttpGet("leave-detail")]
+    [HttpGet("detail")]
     [Authorize(Roles = "employee")]
     public IActionResult RequestInformation()
     {
@@ -187,7 +187,7 @@ public class LeaveRequestController : ControllerBase
         );
     }
     
-    [HttpPost("leave-request")]
+    [HttpPost("request")]
     [Authorize(Roles = "employee")]
     public IActionResult RegisterLeave(RegisterLeaveDto registerLeaveDto)
     {
@@ -232,7 +232,7 @@ public class LeaveRequestController : ControllerBase
         );
     }
     
-    [HttpGet("leave-request")]
+    [HttpGet("request")]
     [Authorize(Roles = "employee")]
     public IActionResult LeaveRequestDetail()
     {
@@ -262,7 +262,7 @@ public class LeaveRequestController : ControllerBase
         );
     }
     
-    [HttpPut("leave-request")]
+    [HttpPut("request")]
     [Authorize(Roles = "employee")]
     public IActionResult UpdateLeaveRequest(RegisterLeaveDto registerLeaveDto)
     {
