@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Server.Contracts;
 using Server.DTOs.AccountRoles;
+using Server.Repositories;
 
 namespace Server.Utilities.Validations.AccountRoles;
 
@@ -15,6 +16,16 @@ public class NewAccountRoleDtoValidator : AbstractValidator<NewAccountRoleDto>
             .NotEmpty().WithMessage("Account GUID is required");
 
         RuleFor(dto => dto.RoleGuid)
-            .NotEmpty().WithMessage("Role GUID is required");
+            .NotEmpty().WithMessage("Role GUID is required")
+            .Must((dto, roleGuid) => IsDuplicate(dto.AccountGuid, roleGuid));
     }
+
+    private bool IsDuplicate(Guid accountGuid, Guid roleGuid)
+    {
+        return _accountRoleRepository.IsRoleDuplicate(accountGuid, roleGuid);
+
+    }
+
+
+    
 }

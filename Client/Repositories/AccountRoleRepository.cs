@@ -33,6 +33,7 @@ public class AccountRoleRepository : GeneralRepository<AccountRoleDto, Guid>, IA
         return entityVM;
     }
 
+
     //method baru delete account role - linq
-    // public async Task<ResponseHandler<AccountRoleDto>> Delete
+    //public async Task<ResponseHandler<AccountRoleDto>> Delete
 }

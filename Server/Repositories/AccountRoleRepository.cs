@@ -20,4 +20,24 @@ public class AccountRoleRepository : GeneralRepository<AccountRole>, IAccountRol
 
         return result;
     }
+
+    public bool IsRoleDuplicate(Guid accountGuid, Guid roleGuid)
+    {
+        var accountRole = (
+        from acc in _context.Accounts
+        join accRole in _context.AccountRoles on acc.Guid equals accRole.AccountGuid
+        join role in _context.Roles on accRole.RoleGuid equals role.Guid
+        where acc.Guid == accountGuid && role.Guid == roleGuid
+        select new
+        {
+            Guid = acc.Guid,
+            Name = role.Guid,
+        });
+        if (accountRole is null)
+        {
+            return true;
+        }
+        return false;
+
+    }
 }
