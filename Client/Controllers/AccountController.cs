@@ -190,7 +190,7 @@ public class AccountController : Controller
             else if (result.Code == 200)
             {
                 TempData["Success"] = $"Password reset link has been sent to your email! - {result.Message}!";
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("ChangePassword", "Account");
             }
         }
         return View(forgotPassword); 
