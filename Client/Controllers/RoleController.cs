@@ -7,6 +7,7 @@ using Server.DTOs.Roles;
 using Server.Models;
 using System.Data;
 using System.Diagnostics;
+using Server.Utilities.Handler;
 
 namespace Client.Controllers;
 
@@ -14,17 +15,17 @@ namespace Client.Controllers;
 
 public class RoleController : Controller
 {
-    private readonly IRoleRepository repository;
+    private readonly IRoleRepository _repository;
 
     public RoleController(IRoleRepository repository)
     {
-        this.repository = repository;
+        this._repository = repository;
     }
 
     public async Task<IActionResult> Index()
     {
-        var result = await repository.Get();
-        var ListRole = new List<Role>();
+        var result = await _repository.Get();
+        var ListRole = new List<RoleDto>();
 
         if (result.Data != null)
         {
@@ -40,9 +41,9 @@ public class RoleController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Role role)
+    public async Task<IActionResult> Create(RoleDto role)
     {
-        var result = await repository.Post(role);
+        var result = await _repository.Post(role);
 
         if (result.Code == 200)
         {
@@ -54,20 +55,20 @@ public class RoleController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
-        var result = await repository.Get(id);
-        var ListRole = new RoleDto();
+        var result = await _repository.Get(id);
+        var listRole = new RoleDto();
 
         if (result.Data != null)
         {
-            ListRole = (RoleDto)result.Data;
+            listRole = result.Data;
         }
-        return View(ListRole);
+        return View(listRole);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(Role role)
+    public async Task<IActionResult> Update(RoleDto role)
     {
-        var result = await repository.Put(role.Guid, role);
+        var result = await _repository.Put(role.Guid, role);
 
         if (result.Code == 200)
         {
@@ -80,7 +81,7 @@ public class RoleController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
-        var result = await repository.Delete(guid);
+        var result = await _repository.Delete(guid);
 
         if (result.Code == 200)
         {

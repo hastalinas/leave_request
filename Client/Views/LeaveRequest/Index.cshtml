@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.Models.LeaveRequest>
+﻿@model List<Server.DTOs.LeaveRequests.LeaveRequestDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,19 +19,19 @@
                 @Html.DisplayNameFor(model => model.EmployeeGuid)
             </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.LeaveType)
+                @Html.DisplayNameFor(model => model[0].LeaveType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LeaveStart)
+                @Html.DisplayNameFor(model => model[0].LeaveStart)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LeaveEnd)
+                @Html.DisplayNameFor(model => model[0].LeaveEnd)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Notes)
+                @Html.DisplayNameFor(model => model[0].Notes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Attachment)
+                @Html.DisplayNameFor(model => model[0].Attachment)
             </th>
           @*  <th>
                 @Html.DisplayNameFor(model => model.Guid)

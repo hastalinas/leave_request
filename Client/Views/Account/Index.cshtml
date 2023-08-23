@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.Models.Account>
+﻿@model List<Server.DTOs.Accounts.AccountDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,38 +8,22 @@
 
 <div class="card">
     <h1 class="card-header">Data Account</h1>
-    <p>
-        @*<a class="btn btn-primary" href="/Account/Create">Add Account <i class="fa-solid fa-plus"></i></a>
-         <a asp-action="Create">Create New</a>*@
-    </p>
     <div class="table-responsive text-nowrap">
         <table class="table table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Guid)
+                @Html.DisplayNameFor(model => model[0].Guid)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProfilPicture)
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.OTP)
+                @Html.DisplayNameFor(model => model[0].ProfilPicture)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsUsed)
+                @Html.DisplayNameFor(model => model[0].IsUsed)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExpiredTime)
+                @Html.DisplayNameFor(model => model[0].ExpiredTime)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>*@
             <th>Action</th>
         </tr>
     </thead>
@@ -52,24 +36,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ProfilPicture)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.OTP)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsUsed)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ExpiredTime)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
-            </td>*@
             <td>
                     <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
                     <form action="/Account/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">

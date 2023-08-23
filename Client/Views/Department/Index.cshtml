@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.Models.Department>
+﻿@model List<Server.DTOs.Departments.DepartmentDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,10 +19,10 @@
                 No.
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Code)
+                @Html.DisplayNameFor(model => model[0].Code)
             </th>
             @*<th>
                 @Html.DisplayNameFor(model => model.Guid)

@@ -6,6 +6,9 @@ using Server.DTOs.Departments;
 using Server.DTOs.LeaveRequests;
 using Server.Models;
 using System.Data;
+using System.Security.Claims;
+using Server.DTOs.Employees;
+using Server.Utilities.Handler;
 
 namespace Client.Controllers;
 
@@ -21,7 +24,7 @@ public class LeaveRequestController : Controller
     public async Task<IActionResult> Index()
     {
         var result = await repository.Get();
-        var ListRequest = new List<LeaveRequest>();
+        var ListRequest = new List<LeaveRequestDto>();
 
         if (result.Data != null)
         {
@@ -37,9 +40,29 @@ public class LeaveRequestController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(LeaveRequest leaveRequest)
+    public async Task<IActionResult> Create(RegisterLeaveDto leaveRequest)
     {
-        var result = await repository.Post(leaveRequest);
+        // Mendapatkan klaim-klaim dari pengguna yang terautentikasi
+        var userClaims = User.Claims;
+
+        var enumerable = userClaims.ToList();
+        var guidClaim = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
+    
+        // Dapatkan peran (role) pengguna dari klaim tipe "Role"
+        var roles = enumerable.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+
+        var register = new LeaveRequestDto()
+        {
+            Guid = new Guid(),
+            EmployeeGuid = Guid.Parse(guidClaim),
+            LeaveType = leaveRequest.LeaveType,
+            LeaveStart = leaveRequest.LeaveStart,
+            LeaveEnd = leaveRequest.LeaveEnd,
+            Notes = leaveRequest.Notes,
+            Attachment = leaveRequest.Attachment
+        };
+    
+        var result = await repository.Post(register);
 
         if (result.Code == 200)
         {
@@ -62,18 +85,18 @@ public class LeaveRequestController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(LeaveRequest leave)
+    public async Task<IActionResult> Update(LeaveRequestDto leave)
     {
         var result = await repository.Put(leave.Guid, leave);
 
         if (result.Code == 200)
         {
             TempData["Success"] = $"Data has been Successfully Updated! - {result.Message}!";
-            return RedirectToAction("Index", "LeaveRequests");
+            return RedirectToAction("Index", "LeaveRequest");
         }
         return RedirectToAction(nameof(Edit));
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
@@ -88,6 +111,6 @@ public class LeaveRequestController : Controller
             TempData["Error"] = $"Failed to Delete Data - {result.Message}!";
         }
 
-        return RedirectToAction("Index", "LeaveRequests");
+        return RedirectToAction("Index", "LeaveRequest");
     }
 }

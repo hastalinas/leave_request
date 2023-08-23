@@ -1,7 +1,8 @@
-﻿using Server.Models;
+﻿using Server.DTOs.Feedbacks;
+using Server.Models;
 
 namespace Client.Contracts;
 
-public interface IFeedbackRepository : IRepository<Feedback, Guid>
+public interface IFeedbackRepository : IRepository<FeedbackDto, Guid>
 {
 }

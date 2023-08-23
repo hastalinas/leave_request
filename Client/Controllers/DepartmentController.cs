@@ -8,6 +8,7 @@ using Server.DTOs.Departments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using System.Data;
+using Server.Utilities.Handler;
 
 namespace Client.Controllers;
 
@@ -15,24 +16,23 @@ namespace Client.Controllers;
 
 public class DepartmentController : Controller
 {
-    private readonly IDepartmentRepository repository;
+    private readonly IDepartmentRepository _repository;
 
     public DepartmentController(IDepartmentRepository repository)
     {
-        this.repository = repository;
+        this._repository = repository;
     }
-
 
     public async Task<IActionResult> Index()
     {
-        var result = await repository.Get();
-        var ListDepartment = new List<Department>();
+        var result = await _repository.Get();
+        var listDepartment = new List<DepartmentDto>();
 
         if (result.Data != null)
         {
-            ListDepartment = result.Data.ToList();
+            listDepartment = result.Data.ToList();
         }
-        return View(ListDepartment);
+        return View(listDepartment);
     }
 
     [HttpGet]
@@ -42,9 +42,9 @@ public class DepartmentController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Department department)
+    public async Task<IActionResult> Create(DepartmentDto department)
     {
-        var result = await repository.Post(department);
+        var result = await _repository.Post(department);
 
         if (result.Code == 200)
         {
@@ -56,20 +56,20 @@ public class DepartmentController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
-        var result = await repository.Get(id);
-        var ListDepartment = new DepartmentDto();
+        var result = await _repository.Get(id);
+        var listDepartment = new DepartmentDto();
 
         if (result.Data != null)
         {
-            ListDepartment = (DepartmentDto)result.Data;
+            listDepartment = (DepartmentDto)result.Data;
         }
-        return View(ListDepartment);
+        return View(listDepartment);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(Department department)
+    public async Task<IActionResult> Update(DepartmentDto department)
     {
-        var result = await repository.Put(department.Guid, department);
+        var result = await _repository.Put(department.Guid, department);
 
         if (result.Code == 200)
         {
@@ -82,7 +82,7 @@ public class DepartmentController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
-        var result = await repository.Delete(guid);
+        var result = await _repository.Delete(guid);
 
         if (result.Code == 200)
         {

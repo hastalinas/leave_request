@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.Models.Employee>
+﻿@model List<Server.DTOs.Employees.EmployeeDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -20,37 +20,37 @@
                 No.
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nik)
+                @Html.DisplayNameFor(model => model[0].Nik)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model[0].FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model[0].LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                @Html.DisplayNameFor(model => model[0].BirthDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Gender)
+                @Html.DisplayNameFor(model => model[0].Gender)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HiringDate)
+                @Html.DisplayNameFor(model => model[0].HiringDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model[0].Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                @Html.DisplayNameFor(model => model[0].PhoneNumber)
             </th>
             @*<th>
                 @Html.DisplayNameFor(model => model.DepartmentGuid)
             </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.ManagerGuid)
+                @Html.DisplayNameFor(model => model[0].ManagerGuid)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LeaveRemain)
+                @Html.DisplayNameFor(model => model[0].LeaveRemain)
             </th>
             @*<th>
                 @Html.DisplayNameFor(model => model.Guid)

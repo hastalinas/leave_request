@@ -1,7 +1,8 @@
-﻿using Server.Models;
+﻿using Server.DTOs.LeaveRequests;
+using Server.Models;
 
 namespace Client.Contracts;
 
-public interface ILeaveRequestRepository : IRepository<LeaveRequest, Guid>
+public interface ILeaveRequestRepository : IRepository<LeaveRequestDto, Guid>
 {
 }

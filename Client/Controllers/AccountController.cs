@@ -9,6 +9,7 @@ using Server.DTOs.Accounts;
 using Server.DTOs.Departments;
 using Server.Models;
 using System.Diagnostics;
+using Server.Utilities.Handler;
 
 namespace Client.Controllers;
 [AllowAnonymous]
@@ -26,7 +27,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Index()
     {
         var result = await _repository.Get();
-        var ListAccount = new List<Account>();
+        var ListAccount = new List<AccountDto>();
 
         if (result.Data != null)
         {
@@ -42,7 +43,7 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Account account)
+    public async Task<IActionResult> Create(AccountDto account)
     {
         var result = await _repository.Post(account);
 
@@ -57,17 +58,17 @@ public class AccountController : Controller
     public async Task<IActionResult> Edit(Guid id)
     {
         var result = await _repository.Get(id);
-        var ListAccount = new AccountDto();
+        var listAccount = new AccountDto();
 
         if (result.Data != null)
         {
-            ListAccount = (AccountDto)result.Data;
+            listAccount = (AccountDto)result.Data;
         }
-        return View(ListAccount);
+        return View(listAccount);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(Account account)
+    public async Task<IActionResult> Update(AccountDto account)
     {
         var result = await _repository.Put(account.Guid, account);
 
@@ -95,12 +96,7 @@ public class AccountController : Controller
 
         return RedirectToAction("Index", "Account");
     }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
+    
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> Login()
