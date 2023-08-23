@@ -75,13 +75,13 @@ public class LeaveRequestController : Controller
     public async Task<IActionResult> Edit(Guid id)
     {
         var result = await repository.Get(id);
-        var ListRequest = new LeaveRequestDto();
+        var listRequest = new LeaveRequestDto();
 
         if (result.Data != null)
         {
-            ListRequest = (LeaveRequestDto)result.Data;
+            listRequest = (LeaveRequestDto)result.Data;
         }
-        return View(ListRequest);
+        return View(listRequest);
     }
 
     [HttpPost]

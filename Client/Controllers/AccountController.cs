@@ -27,13 +27,13 @@ public class AccountController : Controller
     public async Task<IActionResult> Index()
     {
         var result = await _repository.Get();
-        var ListAccount = new List<AccountDto>();
+        var listAccount = new List<AccountDto>();
 
         if (result.Data != null)
         {
-            ListAccount = result.Data.ToList();
+            listAccount = result.Data.ToList();
         }
-        return View(ListAccount);
+        return View(listAccount);
     }
 
     [HttpGet]

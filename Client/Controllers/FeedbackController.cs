@@ -27,13 +27,13 @@ public class FeedbackController : Controller
     public async Task<IActionResult> Index()
     {
         var result = await _repository.Get();
-        var ListFeedback = new List<FeedbackDto>();
+        var listFeedback = new List<FeedbackDto>();
 
         if (result.Data != null)
         {
-            ListFeedback = result.Data.ToList();
+            listFeedback = result.Data.ToList();
         }
-        return View(ListFeedback);
+        return View(listFeedback);
     }
 
     [HttpGet]

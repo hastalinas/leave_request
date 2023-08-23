@@ -25,13 +25,13 @@ public class RoleController : Controller
     public async Task<IActionResult> Index()
     {
         var result = await _repository.Get();
-        var ListRole = new List<RoleDto>();
+        var listRole = new List<RoleDto>();
 
         if (result.Data != null)
         {
-            ListRole = result.Data.ToList();
+            listRole = result.Data.ToList();
         }
-        return View(ListRole);
+        return View(listRole);
     }
 
     [HttpGet]
