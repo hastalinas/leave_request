@@ -37,7 +37,7 @@ public class AccountRoleController : Controller
     [HttpGet]
     public async Task<IActionResult> Info()
     {
-        var result = await repository.accountRoleInfo();
+        var result = await _repository.accountRoleInfo();
         var ListAccountRole = new List<AccountRoleInfoDto>();
 
         if (result.Data != null)
@@ -60,37 +60,11 @@ public class AccountRoleController : Controller
 
         if (result.Code == 200)
         {
-            RedirectToAction("Index");
+            RedirectToAction("Info");
         }
-        return RedirectToAction(nameof(Index));
+        return View();
     }
-
-    [HttpGet]
-    public async Task<IActionResult> Edit(Guid id)
-    {
-        var result = await _repository.Get(id);
-        var listAccountRole = new AccountRoleDto();
-
-        if (result.Data != null)
-        {
-            listAccountRole = (AccountRoleDto)result.Data;
-        }
-        return View(listAccountRole);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Update(AccountRoleDto accountRole)
-    {
-        var result = await _repository.Put(accountRole.Guid, accountRole);
-
-        if (result.Code == 200)
-        {
-            TempData["Success"] = $"Data has been Successfully Updated! - {result.Message}!";
-            return RedirectToAction("Index", "AccountRole");
-        }
-        return RedirectToAction(nameof(Edit));
-    }
-
+    
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
@@ -105,6 +79,6 @@ public class AccountRoleController : Controller
             TempData["Error"] = $"Failed to Delete Data - {result.Message}!";
         }
 
-        return RedirectToAction("Index", "AccountRole");
+        return RedirectToAction("Info", "AccountRole");
     }
 }

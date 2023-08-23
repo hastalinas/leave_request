@@ -5,6 +5,7 @@ using Server.Models;
 using Server.Utilities.Handler;
 using System.Net.Http;
 using System.Text;
+using Client.Contracts;
 
 namespace Client.Repositories;
 
@@ -33,4 +34,5 @@ public class AccountRoleRepository : GeneralRepository<AccountRoleDto, Guid>, IA
     }
 
     //method baru delete account role - linq
+    // public async Task<ResponseHandler<AccountRoleDto>> Delete
 }

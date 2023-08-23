@@ -1,5 +1,6 @@
 ﻿using Server.Contracts;
 using Server.DTOs.AccountRoles;
+using Server.DTOs.Roles;
 using Server.Models;
 
 namespace Server.Services;
@@ -96,24 +97,29 @@ public class AccountRoleService
     join role in _roleRepository.GetAll() on accRole.RoleGuid equals role.Guid
     select new 
     {
-        Guid = emp.Guid,
+        Guid = accRole.Guid,
+        EmpGuid = emp.Guid,
         Nik = emp.Nik,
         Name = $"{emp.FirstName} {emp.LastName}",
         Role = role.Name
     }
-).ToList();
+    ).ToList();
 
-var groupedData = accountRoleInfoList
-    .GroupBy(info => new { info.Guid, info.Nik })
-    .Select(group => new AccountRoleInfoDto
-    {
-        Guid = group.Key.Guid,
-        Nik = group.Key.Nik,
-        Name = group.First().Name,
-        Role = group.Select(info => info.Role).ToList()
-    })
-    .ToList();
+    var groupedData = accountRoleInfoList
+        .GroupBy(info => new { info.EmpGuid, info.Nik })
+        .Select(group => new AccountRoleInfoDto
+        {
+            Guid = group.Key.EmpGuid,
+            Nik = group.Key.Nik,
+            Name = group.First().Name,
+            Role = group.Select(info => new RoleDto()
+            {
+                Guid = info.Guid,
+                Name = info.Role
+            })
+        })
+        .ToList();
 
-    return groupedData;
+        return groupedData;
+        }
     }
-}
