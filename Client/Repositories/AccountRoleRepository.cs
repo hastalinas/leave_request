@@ -32,4 +32,6 @@ public class AccountRoleRepository : GeneralRepository<AccountRole, Guid>, IAcco
         }
         return entityVM;
     }
+
+    //method baru delete account role - linq
 }

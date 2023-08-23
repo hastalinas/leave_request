@@ -64,31 +64,6 @@ public class AccountRoleController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Edit(Guid id)
-    {
-        var result = await repository.Get(id);
-        var ListAccountRole = new AccountRoleDto();
-
-        if (result.Data != null)
-        {
-            ListAccountRole = (AccountRoleDto)result.Data;
-        }
-        return View(ListAccountRole);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Update(AccountRole accountRole)
-    {
-        var result = await repository.Put(accountRole.Guid, accountRole);
-
-        if (result.Code == 200)
-        {
-            TempData["Success"] = $"Data has been Successfully Updated! - {result.Message}!";
-            return RedirectToAction("Index", "AccountRole");
-        }
-        return RedirectToAction(nameof(Edit));
-    }
 
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
