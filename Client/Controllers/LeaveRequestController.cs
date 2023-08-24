@@ -135,7 +135,6 @@ public class LeaveRequestController : Controller
     }
 
     [HttpGet]
-
     public async Task<IActionResult> Detail()
     {
         var result = await _repository.Detail();
