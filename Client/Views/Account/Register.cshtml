@@ -135,12 +135,23 @@
             </div>*@
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
+                <div class="input-group">
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span class="input-group-text cursor-pointer password-toggle">
+                        <i class="bx bx-hide"></i>
+                    </span>
+                </div>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
-                <input asp-for="ConfirmPassword" type="password" class="bx bx-hide form-control" />
+                <div class="input-group">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                        <span class="input-group-text cursor-pointer password-toggle">
+                            <i class="bx bx-hide"></i>
+                        </span>
+                </div>
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <br />
@@ -174,6 +185,25 @@
             $('.selectDepartment').html(getDepartment)
         }).fail(function () {
             $(".selectDepartment").text("Failed to fetch data");
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const passwordToggles = document.querySelectorAll(".password-toggle");
+
+            if (passwordToggles) {
+                passwordToggles.forEach(toggle => {
+                    toggle.addEventListener("click", function () {
+                        const input = toggle.closest(".input-group").querySelector("input[type='password']");
+                        if (input.type === "password") {
+                            input.type = "text";
+                            toggle.innerHTML = '<i class="bx bx-show"></i>';
+                        } else {
+                            input.type = "password";
+                            toggle.innerHTML = '<i class="bx bx-hide"></i>';
+                        }
+                    });
+                });
+            }
         });
 
     </script>
