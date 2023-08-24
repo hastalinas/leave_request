@@ -82,15 +82,21 @@
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>*@
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                <div class="table-actions" style="display: flex;">
+                    <form>
+                      <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                    </form>
+                
                 <form action="/LeaveRequest/Send" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin mengajukan cuti?')">
                     <input type="hidden" value="@item.Guid" name="guid" />
-                    <button value="" class="fa-regular fa-paper-plane text-success" onclick="return true"></button>
+                    <button value="" style="background: none; border: none;" class="fa-regular fa-paper-plane text-success" onclick="return true"></button>
                 </form>
                 <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
                     <input type="hidden" value="@item.Guid" name="guid" />
-                    <button value="" class="fas fa-trash text-danger" onclick="return true"></button>
+                    <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
                 </form>
+                </div>
+                           
             </td>
         </tr>
 }

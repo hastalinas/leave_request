@@ -59,9 +59,8 @@
                                     <div style="display: flex">
                                         @Html.DisplayFor(modelItem => role.Name)
                                         <form action="/AccountRole/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
-                                            @*<a asp-action="Delete" onclick="return true" asp-route-id="@item.Guid" class="fas fa-trash text-danger"></a>*@
                                             <input type="hidden" value="@role.Guid" name="guid"/>
-                                            <button value="" class="fas fa-trash text-danger" onclick="return true"></button>
+                                            <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
                                         </form>
                                     </div>
                                 </li>
