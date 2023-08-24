@@ -4,7 +4,27 @@
     ViewData["Title"] = "Info";
 }
 
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'Success!',
+            text: '@TempData["Success"]',
+            icon: 'success'
+        });
+    </script>
+}
 
+@if (TempData["Error"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'Error!',
+            text: '@TempData["Error"]',
+            icon: 'error'
+        });
+    </script>
+}
 
 <div class="card">
     <h1 class="card-header">Data Account Role</h1>
