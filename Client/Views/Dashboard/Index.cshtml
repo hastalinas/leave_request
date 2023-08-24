@@ -24,7 +24,7 @@
             </div>
         </div>
     }
-    
+
     <div class="col-lg-3 col-md-12 col-6 mb-4">
         <div class="card bg-info">
             <div class="card-body">
@@ -54,20 +54,24 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-md-12 col-6 mb-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between">
-                    <div class="icon">
-                        <i class="fas fa-users fa-3x"></i>
-                    </div>
+    @if (User.IsInRole("manager") || User.IsInRole("admin"))
+    {
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                        <div class="icon">
+                            <i class="fas fa-solid fa-list-check fa-fade fa-3x" style="color: #ff0000;"></i>
+                        </div>
 
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Total Request</span>
+                    <h3 class="card-title mb-2" id="total-request"></h3>
                 </div>
-                <span class="fw-semibold d-block mb-1">Total Employee</span>
-                <h3 class="card-title mb-2" id="total-employees">12,628</h3>
             </div>
         </div>
-    </div>
+    }
+    
 
 
 </div>
@@ -122,6 +126,23 @@
                 $("#total-employees").text(totalEmployees);
             }).fail(function (error) {
                 $("#total-employees").text("Failed to fetch data");
+                console.log(error)
+            });
+        });
+
+        //Leave Request counts
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/leave-request",
+                headers:
+                {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                var totalRequest = result.data.length;
+                $("#total-request").text(totalRequest);
+            }).fail(function (error) {
+                $("#total-request").text("Failed to fetch data");
                 console.log(error)
             });
         });
