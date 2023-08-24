@@ -114,10 +114,10 @@ public class AccountController : Controller
             //TempData["Error"] = $"Failed to Login! - {result.Message}!";
             return RedirectToAction("Login", "Account");
         }
-        else if (result.Code == 409)
+        else if (result.Code == 404)
         {
-            //TempData["Error"] = $"Failed to Login! - {result.Message}!";
-            ModelState.AddModelError(string.Empty, result.Message);
+            TempData["Error"] = $"Failed to Login! - {result.Message}!";
+            // ModelState.AddModelError(string.Empty, result.Message);
             return View();
         }
         else if (result.Code == 200)
@@ -145,16 +145,16 @@ public class AccountController : Controller
         {
             return RedirectToAction("Error", "Home");
         }
-        else if (result.Code == 409)
+        else if (result.Code == 404)
         {
-            ModelState.AddModelError(string.Empty, result.Message);
+            // ModelState.AddModelError(string.Empty, result.Message);
             TempData["Error"] = $"Something Went Wrong! - {result.Message}!";
             return View();
         }
         else if (result.Code == 200)
         {
             TempData["Success"] = $"Data has been Successfully Registered! - {result.Message}!";
-            return RedirectToAction("Login", "Account");
+            return View("Login");
         }
         return View(register);
     }

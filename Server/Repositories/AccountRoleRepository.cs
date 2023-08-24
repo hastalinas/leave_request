@@ -27,9 +27,9 @@ public class AccountRoleRepository : GeneralRepository<AccountRole>, IAccountRol
             .FirstOrDefault(accRole => accRole.AccountGuid == accountGuid && accRole.RoleGuid == roleGuid);
         if (exixtingData is null)
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

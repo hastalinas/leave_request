@@ -4,6 +4,17 @@
     ViewData["Title"] = "Create";
 }
 
+@if (TempData["Error"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'Error!',
+            text: '@TempData["Error"]',
+            icon: 'error'
+        });
+    </script>
+}
+
 <div class="row">
     <div class="col">
         <div class="card mb-4">
