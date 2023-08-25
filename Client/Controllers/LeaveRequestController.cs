@@ -150,13 +150,27 @@ public class LeaveRequestController : Controller
             return View(ListDetail);
         }
 
-        catch (Exception ex) 
+        catch
         {
 
             return RedirectToAction("Index", "Dashboard");
 
 
         }
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "employee")]
+    public async Task<IActionResult> Employee()
+    {
+        var result = await _repository.Employee();
+        var ListRequestEmployee = new List<LeaveRequestDetailDto>();
+
+        if (result.Data != null)
+        {
+            ListRequestEmployee = result.Data.ToList();
+        }
+        return View(ListRequestEmployee);
     }
 }
 
