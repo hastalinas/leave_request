@@ -158,6 +158,20 @@ public class LeaveRequestController : Controller
 
         }
     }
+
+    [HttpGet]
+    [Authorize(Roles = "employee")]
+    public async Task<IActionResult> Employee()
+    {
+        var result = await _repository.Employee();
+        var ListRequestEmployee = new List<LeaveRequestDetailDto>();
+
+        if (result.Data != null)
+        {
+            ListRequestEmployee = result.Data.ToList();
+        }
+        return View(ListRequestEmployee);
+    }
 }
 
 

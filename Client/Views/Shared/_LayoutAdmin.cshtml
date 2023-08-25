@@ -196,6 +196,11 @@
                                         <div data-i18n="Without menu">Detail</div>
                                     </a>
                                 </li>
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="LeaveRequest" asp-action="Employee" class="menu-link">
+                                        <div data-i18n="Without menu">Detail Leave Request Employee</div>
+                                    </a>
+                                </li>
                             }
                             @if ( User.IsInRole("admin") || User.IsInRole("manager"))
                             {

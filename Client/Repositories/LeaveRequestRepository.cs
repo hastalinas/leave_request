@@ -33,6 +33,16 @@ public class LeaveRequestRepository : GeneralRepository<LeaveRequestDto, Guid>, 
         }
         return entityVM;
 
+    }public async Task<ResponseHandler<IEnumerable<LeaveRequestDetailDto>>> Employee()
+    {
+        ResponseHandler<IEnumerable<LeaveRequestDetailDto>> entityVM = null;
+        using (var response = await httpClient.GetAsync(request + "request"))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            entityVM = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<LeaveRequestDetailDto>>>(apiResponse);
+        }
+        return entityVM;
+
     }
 }
 
