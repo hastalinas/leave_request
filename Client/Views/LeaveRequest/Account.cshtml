@@ -126,9 +126,47 @@
                  aria-labelledby="heading_@accordionId"
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    Dessert ice cream donut oat cake jelly-o pie sugar plum cheesecake. Bear claw dragée oat cake
-                    dragée ice cream halvah tootsie roll. Danish cake oat cake pie macaroon tart donut gummies.
-                    Jelly beans candy canes carrot cake. Fruitcake chocolate chupa chups.
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p>@Html.DisplayNameFor(model => model.RelationManager)</p>
+                            <p>@Html.DisplayNameFor(model => model.LeaveType)</p>
+                            <p>@Html.DisplayNameFor(model => model.LeaveStart)</p>
+                            <p>@Html.DisplayNameFor(model => model.LeaveEnd)</p>
+                            <p>@Html.DisplayNameFor(model => model.PhoneNumber)</p>
+                            <p>@Html.DisplayNameFor(model => model.Notes)</p>
+                            <p>@Html.DisplayNameFor(model => model.LeaveDays)</p>
+                            <p>@Html.DisplayNameFor(model => model.Status)</p>
+                            <p>@Html.DisplayNameFor(model => model.Attachment)</p>
+                            
+                        </div>
+                        <div class="col-md-4">
+                            <p>@Html.DisplayFor(modelItem => item.RelationManager)</p>
+                            <p>@Html.DisplayFor(modelItem => item.LeaveType)</p>
+                            <p>@Html.DisplayFor(modelItem => item.LeaveStart)</p>
+                            <p>@Html.DisplayFor(modelItem => item.LeaveEnd)</p>
+                            <p>@Html.DisplayFor(modelItem => item.PhoneNumber)</p>
+                            <p>@Html.DisplayFor(modelItem => item.Notes)</p>
+                            <p>@Html.DisplayFor(modelItem => item.LeaveDays)</p>
+                            <p>@Html.DisplayFor(modelItem => item.Status)</p>
+                            <p>@Html.DisplayFor(modelItem => item.Attachment)</p>
+                            
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <form>
+                            <a asp-action="Edit" asp-route-id="@item.RequestNumber" class="fas fa-edit text-info"></a>
+                        </form>
+                        <form action="/LeaveRequest/Send" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin mengajukan cuti?')">
+                            <input type="hidden" value="@item.RequestNumber" name="guid" />
+                            <button value="" style="background: none; border: none;" class="fa-regular fa-paper-plane text-success" onclick="return true"></button>
+                        </form>
+                        <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                            <input type="hidden" value="@item.RequestNumber" name="guid" />
+                            <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -14,7 +14,6 @@ using Server.DTOs.AccountRoles;
 
 namespace Client.Controllers;
 
-[Authorize(Roles = "employee, manager, admin")]
 public class LeaveRequestController : Controller
 {
     private readonly ILeaveRequestRepository _repository;
@@ -23,6 +22,8 @@ public class LeaveRequestController : Controller
         this._repository = repository;
     }
 
+
+    [Authorize(Roles = "manager, admin, employee")]
     public async Task<IActionResult> Index()
     {
         var result = await _repository.Get();
@@ -36,6 +37,7 @@ public class LeaveRequestController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "employee")]
     public async Task<IActionResult> Create()
     {
         return View();
@@ -74,6 +76,7 @@ public class LeaveRequestController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "manager, admin, employee")]
     public async Task<IActionResult> Edit(Guid id)
     {
         var result = await _repository.Get(id);
@@ -87,6 +90,7 @@ public class LeaveRequestController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "manager, admin, employee")]
     public async Task<IActionResult> Update(LeaveRequestDto leave)
     {
         var result = await _repository.Put(leave.Guid, leave);
@@ -100,6 +104,7 @@ public class LeaveRequestController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "manager, admin, employee")]
     public async Task<IActionResult> Delete(Guid guid)
     {
         var result = await _repository.Delete(guid);
@@ -117,6 +122,7 @@ public class LeaveRequestController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "employee")]
     public async Task<IActionResult> Send(Guid guid)
     {
         var leaveRequest = await _repository.Get(guid);
@@ -135,6 +141,7 @@ public class LeaveRequestController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "employee")]
     public async Task<IActionResult> Account()
     {
         var result = await _repository.GetInfo();
@@ -157,6 +164,7 @@ public class LeaveRequestController : Controller
         return View();
     }
 
+  
 
 }
 

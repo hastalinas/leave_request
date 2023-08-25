@@ -192,13 +192,8 @@
                             @if ( User.IsInRole("employee"))
                             {
                                 <li class="menu-item">
-                                    <a asp-area="" asp-controller="LeaveRequest" asp-action="Detail" class="menu-link">
-                                        <div data-i18n="Without menu">Detail</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
                                     <a asp-area="" asp-controller="LeaveRequest" asp-action="Account" class="menu-link">
-                                        <div data-i18n="Without menu">Detail Leave Request Employee</div>
+                                        <div data-i18n="Without menu">Leave Request Employee</div>
                                     </a>
                                 </li>
                             }
@@ -209,21 +204,18 @@
                                         <div data-i18n="Without menu">Employee</div>
                                     </a>
                                 </li>
-                                
+                                <li class="menu-item">
+                                    <a asp-area="" asp-controller="LeaveRequest" asp-action="Index" class="menu-link">
+                                        <div data-i18n="Container">Leave Request</div>
+                                    </a>
+                                </li>
                                 <li class="menu-item">
                                     <a asp-area="" asp-controller="Feedback" asp-action="Index" class="menu-link">
                                         <div data-i18n="Container">Feedback</div>
                                     </a>
                                 </li>
                             }
-                            @if (User.IsInRole("employee") || User.IsInRole("admin") || User.IsInRole("manager"))
-                            {
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="LeaveRequest" asp-action="Index" class="menu-link">
-                                        <div data-i18n="Container">Leave Request</div>
-                                    </a>
-                                </li>
-                            }
+                           
 
         
 
