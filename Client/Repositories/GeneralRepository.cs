@@ -10,20 +10,20 @@ namespace Client.Repositories;
 public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
     where Entity : class
 {
-    private readonly string request;
-    private readonly HttpClient httpClient;
-    private readonly IHttpContextAccessor contextAccessor;
+    protected readonly string _request;
+    protected readonly HttpClient _httpClient;
+    protected readonly IHttpContextAccessor _contextAccessor;
 
     public GeneralRepository(string request)
     {
-        this.request = request;
-        contextAccessor = new HttpContextAccessor();
-        httpClient = new HttpClient
+        this._request = request;
+        _contextAccessor = new HttpContextAccessor();
+        _httpClient = new HttpClient
         {
             BaseAddress = new Uri("https://localhost:7293/api/")
         };
 
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", contextAccessor.HttpContext?.Session.GetString("JWToken"));
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext?.Session.GetString("JWToken"));
     }
 
     public async Task<ResponseHandler<Entity>?> Delete(TId id)
@@ -31,7 +31,7 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
         ResponseHandler<Entity>? entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(id), Encoding.UTF8, "application/json");
 
-        using (var response = httpClient.DeleteAsync(request + "?guid=" + id).Result)
+        using (var response = _httpClient.DeleteAsync(_request + "?guid=" + id).Result)
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<Entity>>(apiResponse);
@@ -42,7 +42,7 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
     public async Task<ResponseHandler<IEnumerable<Entity>>?> Get()
     {
         ResponseHandler<IEnumerable<Entity>>? entityVM = null;
-        using (var response = await httpClient.GetAsync(request))
+        using (var response = await _httpClient.GetAsync(_request))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<Entity>>>(apiResponse);
@@ -54,7 +54,7 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
     {
         ResponseHandler<Entity>? entity = null;
 
-        using (var response = await httpClient.GetAsync(request + id))
+        using (var response = await _httpClient.GetAsync(_request + id))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entity = JsonConvert.DeserializeObject<ResponseHandler<Entity>>(apiResponse);
@@ -66,7 +66,7 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
     {
         ResponseHandler<Entity>? entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-        using (var response = httpClient.PostAsync(request, content).Result)
+        using (var response = _httpClient.PostAsync(_request, content).Result)
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<Entity>>(apiResponse);
@@ -78,7 +78,7 @@ public class GeneralRepository<Entity, TId> : IRepository<Entity, TId>
     {
         ResponseHandler<Entity>? entityVM = null;
         StringContent content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
-        using (var response = httpClient.PutAsync(request, content).Result)
+        using (var response = _httpClient.PutAsync(_request, content).Result)
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
             entityVM = JsonConvert.DeserializeObject<ResponseHandler<Entity>>(apiResponse);

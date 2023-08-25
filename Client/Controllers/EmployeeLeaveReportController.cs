@@ -1,27 +1,40 @@
 using Client.Contracts;
-using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Accounts;
+using Server.DTOs.LeaveRequests;
+using Server.Utilities.Enums;
 
 namespace Client.Controllers;
 
 public class EmployeeLeaveReportController : Controller
 {
-    public readonly IAccountRepository _accountRepository;
+    public readonly ILeaveRequestRepository _leaveRequestRepository;
 
-    public EmployeeLeaveReportController(IAccountRepository accountRepository)
+    public EmployeeLeaveReportController(ILeaveRequestRepository leaveRequestRepository)
     {
-        _accountRepository = accountRepository;
+        _leaveRequestRepository = leaveRequestRepository;
     }
     
+    [HttpGet]
     public async Task<IActionResult> Account()
     {
-        var result = await _accountRepository.Get();
-        List<AccountDto> listAccount = null;
-        if (result.Data != null)
+        var result = await _leaveRequestRepository.GetInfo();
+        var listAccount = new List<LeaveRequestDetailDto>();
+        try
         {
             listAccount = result.Data.ToList();
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
         return View(listAccount);
+    }
+
+    public async Task<IActionResult> Notification()
+    {
+        
+        return View();
     }
 }

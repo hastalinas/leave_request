@@ -1,3 +1,4 @@
+using System.Collections;
 using Server.Models;
 using Server.Utilities.Enums;
 
@@ -44,5 +45,10 @@ public class LeaveRequestDto
             AttachmentUrl = leaveRequest.AttachmentUrl,
             Status = leaveRequest.Status
         };
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        yield break;
     }
 }
