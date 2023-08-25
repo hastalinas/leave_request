@@ -66,7 +66,7 @@
 
 @section Scripts {
     <script>
-        const Token = '@Context.Session.GetString("JWToken")'
+        const Token = '@Context.Session.GetString("JWToken")';
         $.ajax({
             url: "https://localhost:7293/api/employees/",
             headers: {
@@ -74,7 +74,7 @@
             }
         }).done(function (result) {
             if (result.data.length > 0) {
-                const employee = result.data[0];
+                const employee = result.data.filter(e => e.guid === '@Model.EmployeeGuid')[0];
                 const fullName = `${employee.firstName} ${employee.lastName}`;
                 $('#employee').val(fullName);
                 $('#employeeGuid').val(employee.guid);
@@ -84,7 +84,9 @@
         }).fail(function () {
             $('#employee').val("Failed to fetch data");
         });
+        console.log('@Model.EmployeeGuid');
     </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
