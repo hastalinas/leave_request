@@ -4,6 +4,17 @@
     ViewData["Title"] = "Create";
 }
 
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'Success!',
+            text: '@TempData["Success"]',
+            icon: 'success'
+        });
+    </script>
+}
+
 <h1>Create</h1>
 
 <h4>NewAccountRoleDto</h4>

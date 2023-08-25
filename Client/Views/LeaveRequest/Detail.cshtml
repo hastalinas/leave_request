@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Server.DTOs.LeaveRequests.RequestInformationDto>
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Detail</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Requester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableLeave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalLeave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EligibleLeave)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Requester)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailableLeave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalLeave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EligibleLeave)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -13,7 +13,7 @@
         <form action="/LeaveRequest/Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="LeaveType" class="control-label"></label>
+                <label asp-for="LeaveType" class="control-label">Leave Type</label>
                 <select class="form-control" asp-for="LeaveType" aria-label="Floating label select example">
                     <option selected>Open this select menu</option>
                     <option value="0">Vacation</option>
@@ -24,22 +24,22 @@
                 <span asp-validation-for="LeaveType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LeaveStart" class="control-label"></label>
+                <label asp-for="LeaveStart" class="control-label">Leave Start</label>
                 <input asp-for="LeaveStart" class="form-control" />
                 <span asp-validation-for="LeaveStart" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LeaveEnd" class="control-label"></label>
+                <label asp-for="LeaveEnd" class="control-label">Leave End</label>
                 <input asp-for="LeaveEnd" class="form-control" />
                 <span asp-validation-for="LeaveEnd" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
+                <label asp-for="Notes" class="control-label">Notes</label>
                 <input asp-for="Notes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Attachment" class="form-label"></label>
+                <label asp-for="Attachment" class="form-label">Attachment</label>
                 <input asp-for="Attachment" class="form-control" type="file" />
                 <span asp-validation-for="Attachment" class="text-danger"></span>
             </div>

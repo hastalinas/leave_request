@@ -13,13 +13,14 @@
         <form action="/LeaveRequest/Update" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Guid" class="control-label"></label>
-                <input asp-for="Guid" class="form-control" />
+                <label asp-for="Guid" class="control-label" hidden></label>
+                <input asp-for="Guid" class="form-control" hidden/>
                 <span asp-validation-for="Guid" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EmployeeGuid" class="control-label"></label>
-                <input asp-for="EmployeeGuid" class="form-control" />
+                <label asp-for="EmployeeGuid" class="control-label">Employee</label>
+                <input asp-for="EmployeeGuid" type="hidden" id="employeeGuid" />
+                <input id="employee" class="form-control" disabled />
                 <span asp-validation-for="EmployeeGuid" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -64,5 +65,26 @@
 </div>
 
 @section Scripts {
+    <script>
+        const Token = '@Context.Session.GetString("JWToken")'
+        $.ajax({
+            url: "https://localhost:7293/api/employees/",
+            headers: {
+                "Authorization": "Bearer " + Token
+            }
+        }).done(function (result) {
+            if (result.data.length > 0) {
+                const employee = result.data[0];
+                const fullName = `${employee.firstName} ${employee.lastName}`;
+                $('#employee').val(fullName);
+                $('#employeeGuid').val(employee.guid);
+            } else {
+                $('#employee').val("Failed to fetch data");
+            }
+        }).fail(function () {
+            $('#employee').val("Failed to fetch data");
+        });
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

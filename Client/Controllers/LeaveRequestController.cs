@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Server.DTOs.Employees;
 using Server.Utilities.Enums;
 using Server.Utilities.Handler;
+using Server.DTOs.AccountRoles;
 
 namespace Client.Controllers;
 
@@ -48,7 +49,7 @@ public class LeaveRequestController : Controller
 
         var enumerable = userClaims.ToList();
         var guidClaim = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
-    
+
         // Dapatkan peran (role) pengguna dari klaim tipe "Role"
         var roles = enumerable.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
 
@@ -62,7 +63,7 @@ public class LeaveRequestController : Controller
             Notes = leaveRequest.Notes,
             AttachmentUrl = leaveRequest.Attachment
         };
-    
+
         var result = await _repository.Post(register);
 
         if (result.Code == 200)
@@ -97,7 +98,7 @@ public class LeaveRequestController : Controller
         }
         return RedirectToAction(nameof(Edit));
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Delete(Guid guid)
     {
@@ -132,4 +133,32 @@ public class LeaveRequestController : Controller
 
         return RedirectToAction("Index", "LeaveRequest");
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Detail()
+    {
+        try
+        {
+            var result = await _repository.Detail();
+            var ListDetail = new List<RequestInformationDto>();
+
+            if (result.Data != null)
+            {
+                ListDetail = result.Data.ToList();
+            }
+
+            return View(ListDetail);
+        }
+
+        catch (Exception ex) 
+        {
+
+            return RedirectToAction("Index", "Dashboard");
+
+
+        }
+    }
 }
+
+
+    

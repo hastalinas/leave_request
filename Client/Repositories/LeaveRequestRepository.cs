@@ -11,6 +11,8 @@ namespace Client.Repositories;
 
 public class LeaveRequestRepository : GeneralRepository<LeaveRequestDto, Guid>, ILeaveRequestRepository
 {
+    private readonly HttpClient httpClient;
+    private readonly string request;
     public LeaveRequestRepository(string request = "leave-request/") : base(request)
     {
     }
@@ -36,3 +38,6 @@ public class LeaveRequestRepository : GeneralRepository<LeaveRequestDto, Guid>, 
         return entityVM;
     }
 }
+
+
+
