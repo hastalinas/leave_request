@@ -8,6 +8,4 @@ namespace Client.Contracts;
 public interface ILeaveRequestRepository : IRepository<LeaveRequestDto, Guid>
 {
     Task<ResponseHandler<IEnumerable<LeaveRequestDetailDto>>> GetInfo();
-    public Task<ResponseHandler<IEnumerable<RequestInformationDto>>> Detail();
-    public Task<ResponseHandler<IEnumerable<LeaveRequestDetailDto>>> Employee();
 }

@@ -135,43 +135,29 @@ public class LeaveRequestController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Detail()
+    public async Task<IActionResult> Account()
     {
+        var result = await _repository.GetInfo();
+        var listAccount = new List<LeaveRequestDetailDto>();
         try
         {
-            var result = await _repository.Detail();
-            var ListDetail = new List<RequestInformationDto>();
-
-            if (result.Data != null)
-            {
-                ListDetail = result.Data.ToList();
-            }
-
-            return View(ListDetail);
+            listAccount = result.Data.ToList();
         }
-
-        catch
+        catch (Exception e)
         {
-
-            return RedirectToAction("Index", "Dashboard");
-
-
+            Console.WriteLine(e);
         }
+
+        return View(listAccount);
     }
 
-    [HttpGet]
-    [Authorize(Roles = "employee")]
-    public async Task<IActionResult> Employee()
+    public async Task<IActionResult> Notification()
     {
-        var result = await _repository.Employee();
-        var ListRequestEmployee = new List<LeaveRequestDetailDto>();
 
-        if (result.Data != null)
-        {
-            ListRequestEmployee = result.Data.ToList();
-        }
-        return View(ListRequestEmployee);
+        return View();
     }
+
+
 }
 
 
