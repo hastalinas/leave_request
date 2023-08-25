@@ -150,7 +150,7 @@ public class LeaveRequestController : Controller
             return View(ListDetail);
         }
 
-        catch (Exception ex) 
+        catch
         {
 
             return RedirectToAction("Index", "Dashboard");
