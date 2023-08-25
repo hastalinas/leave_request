@@ -5,6 +5,7 @@ namespace Server.DTOs.LeaveRequests;
 
 public class LeaveRequestDetailDto
 {
+    public Guid Guid { get; set; }
     public string RequestNumber { get; set; }
     public string RelationManager { get; set; }
     public LeaveType LeaveType { get; set; }

@@ -75,6 +75,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
+    
+    <!-- Referensi ke FullCalendar JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+
+    
     @await RenderSectionAsync("CSS", required: false)
 
     <!-- Page CSS -->
@@ -233,7 +238,7 @@
                             </a>
                             <ul class="menu-sub">
                                 <li class="menu-item">
-                                    <a asp-action="Account" asp-controller="EmployeeLeaveReport" class="menu-link">
+                                    <a asp-action="Account" asp-controller="LeaveRequest" class="menu-link">
                                         <div data-i18n="Account">Account</div>
                                     </a>
                                 </li>
@@ -418,6 +423,7 @@
     <!--calendar-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
