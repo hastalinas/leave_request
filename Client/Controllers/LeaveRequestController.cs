@@ -137,15 +137,28 @@ public class LeaveRequestController : Controller
     [HttpGet]
     public async Task<IActionResult> Detail()
     {
-        var result = await _repository.Detail();
-        var ListDetail = new List<RequestInformationDto>();
-
-        if (result.Data != null)
+        try
         {
-            ListDetail = result.Data.ToList();
+            var result = await _repository.Detail();
+            var ListDetail = new List<RequestInformationDto>();
+
+            if (result.Data != null)
+            {
+                ListDetail = result.Data.ToList();
+            }
+
+            return View(ListDetail);
         }
-        return View(ListDetail);
+
+        catch (Exception ex) 
+        {
+
+            return RedirectToAction("Index", "Dashboard");
+
+
+        }
     }
-}     
+}
+
 
     
