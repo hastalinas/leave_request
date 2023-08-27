@@ -105,18 +105,23 @@ public class AccountService
 
     public string Login(LoginDto loginDto)
     {
-        var employeeAccount = from e in _employeeRepository.GetAll()
+        var employeeAccount = (from e in _employeeRepository.GetAll()
             join a in _accountRepository.GetAll() on e.Guid equals a.Guid
             where e.Email == loginDto.Email && HashingHandler.ValidateHash(loginDto.Password, a.Password)
-            select new LoginDto()
+            select new
             {
                 Email = e.Email,
-                Password = a.Password
-            };
-
+                Password = a.Password,
+                IsActive = a.IsActive
+            }).ToList();
+        
         if (!employeeAccount.Any())
         {
             return "-1"; // Email or Password incorrect.      
+        } 
+        else if (!employeeAccount[0].IsActive)
+        {
+            return "-3"; // Account need to activate
         }
 
         var employee = _employeeRepository.GetByEmail(loginDto.Email);

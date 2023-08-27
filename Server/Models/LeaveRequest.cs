@@ -18,9 +18,13 @@ public class LeaveRequest : BaseTable
     public LeaveType LeaveType { get; set; }
 
     [Column("leave_start")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime LeaveStart { get; set; }
 
     [Column("leave_end")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime LeaveEnd { get; set; }
 
     [Column("notes")]

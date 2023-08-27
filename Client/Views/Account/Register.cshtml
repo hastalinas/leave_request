@@ -86,7 +86,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="BirthDate" class="control-label">Birth Date</label>
-                <input asp-for="BirthDate" class="form-control" />
+                <input asp-for="BirthDate" class="form-control" type="date"/>
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -100,13 +100,8 @@
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProfilPictureUrl" class="control-label">Profil Picture</label>
-                <input asp-for="ProfilPictureUrl" type="file" class="form-control" />
-                <span asp-validation-for="ProfilPictureUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="HiringDate" class="control-label">Hiring Date</label>
-                <input asp-for="HiringDate" class="form-control" />
+                <input asp-for="HiringDate" class="form-control" type="date"/>
                 <span asp-validation-for="HiringDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -115,8 +110,18 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
-                <input asp-for="PhoneNumber" class="form-control" />
+                <label class="form-label" asp-for="PhoneNumber">Phone Number</label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text">ID (+62)</span>
+                    <input
+                        asp-for="PhoneNumber"
+                        type="text"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        class="form-control"
+                        placeholder="202 555 0111"
+                    />
+                </div>
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -127,28 +132,23 @@
                 
                 <span asp-validation-for="DepartmentCode" class="text-danger"></span>
             </div>
-
-            @*<div class="form-group">
-                <label asp-for="ManagerNik" class="control-label">Manager Nik</label>
-                <input asp-for="ManagerNik" class="form-control" />
-                <span asp-validation-for="ManagerNik" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
+            
+            <div class="form-group form-password-toggle">
+                <label asp-for="Password" class="control-label">Password</label>
                 <div class="input-group">
-                    <input asp-for="Password" type="password" class="form-control" />
-                    <span class="input-group-text cursor-pointer password-toggle">
+                    <input asp-for="Password" type="password" class="form-control"/>
+                    <span class="input-group-text cursor-pointer">
                         <i class="bx bx-hide"></i>
                     </span>
                 </div>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group form-password-toggle">
                 <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
                 <div class="input-group">
                     <input asp-for="ConfirmPassword" type="password" class="form-control" />
-                        <span class="input-group-text cursor-pointer password-toggle">
+                        <span class="input-group-text cursor-pointer">
                             <i class="bx bx-hide"></i>
                         </span>
                 </div>
