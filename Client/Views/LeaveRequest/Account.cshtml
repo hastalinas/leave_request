@@ -6,7 +6,7 @@
     Layout = "_LayoutAdmin";
 }
 
-<h1>Account</h1>
+<h1>Leave Request</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -58,39 +58,39 @@
                                 <tbody>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.RelationManager)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.RelationManager)</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.RelationManager)</td>
                                 </tr>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.LeaveType)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.LeaveType)</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.LeaveType)</td>
                                 </tr>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.LeaveStart)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.LeaveStart)</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.LeaveStart)</td>
                                 </tr>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.LeaveEnd)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.LeaveEnd)</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.LeaveEnd)</td>
                                 </tr>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                    <td>:  @Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                                 </tr>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.Notes)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.Notes)</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.Notes)</td>
                                 </tr>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.LeaveDays)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.LeaveDays.Days) Days</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.LeaveDays.Days) Days</td>
                                 </tr>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.Status)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.Status)</td>
                                 </tr>
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.Attachment)</th>
-                                    <td>@Html.DisplayFor(modelItem => item.Attachment)</td>
+                                    <td>: @Html.DisplayFor(modelItem => item.Attachment)</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -99,7 +99,7 @@
                     <div class="d-flex">
                         <div class="m-1">
                             <form>
-                                <a type="button" class="btn rounded-pill btn-outline-secondary" asp-action="Edit" asp-route-id="@item.Guid">
+                                <a type="button" class="btn rounded-pill btn-outline-secondary" asp-action="EditEmployee" asp-route-id="@item.Guid">
                                     <span class="tf-icons bx bx-edit d-none d-sm-inline"></span>&nbsp; Edit
                                 </a>
                             </form>

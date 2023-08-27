@@ -1,12 +1,12 @@
 ﻿@model Server.DTOs.LeaveRequests.LeaveRequestDto
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "EditEmployee";
 }
 
-<h1>Edit</h1>
+<h1>Edit Request</h1>
 
-<h4>LeaveRequestDto</h4>
+<h4>Leave Request</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -50,12 +50,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                @*<input asp-for="Status" class="form-control" />*@
-                <select class="form-control" asp-for="Status" aria-label="Floating label select example">
-                    <option selected>Open this select menu</option>
-                    <option value="2">Success</option>
-                    <option value="3">Rejected</option>
-                </select>
+                <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,7 +61,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Account">Back to List</a>
 </div>
 
 @section Scripts {
@@ -92,6 +87,9 @@
         console.log('@Model.EmployeeGuid');
     </script>
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
 

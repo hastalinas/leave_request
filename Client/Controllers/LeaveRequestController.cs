@@ -76,7 +76,6 @@ public class LeaveRequestController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "manager, admin, employee")]
     public async Task<IActionResult> Edit(Guid id)
     {
         var result = await _repository.Get(id);
@@ -156,6 +155,19 @@ public class LeaveRequestController : Controller
         }
 
         return View(listAccount);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> EditEmployee(Guid id)
+    {
+        var result = await _repository.Get(id);
+        var listRequest = new LeaveRequestDto();
+
+        if (result.Data != null)
+        {
+            listRequest = (LeaveRequestDto)result.Data;
+        }
+        return View(listRequest);
     }
 
     public async Task<IActionResult> Notification()

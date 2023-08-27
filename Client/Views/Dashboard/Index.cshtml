@@ -15,7 +15,7 @@
                         </div>
 
                     </div>
-                    <span class="fw-semibold d-block mb-1">Eligible Leave</span>
+                    <span class="fw-semibold d-block mb-1">Leave Remain</span>
                     <h3 class="card-title mb-2" id="eligible-leave">
                         <span id="eligible-leave-value"></span>
                         <span> days</span>
@@ -33,7 +33,18 @@
                         <i class="fas fa-users fa-3x"></i>
                     </div>
                 </div>
-                <span class="fw-semibold d-block mb-1 text-white">Total Employee</span>
+                @if (User.IsInRole("employee"))
+                {
+                    <span class="fw-semibold d-block mb-1 text-white">Total Employee</span>
+                }
+                
+                @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                {
+                    <a asp-area="" asp-controller = "Employee" asp-action = "Index" >
+                        <span class="fw-semibold d-block mb-1 text-white">Total Employee</span>
+                    </a>
+                }
+                
                 <h3 class="card-title mb-2 text-white" id="total-employees"></h3>
             </div>
         </div>
@@ -48,7 +59,17 @@
                     </div>
 
                 </div>
-                <span class="fw-semibold d-block mb-1">Total Department</span>
+                @if (User.IsInRole("employee"))
+                {
+                    <span class="fw-semibold d-block mb-1">Total Department</span>
+                }
+
+                @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                {
+                    <a asp-area="" asp-controller = "Department" asp-action = "Index" >
+                        <span class="fw-semibold d-block mb-1">Total Department</span>
+                    </a>
+                }
                 <h3 class="card-title mb-2" id="total-departments"></h3>
             </div>
         </div>
@@ -65,7 +86,9 @@
                         </div>
 
                     </div>
-                    <span class="fw-semibold d-block mb-1">Total Request</span>
+                    <a asp-area="" asp-controller = "LeaveRequest" asp-action = "Index" >
+                        <span class="fw-semibold d-block mb-1">Total Request</span>
+                    </a>
                     <h3 class="card-title mb-2" id="total-request"></h3>
                 </div>
             </div>
