@@ -17,12 +17,16 @@ public class Employee : BaseTable
     public string? LastName { get; set; }
     
     [Column("birth_date")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime BirthDate { get; set; }
     
     [Column("gender")]
     public Gender Gender { get; set; }
     
     [Column("hiring_date")]
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime HiringDate { get; set; }
     
     [Column("email")]

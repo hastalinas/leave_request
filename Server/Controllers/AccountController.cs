@@ -182,6 +182,16 @@ public class AccountController : ControllerBase
             });
         }
         
+        if (result is "-3")
+        {
+            return StatusCode(500, new ResponseHandler<AccountDto>
+            {
+                Code = StatusCodes.Status500InternalServerError,
+                Status = HttpStatusCode.InternalServerError.ToString(),
+                Message = "Account need to activate."
+            });
+        }
+        
         return Ok(new ResponseHandler<TokenDto> {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),

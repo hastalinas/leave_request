@@ -50,6 +50,7 @@ public class AccountRepository : GeneralRepository<AccountDto, Guid>, IAccountRe
 
     public async Task<ResponseHandler<RegisterDto>?> Register(RegisterDto entity)
     {
+        entity.PhoneNumber = "+62" + entity.PhoneNumber;
         ResponseHandler<RegisterDto>? entityVM = null;
         StringContent content =
             new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");

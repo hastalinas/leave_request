@@ -109,22 +109,17 @@ public class AccountController : Controller
     public async Task<IActionResult> Login(LoginDto login)
     {
         var result = await _repository.Login(login);
-        if (result is null)
-        {
-            //TempData["Error"] = $"Failed to Login! - {result.Message}!";
-            return RedirectToAction("Login", "Account");
-        }
-        else if (result.Code == 404)
-        {
-            TempData["Error"] = $"Failed to Login! - {result.Message}!";
-            // ModelState.AddModelError(string.Empty, result.Message);
-            return View();
-        }
-        else if (result.Code == 200)
+        if (result.Code == 200)
         {
             //TempData["Success"] = $"Successfully Login! - {result.Data.Token}!";
             HttpContext.Session.SetString("JWToken", result.Data.Token);
             return RedirectToAction("Index", "Dashboard");
+        }
+        else
+        {
+            TempData["Error"] = $"Failed to Login! - {result.Message}!";
+            // ModelState.AddModelError(string.Empty, result.Message);
+            return View();
         }
         return View();
     }
@@ -141,22 +136,17 @@ public class AccountController : Controller
     public async Task<IActionResult> Register(RegisterDto register)
     {
         var result = await _repository.Register(register);
-        if (result is null)
-        {
-            return RedirectToAction("Error", "Home");
-        }
-        else if (result.Code == 404)
-        {
-            // ModelState.AddModelError(string.Empty, result.Message);
-            TempData["Error"] = $"Something Went Wrong! - {result.Message}!";
-            return View();
-        }
-        else if (result.Code == 200)
+        if (result.Code == 200)
         {
             TempData["Success"] = $"Data has been Successfully Registered! - {result.Message}!";
             return View("Login");
         }
-        return View(register);
+        else
+        {
+            // ModelState.AddModelError(string.Empty, result.Message);
+            TempData["Error"] = $"Something Went Wrong! - {result.Message}!";
+            return View(register);
+        }
     }
 
     [HttpGet]

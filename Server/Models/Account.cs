@@ -24,6 +24,9 @@ public class Account : BaseTable
     [Column("is_used")]
     public bool IsUsed { get; set; }
     
+    [Column("is_active")]
+    public bool IsActive { get; set; }
+    
     [Column("expired_time")]
     public DateTime? ExpiredTime { get; set; }
         
