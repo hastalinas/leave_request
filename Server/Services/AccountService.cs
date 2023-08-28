@@ -304,7 +304,7 @@ public class AccountService
             if (!isUpdated)
                 return -1;
             
-            _emailHandler.SendEmail(forgotPassword.Email,"Booking - Forgot Password OTP", $"Your OTP is {otp}");
+            _emailHandler.SendEmail(forgotPassword.Email,"Leave Request - Forgot Password OTP", $"Your OTP is {otp}");
             
             return 1;
         }

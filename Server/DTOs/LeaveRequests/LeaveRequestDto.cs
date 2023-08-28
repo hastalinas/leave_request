@@ -1,4 +1,6 @@
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 using Server.Models;
 using Server.Utilities.Enums;
 
@@ -9,7 +11,9 @@ public class LeaveRequestDto
     public Guid Guid { get; set; }
     public Guid EmployeeGuid { get; set; }
     public LeaveType LeaveType { get; set; }
+
     public DateTime LeaveStart { get; set; }
+
     public DateTime LeaveEnd { get; set; }
     public string? Notes { get; set; }
     public string? AttachmentUrl { get; set; }

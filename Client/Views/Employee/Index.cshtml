@@ -1,4 +1,4 @@
-﻿@model List<Server.DTOs.Employees.EmployeeDto>
+﻿@model List<Server.DTOs.Employees.EmployeeWithName>
 
 @{
     ViewData["Title"] = "Index";
@@ -23,11 +23,9 @@
                 @Html.DisplayNameFor(model => model[0].Nik)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].FirstName)
+                @Html.DisplayNameFor(model => model[0].FullName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].LastName)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model[0].BirthDate)
             </th>
@@ -43,11 +41,11 @@
             <th>
                 @Html.DisplayNameFor(model => model[0].PhoneNumber)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.DepartmentGuid)
-            </th>*@
             <th>
-                @Html.DisplayNameFor(model => model[0].ManagerGuid)
+                @Html.DisplayNameFor(model => model[0].DepartmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ManagerName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model[0].LeaveRemain)
@@ -77,10 +75,7 @@
                 @Html.DisplayFor(modelItem => item.Nik)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BirthDate)
@@ -97,11 +92,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.DepartmentGuid)
-            </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.ManagerGuid)
+                @Html.DisplayFor(modelItem => item.DepartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagerName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LeaveRemain)
@@ -143,4 +138,6 @@
 @section CSS{
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 }*@
+
+
 

@@ -24,6 +24,7 @@ namespace Server.Utilities.Validations.Accounts
                 .EmailAddress().WithMessage("Invalid email format.");
 
             RuleFor(register => register.PhoneNumber)
+                .MaximumLength(15).WithMessage("Phone number is invalid.")
                 .NotEmpty().WithMessage("Phone number is required.");
 
             RuleFor(register => register.DepartmentCode)

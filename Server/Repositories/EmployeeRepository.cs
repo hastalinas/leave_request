@@ -43,4 +43,9 @@ public class EmployeeRepository : GeneralRepository<Employee>, IEmployeeReposito
     {
         return _context.Set<Employee>().SingleOrDefault(e => e.Nik.Contains(nik));
     }
+
+    public IEnumerable<Employee>? GetManager()
+    {
+        return _context.Set<Employee>().ToList().Where(employee => employee.ManagerGuid != null);
+    }
 }

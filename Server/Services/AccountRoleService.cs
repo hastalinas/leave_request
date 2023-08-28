@@ -105,7 +105,7 @@ public class AccountRoleService
         Name = $"{emp.FirstName} {emp.LastName}",
         Role = role.Name
     }
-    ).ToList();
+    ).ToList().OrderBy(emp => emp.Nik); ;
 
     var groupedData = accountRoleInfoList
         .GroupBy(info => new { info.EmpGuid, info.Nik })

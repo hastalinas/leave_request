@@ -10,4 +10,5 @@ public interface IEmployeeRepository : IGeneralRepository<Employee>
     Employee? CheckEmail(string email);
     Guid GetLastEmployeeGuid();
     Employee? GetByNik(string nik);
+    IEnumerable<Employee>? GetManager();
 }
