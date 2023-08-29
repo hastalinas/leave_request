@@ -60,7 +60,7 @@ public class AccountController : Controller
         var result = await _repository.Get(id);
         var listAccount = new AccountDto();
 
-        if (result.Data != null)
+        if (result.Data is not null)
         {
             listAccount = (AccountDto)result.Data;
         }
@@ -224,8 +224,53 @@ public class AccountController : Controller
         return View(changePassword);
     }
 
-    
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Detail()
+    {
+        var result = await _repository.GetDetailAll();
+        var listAccountDetail = new List<AccountDetailDto>();
+        try
+        {
+            if (result.Data is not null)
+            {
+                listAccountDetail = result.Data.ToList();
+            }
+        }
+        catch (Exception e)
+        {
+            return View(listAccountDetail);
+        }
 
+        return View(listAccountDetail);
+    }
+    
+    [HttpPost]
+    [Authorize(Roles = "manager")]
+    public async Task<IActionResult> Activate(Guid guid)
+    {
+        var leaveRequest = await _repository.Get(guid);
+        if (leaveRequest.Data.IsActive is true)
+        {
+            leaveRequest.Data.IsActive = false;
+        }
+        else
+        {
+            leaveRequest.Data.IsActive = true;
+        }
+        var result = await _repository.Put(guid, leaveRequest.Data);
+        if (result.Code == 200)
+        {
+            TempData["Success"] = $"{result.Message}!";
+        }
+        else
+        {
+            TempData["Error"] = $"{result.Message}!";
+        }
+
+        return RedirectToAction("Detail", "Account");
+    }
+    
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

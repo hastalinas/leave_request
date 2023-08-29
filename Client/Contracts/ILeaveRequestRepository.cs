@@ -9,4 +9,6 @@ namespace Client.Contracts;
 public interface ILeaveRequestRepository : IRepository<LeaveRequestDto, Guid>
 {
     Task<ResponseHandler<IEnumerable<LeaveRequestDetailDto>>> GetInfo();
+    Task<ResponseHandler<IEnumerable<LeaveRequestDetailDto>>> GetInfoManager();
+    Task<ResponseHandler<RegisterLeaveDto>> RegisterLeave(RegisterLeaveDto entity);
 }

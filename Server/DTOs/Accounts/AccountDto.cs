@@ -9,6 +9,7 @@ public class AccountDto
     public string Password { get; set; }
     public bool IsUsed { get; set; }
     public DateTime? ExpiredTime { get; set; }
+    public bool IsActive { get; set; }
 
     public static implicit operator Account(AccountDto accountDto)
     {
@@ -20,10 +21,12 @@ public class AccountDto
             Otp = 111111,
             IsUsed = accountDto.IsUsed,
             ExpiredTime = accountDto.ExpiredTime,
+            IsActive = accountDto.IsActive,
             CreatedDate = DateTime.Now,
             ModifiedDate = DateTime.Now
         };
     }
+
 
     public static explicit operator AccountDto(Account account)
     {
@@ -33,7 +36,8 @@ public class AccountDto
             ProfilPictureUrl = account.ProfilPictureUrl,
             Password = account.Password,
             IsUsed = account.IsUsed,
-            ExpiredTime = account.ExpiredTime
+            ExpiredTime = account.ExpiredTime,
+            IsActive = account.IsActive
         };
     }
 }

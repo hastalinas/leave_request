@@ -20,6 +20,7 @@ public class LeaveRequestDto
     [Display(Name = "Attachment Url")]
     public string? AttachmentUrl { get; set; }
     public Status Status { get; set; }
+    public string? FeedbackNotes { get; set; }
 
     public static implicit operator LeaveRequest(LeaveRequestDto leaveRequestDto)
     {
@@ -33,6 +34,7 @@ public class LeaveRequestDto
             Notes = leaveRequestDto.Notes,
             AttachmentUrl = leaveRequestDto.AttachmentUrl,
             Status = leaveRequestDto.Status,
+            FeedbackNotes = leaveRequestDto.FeedbackNotes,
             CreatedDate = DateTime.Now,
             ModifiedDate = DateTime.Now
         };
@@ -49,12 +51,8 @@ public class LeaveRequestDto
             LeaveEnd = leaveRequest.LeaveEnd,
             Notes = leaveRequest.Notes,
             AttachmentUrl = leaveRequest.AttachmentUrl,
-            Status = leaveRequest.Status
+            Status = leaveRequest.Status,
+            FeedbackNotes = leaveRequest.FeedbackNotes,
         };
-    }
-
-    public IEnumerator GetEnumerator()
-    {
-        yield break;
     }
 }

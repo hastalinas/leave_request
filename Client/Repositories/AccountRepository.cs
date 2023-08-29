@@ -19,9 +19,8 @@ public class AccountRepository : GeneralRepository<AccountDto, Guid>, IAccountRe
     private readonly HttpClient _httpClient;
     private readonly string _request;
     private readonly IWebHostEnvironment _env;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AccountRepository(IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor,
+    public AccountRepository(IWebHostEnvironment env,
         string request = "accounts/") : base(request)
     {
         _httpClient = new HttpClient
@@ -30,7 +29,6 @@ public class AccountRepository : GeneralRepository<AccountDto, Guid>, IAccountRe
         };
         this._request = request;
         _env = env;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<ResponseHandler<TokenDto>?> Login(LoginDto entity)
@@ -91,6 +89,18 @@ public class AccountRepository : GeneralRepository<AccountDto, Guid>, IAccountRe
         return entityVM;
     }
 
+    public async Task<ResponseHandler<IEnumerable<AccountDetailDto>>?> GetDetailAll()
+    {
+        ResponseHandler<IEnumerable<AccountDetailDto>>? entityVM = null;
+        using (var response = await _httpClient.GetAsync(_request + "detail"))
+        {
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            entityVM = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<AccountDetailDto>>>(apiResponse);
+        }
+
+        return entityVM;
+    }
+    
     public async Task<bool> UploadAvatar(Guid accountId, IFormFile avatarFile)
     {
         if (avatarFile != null && avatarFile.Length > 0)

@@ -45,6 +45,31 @@ public class AccountController : ControllerBase
         });
     }
     
+    [HttpGet("detail")]
+    public IActionResult GetDetailAll()
+    {
+        var result = _accountService.GetDetailAll();
+        var accountDetailDtos = result.ToList();
+        if (!accountDetailDtos.Any())
+        {
+            return NotFound(new ResponseHandler<AccountDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "No data account found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<AccountDetailDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieving data",
+            Data = accountDetailDtos
+        });
+        return Ok();
+    }
+    
     [HttpGet("{guid}")]
     public IActionResult GetByGuid(Guid guid)
     {
@@ -117,7 +142,7 @@ public class AccountController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<int>
+        return Ok(new ResponseHandler<AccountDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
@@ -149,7 +174,7 @@ public class AccountController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<int>
+        return Ok(new ResponseHandler<AccountDto>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),

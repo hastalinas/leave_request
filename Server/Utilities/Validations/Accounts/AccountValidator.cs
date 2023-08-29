@@ -18,20 +18,5 @@ public class AccountValidator: AbstractValidator<AccountDto>
             .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter.")
             .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter.")
             .Matches("[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]").WithMessage("Password must contain at least one special character.");
-        RuleFor(a => a.ExpiredTime)
-            .Must(BeValidExpiredTime).WithMessage("Expired time must be within 2 hours from now.");
-    }
-    
-    private bool BeValidExpiredTime(DateTime? expiredTime)
-    {
-        if (!expiredTime.HasValue)
-        {
-            return false;
-        }
-
-        DateTime currentUtc = DateTime.UtcNow;
-        DateTime maxExpiredTime = currentUtc.AddHours(2);
-
-        return expiredTime.Value <= maxExpiredTime;
     }
 }

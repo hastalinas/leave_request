@@ -11,7 +11,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/leave-request")]
-[Authorize]
+// [Authorize]
 public class LeaveRequestController : ControllerBase
 {
     private readonly LeaveRequestService _leaveRequestService;
@@ -318,5 +318,35 @@ public class LeaveRequestController : ControllerBase
                 Message = "Leave Request cannot be changed because status is not 0"
             });
         }
+    }
+    
+    [HttpGet("request-manager")]
+    [Authorize(Roles = "employee")]
+    public IActionResult LeaveRequestDetailManager()
+    {
+        // Mendapatkan klaim-klaim dari pengguna yang terautentikasi
+        var userClaims = User.Claims;
+
+        var enumerable = userClaims.ToList();
+        var guid = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
+        var result = _leaveRequestService.LeaveRequestDetailManager(Guid.Parse(guid));
+        if (result is null)
+        {
+            return NotFound(new ResponseHandler<LeaveRequestDetailDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<LeaveRequestDetailDto>>
+            {
+                Code = StatusCodes.Status200OK,
+                Status = HttpStatusCode.OK.ToString(),
+                Message = "Success retrieving data",
+                Data = result
+            }
+        );
     }
 }
