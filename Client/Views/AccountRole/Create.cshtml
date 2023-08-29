@@ -15,37 +15,49 @@
     </script>
 }
 
-<h1>Create</h1>
 
-<h4>NewAccountRoleDto</h4>
-<hr />
+
+
 <div class="row">
-    <div class="col-md-4">
-        <form action="/AccountRole/Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="AccountGuid" class="control-label">Employee</label>
-                <select asp-for="AccountGuid" class="selectEmployee form-control">
+    <div class="col-1"></div>
+    <div class="col">
+        <div class="card mx-auto mb-3 border-0">
+            <div class="card-body">
+                <div>
+                    <h1 class="card-header bg-info text-white text-center">Create New Account Role</h1>
+                    <br />
+                    <form action="/AccountRole/Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="AccountGuid" class="control-label">Employee</label>
+                            <select asp-for="AccountGuid" class="selectEmployee form-control">
 
-                </select>
-                <span asp-validation-for="AccountGuid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RoleGuid" class="control-label">Role</label>
-                <select asp-for="RoleGuid" class="selectRole form-control">
+                            </select>
+                            <span asp-validation-for="AccountGuid" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="RoleGuid" class="control-label">Role</label>
+                            <select asp-for="RoleGuid" class="selectRole form-control">
 
-                </select>
+                            </select>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+                <br />
+                <div>
+                    <a asp-action="Info">Back to List</a>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
+    <div class="col-1"></div>
 </div>
 
-<div>
-    <a asp-action="Info">Back to List</a>
-</div>
+
 
 @section Scripts {
     <script>
