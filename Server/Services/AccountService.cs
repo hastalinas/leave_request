@@ -233,77 +233,7 @@ public class AccountService
                 throw new Exception("Custom error message: One or more required entities are null.");
             }
 
-<<<<<<< HEAD
             transaction.Commit();
-=======
-            var getAccount = _accountRepository.GetByGuid(isExist.Guid);
-            if (getAccount.Otp != changePasswordDto.OTP)
-            {
-                return 0;
-            }
-
-            if (getAccount.IsUsed)
-            {
-                return 1;
-            }
-
-            if (getAccount.ExpiredTime < DateTime.Now)
-            {
-                return 2;
-            }
-
-            var account = new Account
-            {
-                Guid = getAccount.Guid,
-                IsUsed = true,
-                ModifiedDate = DateTime.Now,
-                CreatedDate = getAccount.CreatedDate,
-                Otp = getAccount.Otp,
-                ExpiredTime = getAccount.ExpiredTime,
-                Password = HashingHandler.GenerateHash(changePasswordDto.NewPassword)
-            };
-
-            var isUpdated = _accountRepository.Update(account);
-            if (!isUpdated)
-            {
-                return 0; //Account Not Update
-            }
-
-            return 3;
-        }
-        public int ForgotPassword(ForgotPasswordDto forgotPassword)
-        {
-            var getAccountDetail = (from e in _employeeRepository.GetAll()
-                                    join a in _accountRepository.GetAll() on e.Guid equals a.Guid
-                                    where e.Email == forgotPassword.Email
-                                    select a).FirstOrDefault();
-
-            _accountRepository.Clear();
-            if (getAccountDetail is null)
-            {
-                return 0;
-            }
-
-            var otp = new Random().Next(111111, 999999);
-            var account = new Account
-            {
-                Guid = getAccountDetail.Guid,
-                Password = HashingHandler.GenerateHash(getAccountDetail.Password),
-                ExpiredTime = DateTime.Now.AddMinutes(5),
-                Otp = otp,
-                IsUsed = false,
-                CreatedDate = getAccountDetail.CreatedDate,
-                ModifiedDate = DateTime.Now
-            };
-
-            var isUpdated = _accountRepository.Update(account);
-
-            if (!isUpdated)
-                return -1;
-            
-            _emailHandler.SendEmail(forgotPassword.Email,"Leave Request - Forgot Password OTP", $"Your OTP is {otp}");
-            
->>>>>>> main
             return 1;
         }
         catch
