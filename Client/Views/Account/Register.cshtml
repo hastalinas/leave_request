@@ -176,7 +176,6 @@
                 "Authorization": "Bearer " + Token
             }
         }).done(function (result) {
-            // Assuming the API response contains a property named "totalEmployees"
             let getDepartment = ""
             $.each(result.data, (key, val) => {
                 console.log(result)

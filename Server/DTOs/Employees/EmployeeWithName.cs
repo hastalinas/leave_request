@@ -9,6 +9,7 @@ public class EmployeeWithName
 {
     public Guid Guid { get; set; }
     public string Nik { get; set; }
+    [Display(Name = "Full Name")]
     public string FullName { get; set; }
 
     [Display(Name = "Birth Date")]

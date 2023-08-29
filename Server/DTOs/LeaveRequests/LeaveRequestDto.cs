@@ -10,12 +10,14 @@ public class LeaveRequestDto
 {
     public Guid Guid { get; set; }
     public Guid EmployeeGuid { get; set; }
+    [Display(Name = "Leave Type")]
     public LeaveType LeaveType { get; set; }
-
+    [Display(Name = "Leave Start")]
     public DateTime LeaveStart { get; set; }
-
+    [Display(Name = "Leave End")]
     public DateTime LeaveEnd { get; set; }
     public string? Notes { get; set; }
+    [Display(Name = "Attachment Url")]
     public string? AttachmentUrl { get; set; }
     public Status Status { get; set; }
 
