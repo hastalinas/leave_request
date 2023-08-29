@@ -14,7 +14,7 @@ public class EmployeeController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
     private readonly LeaveRequestService _leaveRequestService;
-    
+
     public EmployeeController(EmployeeService employeeService,
         LeaveRequestService leaveRequestService)
     {
@@ -45,7 +45,31 @@ public class EmployeeController : ControllerBase
             Data = employeeDtos
         });
     }
-    
+
+    [HttpGet("employee-with-name")]
+    public IActionResult GetEmployeeWithName()
+    {
+        var result = _employeeService.GetEmployeeWithNames();
+        /*var employeeDtos = result.ToList();*/
+        if (!result.Any())
+        {
+            return NotFound(new ResponseHandler<EmployeeWithName>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<EmployeeWithName>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieving data",
+            Data = result
+        });
+    }
+
     [HttpGet("{guid}")]
     public IActionResult GetByGuid(Guid guid)
     {

@@ -8,7 +8,7 @@ using System.Data;
 using Server.Utilities.Handler;
 
 namespace Client.Controllers;
-[Authorize(Roles = "employee,manager, admin")]
+[Authorize(Roles = "manager, admin")]
 public class EmployeeController : Controller
 {
     private readonly IEmployeeRepository _repository;
@@ -20,8 +20,29 @@ public class EmployeeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var result = await _repository.Get();
-        var listEmployee = new List<EmployeeDto>();
+        var result = await _repository.GetAllEmployeewithName();
+        var listEmployee = new List<EmployeeWithName>();
+        foreach (var employee in result.Data)
+        {
+            var EmployeeNewList = new EmployeeWithName
+            {
+                Guid = employee.Guid,
+                BirthDate = employee.BirthDate,
+                DepartmentGuid = employee.DepartmentGuid,
+                DepartmentName = employee.DepartmentName,
+                Email = employee.Email,
+                FullName = employee.FullName,
+                Gender = employee.Gender,
+                HiringDate = employee.HiringDate,
+                LastLeaveUpdate = employee.LastLeaveUpdate,
+                LeaveRemain = employee.LeaveRemain,
+                ManagerGuid = employee.ManagerGuid,
+                ManagerName = employee.ManagerName,
+                Nik = employee.Nik,
+                PhoneNumber = employee.PhoneNumber,
+            };
+            listEmployee.Add(EmployeeNewList);
+        }
 
         if (result.Data != null)
         {

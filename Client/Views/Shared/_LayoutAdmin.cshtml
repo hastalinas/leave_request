@@ -309,8 +309,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <span class="fw-semibold d-block" id="employee">@User.FindFirst("Fullname").Value</span>
+                                                   
+                                                    <small class="text-muted">@User.FindFirst("Email").Value</small>
                                                 </div>
                                             </div>
                                         </a>
@@ -431,3 +432,32 @@
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+@section Scripts {
+    <script>
+        const Token = '@Context.Session.GetString("JWToken")';
+        $.ajax({
+            url: "https://localhost:7293/api/employees/" + employeeGuid,
+            headers: {
+                "Authorization": "Bearer " + Token
+            }
+        }).done(function (result) {
+            if (result.data.length > 0) {
+                const employee = result.data.filter(e => e.guid === '@Model.EmployeeGuid')[0];
+                const fullName = `${employee.firstName} ${employee.lastName}`;
+                $('#employee').val(fullName);
+                $('#employeeGuid').val(employee.guid);
+            } else {
+                $('#employee').val("Failed to fetch data");
+            }
+        }).fail(function () {
+            $('#employee').val("Failed to fetch data");
+        });
+        console.log('@Model.EmployeeGuid');
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
