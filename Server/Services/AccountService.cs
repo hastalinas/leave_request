@@ -147,165 +147,200 @@ public class AccountService
     }
 
     public int Register(RegisterDto registerDto)
+    {
+        // ini untuk cek emaik sama phone number udah ada atau belum
+        if (!_employeeRepository.IsNotExist(registerDto.Email) ||
+            !_employeeRepository.IsNotExist(registerDto.PhoneNumber))
         {
-            // ini untuk cek emaik sama phone number udah ada atau belum
-            if (!_employeeRepository.IsNotExist(registerDto.Email) ||
-                !_employeeRepository.IsNotExist(registerDto.PhoneNumber))
-            {
-                return -1; // kalau sudah ada, pendaftaran gagal.
-            }
-            
-            var department = _departmentRepository.GetByCode(registerDto.DepartmentCode);
-            if (department is null)
-            {
-                return -1; // Kalau department tidak ditemukan maka pendaftaran gagal
-            }
-    
-            using var transaction = _dbContext.Database.BeginTransaction();
-            try
-            {
-                var newNik =
-                    GenerateHandler.Nik(_employeeRepository.GetLastNik()); //karena niknya generate, sebelumnya kalo ga dikasih ini niknya null jadi error
-                var employeeGuid = Guid.NewGuid(); // Generate GUID baru untuk employee
-    
-                var manager = _employeeRepository.GetByNik(registerDto.ManagerNik);
-                Guid? managerGuid = null; // Inisialisasi dengan null
+            return -1; // kalau sudah ada, pendaftaran gagal.
+        }
+        
+        var department = _departmentRepository.GetByCode(registerDto.DepartmentCode);
+        if (department is null)
+        {
+            return -1; // Kalau department tidak ditemukan maka pendaftaran gagal
+        }
 
-                if (manager is not null)
+        using var transaction = _dbContext.Database.BeginTransaction();
+        try
+        {
+            var newNik =
+                GenerateHandler.Nik(_employeeRepository.GetLastNik()); //karena niknya generate, sebelumnya kalo ga dikasih ini niknya null jadi error
+            var employeeGuid = Guid.NewGuid(); // Generate GUID baru untuk employee
+
+            var manager = _employeeRepository.GetByNik(registerDto.ManagerNik);
+            Guid? managerGuid = null; // Inisialisasi dengan null
+
+            if (manager is not null)
+            {
+                managerGuid = manager.Guid; // Set managerGuid jika manager tidak null
+            }
+
+            var employee = _employeeRepository.Create(new EmployeeDto {
+                Guid = employeeGuid,
+                Nik = newNik,
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                BirthDate = registerDto.BirthDate,
+                Gender = registerDto.Gender,
+                HiringDate = registerDto.HiringDate,
+                Email = registerDto.Email,
+                PhoneNumber = registerDto.PhoneNumber,
+                DepartmentGuid = department.Guid,
+                ManagerGuid = managerGuid, // Assign managerGuid to the EmployeeDto
+                LastLeaveUpdate = registerDto.HiringDate
+            });
+            _accountRepository.Clear();
+            var accounts = _accountRepository.GetAll();
+            if (!accounts.Any())// Jika Account Role Kosong maka Inputan Register pertama akan menjadi Admin
+            {
+                var accountadmin = _accountRepository.Create(new AccountDto
                 {
-                    managerGuid = manager.Guid; // Set managerGuid jika manager tidak null
-                }
-
-                var employee = _employeeRepository.Create(new EmployeeDto {
-                    Guid = employeeGuid,
-                    Nik = newNik,
-                    FirstName = registerDto.FirstName,
-                    LastName = registerDto.LastName,
-                    BirthDate = registerDto.BirthDate,
-                    Gender = registerDto.Gender,
-                    HiringDate = registerDto.HiringDate,
-                    Email = registerDto.Email,
-                    PhoneNumber = registerDto.PhoneNumber,
-                    DepartmentGuid = department.Guid,
-                    ManagerGuid = managerGuid, // Assign managerGuid to the EmployeeDto
-                    LastLeaveUpdate = registerDto.HiringDate
-                });
-                _accountRepository.Clear();
-                var account = _accountRepository.Create(new AccountDto {
                     Guid = employeeGuid, // Gunakan employeeGuid
-                    ProfilPictureUrl = null,
                     IsUsed = true,
                     Password = HashingHandler.GenerateHash(registerDto.Password),
-                    ExpiredTime = null
+                    ExpiredTime = null,
+                    IsActive = true
                 });
-                _accountRepository.Clear();
+            }
+            var account = _accountRepository.Create(new AccountDto {
+                Guid = employeeGuid, // Gunakan employeeGuid
+                ProfilPictureUrl = null,
+                IsUsed = true,
+                Password = HashingHandler.GenerateHash(registerDto.Password),
+                ExpiredTime = null
+            });
+            _accountRepository.Clear();
             var accountrole = _accountRoleRepository.GetAll();
-                if (!accountrole.Any())// Jika Account Role Kosong maka Inputan Register pertama akan menjadi Admin
-                {
-                    var accountroleadmin = _accountRoleRepository.Create(new NewAccountRoleDto
-                    {
-                        AccountGuid = account.Guid,
-                        RoleGuid = Guid.Parse("36350d33-42d7-4c63-a244-29b0a8d13bce") // Register pertama sebagai admin
-                    });
-                    transaction.Commit();
-                    return 1;
-                }
-            var accountRole = _accountRoleRepository.Create((new NewAccountRoleDto()
+            if (!accountrole.Any())// Jika Account Role Kosong maka Inputan Register pertama akan menjadi Admin
+            {
+                var accountroleadmin = _accountRoleRepository.Create(new NewAccountRoleDto
                 {
                     AccountGuid = employeeGuid,
-                    RoleGuid = Guid.Parse("4887ec13-b482-47b3-9b24-08db91a71770") // Register as employee
-                }));
-
-                if (employee is null || account is null || accountRole is null)
-                {
-                    throw new Exception("Custom error message: One or more required entities are null.");
-                }
-
+                    RoleGuid = Guid.Parse("36350d33-42d7-4c63-a244-29b0a8d13bce") // Register pertama sebagai admin
+                });
                 transaction.Commit();
                 return 1;
             }
-            catch
+            var accountRole = _accountRoleRepository.Create((new NewAccountRoleDto()
             {
-                transaction.Rollback();
-                return -1;
-            }
-        }
+                AccountGuid = employeeGuid,
+                RoleGuid = Guid.Parse("4887ec13-b482-47b3-9b24-08db91a71770") // Register as employee
+            }));
 
-    public int ChangePassword(ChangePasswordDto changePasswordDto)
-        {
-            var isExist = _employeeRepository.CheckEmail(changePasswordDto.Email);
-            if (isExist is null)
+            if (employee is null || account is null || accountRole is null)
             {
-                return -1; //Account not found
+                throw new Exception("Custom error message: One or more required entities are null.");
             }
 
-            var getAccount = _accountRepository.GetByGuid(isExist.Guid);
-            if (getAccount.Otp != changePasswordDto.OTP)
-            {
-                return 0;
-            }
-
-            if (getAccount.IsUsed)
-            {
-                return 1;
-            }
-
-            if (getAccount.ExpiredTime < DateTime.Now)
-            {
-                return 2;
-            }
-
-            var account = new Account
-            {
-                Guid = getAccount.Guid,
-                IsUsed = true,
-                ModifiedDate = DateTime.Now,
-                CreatedDate = getAccount.CreatedDate,
-                Otp = getAccount.Otp,
-                ExpiredTime = getAccount.ExpiredTime,
-                Password = HashingHandler.GenerateHash(changePasswordDto.NewPassword)
-            };
-
-            var isUpdated = _accountRepository.Update(account);
-            if (!isUpdated)
-            {
-                return 0; //Account Not Update
-            }
-
-            return 3;
-        }
-        public int ForgotPassword(ForgotPasswordDto forgotPassword)
-        {
-            var getAccountDetail = (from e in _employeeRepository.GetAll()
-                                    join a in _accountRepository.GetAll() on e.Guid equals a.Guid
-                                    where e.Email == forgotPassword.Email
-                                    select a).FirstOrDefault();
-
-            _accountRepository.Clear();
-            if (getAccountDetail is null)
-            {
-                return 0;
-            }
-
-            var otp = new Random().Next(111111, 999999);
-            var account = new Account
-            {
-                Guid = getAccountDetail.Guid,
-                Password = HashingHandler.GenerateHash(getAccountDetail.Password),
-                ExpiredTime = DateTime.Now.AddMinutes(5),
-                Otp = otp,
-                IsUsed = false,
-                CreatedDate = getAccountDetail.CreatedDate,
-                ModifiedDate = DateTime.Now
-            };
-
-            var isUpdated = _accountRepository.Update(account);
-
-            if (!isUpdated)
-                return -1;
-            
-            _emailHandler.SendEmail(forgotPassword.Email,"Booking - Forgot Password OTP", $"Your OTP is {otp}");
-            
+            transaction.Commit();
             return 1;
         }
+        catch
+        {
+            transaction.Rollback();
+            return -1;
+        }
+    }
+
+    public int ChangePassword(ChangePasswordDto changePasswordDto)
+    {
+        var isExist = _employeeRepository.CheckEmail(changePasswordDto.Email);
+        if (isExist is null)
+        {
+            return -1; //Account not found
+        }
+
+        var getAccount = _accountRepository.GetByGuid(isExist.Guid);
+        if (getAccount.Otp != changePasswordDto.OTP)
+        {
+            return 0;
+        }
+
+        if (getAccount.IsUsed)
+        {
+            return 1;
+        }
+
+        if (getAccount.ExpiredTime < DateTime.Now)
+        {
+            return 2;
+        }
+
+        var account = new Account
+        {
+            Guid = getAccount.Guid,
+            IsUsed = true,
+            ModifiedDate = DateTime.Now,
+            CreatedDate = getAccount.CreatedDate,
+            Otp = getAccount.Otp,
+            ExpiredTime = getAccount.ExpiredTime,
+            Password = HashingHandler.GenerateHash(changePasswordDto.NewPassword)
+        };
+
+        var isUpdated = _accountRepository.Update(account);
+        if (!isUpdated)
+        {
+            return 0; //Account Not Update
+        }
+
+        return 3;
+    }
+    public int ForgotPassword(ForgotPasswordDto forgotPassword)
+    {
+        var getAccountDetail = (from e in _employeeRepository.GetAll()
+                                join a in _accountRepository.GetAll() on e.Guid equals a.Guid
+                                where e.Email == forgotPassword.Email
+                                select a).FirstOrDefault();
+
+        _accountRepository.Clear();
+        if (getAccountDetail is null)
+        {
+            return 0;
+        }
+
+        var otp = new Random().Next(111111, 999999);
+        var account = new Account
+        {
+            Guid = getAccountDetail.Guid,
+            Password = HashingHandler.GenerateHash(getAccountDetail.Password),
+            ExpiredTime = DateTime.Now.AddMinutes(5),
+            Otp = otp,
+            IsUsed = false,
+            CreatedDate = getAccountDetail.CreatedDate,
+            ModifiedDate = DateTime.Now
+        };
+
+        var isUpdated = _accountRepository.Update(account);
+
+        if (!isUpdated)
+            return -1;
+        
+        _emailHandler.SendEmail(forgotPassword.Email,"Booking - Forgot Password OTP", $"Your OTP is {otp}");
+        
+        return 1;
+    }
+
+    public IEnumerable<AccountDetailDto> GetDetailAll()
+    {
+        var getAccountDetail = from e in _employeeRepository.GetAll()
+            join a in _accountRepository.GetAll() on e.Guid equals a.Guid
+            select new AccountDetailDto()
+            {
+                Guid = e.Guid,
+                Name = $"{e.Nik} - {e.FirstName} {e.LastName}",
+                BirthDate = e.BirthDate.Date,
+                Gender = e.Gender,
+                Email = e.Email,
+                PhoneNumber = e.PhoneNumber,
+                IsActive = a.IsActive
+            };
+        var accountDetailDtos = getAccountDetail.ToList();
+        if (!accountDetailDtos.Any())
+        {
+            return Enumerable.Empty<AccountDetailDto>();
+        }
+        
+        return accountDetailDtos;
+    }
 }

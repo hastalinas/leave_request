@@ -4,7 +4,7 @@ using Server.DTOs.Accounts;
 
 namespace Server.Utilities.Validations.Accounts;
 
-public class NewAccountValidator: AbstractValidator<AccountDto>
+public class NewAccountValidator: AbstractValidator<NewAccountDto>
 {
     private readonly IAccountRepository _accountRepository;
 

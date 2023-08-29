@@ -34,7 +34,7 @@ public class LeaveRequest : BaseTable
     public string? AttachmentUrl { get; set; }
 
     public Status Status { get; set; }
+    public string? FeedbackNotes { get; set; }
     
     public virtual Employee Employee { get; set; }
-    public virtual Feedback Feedback { get; set; }
 }

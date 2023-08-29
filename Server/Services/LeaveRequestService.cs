@@ -162,6 +162,39 @@ public class LeaveRequestService
     
         return leaveRequestDetail;
     }
+    
+    public IEnumerable<LeaveRequestDetailDto>? LeaveRequestDetailManager(Guid guid)
+    {
+        int requestNumber = 1; // You need to calculate this based on existing records
+
+        var leaveRequestDetail = (
+            from employee in _employeeRepository.GetAll()
+            join leaveRequest in _leaveRequestRepository.GetAll()
+                on employee.Guid equals leaveRequest.EmployeeGuid
+            join manager in _employeeRepository.GetAll()
+                on employee.ManagerGuid equals manager.Guid
+            where employee.ManagerGuid == guid && employee.Guid != guid
+            // The condition "employee.Guid != guid" is added to exclude the employee with the given guid.
+            select new LeaveRequestDetailDto
+            {
+                Guid = leaveRequest.Guid,
+                RequestNumber = $"{leaveRequest.LeaveType} - {employee.Nik}{DateTime.Now.Year}{requestNumber++}",
+                RelationManager = $"{manager.Nik} - {manager.FirstName} {manager.LastName}",
+                LeaveType = leaveRequest.LeaveType,
+                LeaveStart = leaveRequest.LeaveStart,
+                LeaveEnd = leaveRequest.LeaveEnd,
+                PhoneNumber = employee.PhoneNumber,
+                LeaveDays = leaveRequest.LeaveEnd - leaveRequest.LeaveStart,
+                Notes = leaveRequest.Notes,
+                Attachment = leaveRequest.AttachmentUrl,
+                Status = leaveRequest.Status,
+                FeedbackNotes = leaveRequest.FeedbackNotes
+            }
+        ).ToList();
+
+    
+        return leaveRequestDetail;
+    }
 
     public IEnumerable<LeaveRequestDto> GetByEmployeeGuid(Guid guid)
     {

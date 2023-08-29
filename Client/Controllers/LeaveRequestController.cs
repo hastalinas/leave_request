@@ -26,13 +26,18 @@ public class LeaveRequestController : Controller
     [Authorize(Roles = "manager, admin, employee")]
     public async Task<IActionResult> Index()
     {
-        var result = await _repository.Get();
-        var ListRequest = new List<LeaveRequestDto>();
+        var result = await _repository.GetInfoManager();
+        var ListRequest = new List<LeaveRequestDetailDto>();
 
-        if (result.Data != null)
+        try
         {
             ListRequest = result.Data.ToList();
         }
+        catch
+        {
+            // ignored
+        }
+
         return View(ListRequest);
     }
 
@@ -46,27 +51,15 @@ public class LeaveRequestController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(RegisterLeaveDto leaveRequest)
     {
-        // Mendapatkan klaim-klaim dari pengguna yang terautentikasi
-        var userClaims = User.Claims;
-
-        var enumerable = userClaims.ToList();
-        var guidClaim = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
-
-        // Dapatkan peran (role) pengguna dari klaim tipe "Role"
-        var roles = enumerable.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
-
-        var register = new LeaveRequestDto()
+        var register = new RegisterLeaveDto()
         {
-            Guid = new Guid(),
-            EmployeeGuid = Guid.Parse(guidClaim),
             LeaveType = leaveRequest.LeaveType,
             LeaveStart = leaveRequest.LeaveStart,
             LeaveEnd = leaveRequest.LeaveEnd,
-            Notes = leaveRequest.Notes,
-            AttachmentUrl = leaveRequest.Attachment
+            Notes = leaveRequest.Notes
         };
 
-        var result = await _repository.Post(register);
+        var result = await _repository.RegisterLeave(register);
 
         if (result.Code == 200)
         {
@@ -168,6 +161,32 @@ public class LeaveRequestController : Controller
             listRequest = (LeaveRequestDto)result.Data;
         }
         return View(listRequest);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Response(Guid id)
+    {
+        var result = await _repository.Get(id);
+        var listRequest = new LeaveRequestDto();
+
+        if (result.Data != null)
+        {
+            listRequest = (LeaveRequestDto)result.Data;
+        }
+        return View(listRequest);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Response(LeaveRequestDto entity)
+    {
+        var result = await _repository.Put(entity.Guid, entity);
+        var listRequest = new LeaveRequestDto();
+
+        if (result.Data != null)
+        {
+            listRequest = (LeaveRequestDto)result.Data;
+        }
+        return RedirectToAction("Index", "LeaveRequest");
     }
 
     public async Task<IActionResult> Notification()

@@ -1,117 +1,120 @@
-﻿@model List<Server.DTOs.LeaveRequests.LeaveRequestDto>
+﻿@using Server.Utilities.Enums;
+@model IEnumerable<Server.DTOs.LeaveRequests.LeaveRequestDetailDto>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Account";
+    Layout = "_LayoutAdmin";
 }
 
-<div class="card">
-    <h1 class="card-header">Data Leave Request</h1>
-    @if (User.IsInRole("employee"))
+<h1>Leave Request</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div id="accordionExample" class="accordion mt-3 accordion-without-arrow d-block">
+    @foreach (var item in Model)
     {
-        <p>
-            <a class="btn btn-primary" href="/LeaveRequest/Create">Add Leave Request <i class="fa-solid fa-plus"></i></a>
-        </p>
-    }
-    
-    <div class="table-responsive text-nowrap">
-    <table class="table table-hover">
-    <thead>
-        <tr>
-            @*<th>
-                @Html.DisplayNameFor(model => model.EmployeeGuid)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model[0].LeaveType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].LeaveStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].LeaveEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Notes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].AttachmentUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Status)
-            </th>
-          @*  <th>
-                @Html.DisplayNameFor(model => model.Guid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>*@
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.EmployeeGuid)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AttachmentUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Guid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
-            </td>*@
-            <td>
-                <div class="table-actions" style="display: flex;">
-                    <form>
-                      <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
-                    </form>
-                                @*@if (item.Status != "Sent" && item.Status != "Approved")
-                                {
-                                    <form asp-action="Edit" asp-route-id="@item.Guid">
-                                        <button type="submit" style="background: none; border: none; padding: 0;">
-                                            <i class="fas fa-edit text-info"></i>
-                                        </button>
-                                    </form>
-                                }*@
-                
-                <form action="/LeaveRequest/Send" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin mengajukan cuti?')">
-                    <input type="hidden" value="@item.Guid" name="guid" />
-                    <button value="" style="background: none; border: none;" class="fa-regular fa-paper-plane text-success" onclick="return true"></button>
-                </form>
-                <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
-                    <input type="hidden" value="@item.Guid" name="guid" />
-                    <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
-                </form>
+        var accordionId = $"accordion_{item.RequestNumber.Replace(" ", "_")}";
+        <div class="card accordion-item">
+            <h2 class="accordion-header" id="heading_@accordionId">
+                <button type="button"
+                        class="accordion-button collapsed"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#@accordionId"
+                        aria-controls="@accordionId">
+                    <span class="col">@Html.DisplayFor(modelItem => item.RequestNumber)</span>
+                    <div class="row">
+                        <div class="col">
+                            <span class="badge bg-secondary">@item.LeaveDays.Days Days</span>
+                            @if (item.Status == Status.Draft)
+                            {
+                                <span class="badge bg-secondary">Draft</span>
+                            }
+                            else if (item.Status == Status.OnProcess)
+                            {
+                                <span class="badge bg-primary">OnProcess</span>
+                            }
+                            else if (item.Status == Status.Success)
+                            {
+                                <span class="badge bg-success">Success</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </div>
+                    </div>
+                </button>
+            </h2>
+            <div id="@accordionId"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="heading_@accordionId"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="d-grid">
+                        <div class="col">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.RelationManager)</th>
+                                    <td>: @Html.DisplayFor(modelItem => item.RelationManager)</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.LeaveType)</th>
+                                    <td>: @Html.DisplayFor(modelItem => item.LeaveType)</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.LeaveStart)</th>
+                                    <td>: @Html.DisplayFor(modelItem => item.LeaveStart)</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.LeaveEnd)</th>
+                                    <td>: @Html.DisplayFor(modelItem => item.LeaveEnd)</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                                    <td>:  @Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.Notes)</th>
+                                    <td>: @Html.DisplayFor(modelItem => item.Notes)</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.LeaveDays)</th>
+                                    <td>: @Html.DisplayFor(modelItem => item.LeaveDays.Days) Days</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                                    <td>: @Html.DisplayFor(modelItem => item.Status)</td>
+                                </tr>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.Attachment)</th>
+                                    <td>: @Html.DisplayFor(modelItem => item.Attachment)</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="m-1">
+                            <form>
+                                <a asp-action="Response" asp-controller="LeaveRequest" asp-route-id="@item.Guid" class="btn rounded-pill btn-outline-success">
+                                    <span class="tf-icons bx bx-envelope d-none d-sm-inline"></span>&nbsp; Response
+                                </a>
+                            </form>
+                        </div>
+                        <div class="m-1">
+                            <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                                <input type="hidden" value="@item.Guid" name="guid"/>
+                                <button value="" class="btn rounded-pill btn-outline-danger" onclick="return true">
+                                    <span class="tf-icons bx bx-trash d-none d-sm-inline"></span>&nbsp; Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                           
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-
-</div>
+            </div>
+        </div>
+    }
 </div>

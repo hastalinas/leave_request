@@ -1,4 +1,5 @@
-﻿using Server.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Server.Models;
 using Server.Utilities.Enums;
 
 namespace Server.DTOs.LeaveRequests;
@@ -16,4 +17,5 @@ public class LeaveRequestDetailDto
     public TimeSpan LeaveDays { get; set; }
     public string Attachment { get; set; }
     public Status Status { get; set; }
+    public string FeedbackNotes { get; set; }
 }
