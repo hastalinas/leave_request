@@ -11,7 +11,7 @@ $(document).ready(function () {
                 extend: 'colvis',
                 postfixButtons: ['colvisRestore'],
                 collectionLayout: 'fixed two-column',
-                className: 'btn btn-primary'
+                className: 'btn btn-info'
             }
             , 'copy', 'csv', 'excel', 'pdf', 'print'
         ]
