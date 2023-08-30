@@ -26,13 +26,13 @@ public class EmployeeRepository : GeneralRepository<EmployeeDto, Guid>, IEmploye
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", _contextAccessor.HttpContext?.Session.GetString("JWToken"));
 
     }
-    public async Task<ResponseHandler<IEnumerable<EmployeeWithName>>?> GetAllEmployeewithName()
+    public async Task<ResponseHandler<IEnumerable<EmployeeWithNameDto>>?> GetAllEmployeewithName()
     {
-        ResponseHandler<IEnumerable<EmployeeWithName>>? entityVM = null;
+        ResponseHandler<IEnumerable<EmployeeWithNameDto>>? entityVM = null;
         using (var response = await _httpClient.GetAsync(_request + "employee-with-name"))
         {
             string apiResponse = await response.Content.ReadAsStringAsync();
-            entityVM = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<EmployeeWithName>>>(apiResponse);
+            entityVM = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<EmployeeWithNameDto>>>(apiResponse);
         }
         return entityVM;
     }

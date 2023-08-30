@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace Server.DTOs.Employees;
 
-public class EmployeeWithName
+public class EmployeeWithNameDto
 {
     public Guid Guid { get; set; }
     public string Nik { get; set; }
@@ -32,6 +32,8 @@ public class EmployeeWithName
     [Display(Name = "Leave Remain")]
     public int LeaveRemain { get; set; }
     public DateTime LastLeaveUpdate { get; set; }
+
+    public IFormFile? ProfileImage { get; set; }
 
     
 }

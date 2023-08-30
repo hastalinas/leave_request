@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var profilePictureClaim = User.FindFirst("ProfilPicture");
+    var profilePictureUrl = (profilePictureClaim != null) ? profilePictureClaim.Value : "~/assets/img/avatars/1.png";
+}
+
+<!DOCTYPE html>
 
 <!-- =========================================================
 * Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
@@ -247,6 +252,23 @@
                         </ul>
 
                     </li>
+                    
+                    <!-- Layouts -->
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <div data-i18n="Account Manager">Account Manager</div>
+                        </a>
+                    
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a asp-action="Index" asp-controller="AccountManager" class="menu-link">
+                                    <div data-i18n="Account">Account</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
 
                 </ul>
             </aside>
@@ -283,7 +305,7 @@
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="~/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                        <img src="@profilePictureUrl" alt class="w-px-40 h-auto rounded-circle" />
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -292,7 +314,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="~/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                                        <img src="@profilePictureUrl" alt class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">

@@ -90,14 +90,14 @@ public class EmployeeService
         return result ? 1 : 0;
     }
 
-    public IEnumerable<EmployeeWithName>? GetEmployeeWithNames()
+    public IEnumerable<EmployeeWithNameDto>? GetEmployeeWithNames()
     {
         var merge = (from employee in _employeeRepository.GetAll()
                     join manager in _employeeRepository.GetAll() on employee.ManagerGuid equals manager.Guid into ManagerGroup
                     from manager in ManagerGroup.DefaultIfEmpty()
                     join department in _departmentRepository.GetAll() on employee.DepartmentGuid equals department.Guid
 
-                    select new EmployeeWithName
+                    select new EmployeeWithNameDto
                     {
                         Guid = employee.Guid,
                         DepartmentGuid = department.Guid,

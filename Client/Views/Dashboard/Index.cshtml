@@ -180,8 +180,9 @@
                     "Authorization": "Bearer " + Token
                 }
             }).done(function (result) {
-                var eligibleLeave = result.data.eligibleLeave; // Ambil nilai eligibleLeave dari respons API
-                $("#eligible-leave-value").text(eligibleLeave); // Tampilkan nilai eligibleLeave
+                console.log(result)
+                var availableLeave = result.data.availableLeave; // Ambil nilai eligibleLeave dari respons API
+                $("#eligible-leave-value").text(availableLeave); // Tampilkan nilai eligibleLeave
             }).fail(function (error) {
                 $("#eligible-leave-value").text("Failed to fetch data");
                 console.log(error);

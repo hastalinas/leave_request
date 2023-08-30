@@ -21,10 +21,10 @@ public class EmployeeController : Controller
     public async Task<IActionResult> Index()
     {
         var result = await _repository.GetAllEmployeewithName();
-        var listEmployee = new List<EmployeeWithName>();
+        var listEmployee = new List<EmployeeWithNameDto>();
         foreach (var employee in result.Data)
         {
-            var EmployeeNewList = new EmployeeWithName
+            var EmployeeNewList = new EmployeeWithNameDto
             {
                 Guid = employee.Guid,
                 BirthDate = employee.BirthDate,

@@ -123,13 +123,16 @@ public class AccountService
         {
             return "-3"; // Account need to activate
         }
-
+        
         var employee = _employeeRepository.GetByEmail(loginDto.Email);
+        var account = _accountRepository.GetByGuid(employee.Guid);
+        
         var claims = new List<Claim>
         {
             new Claim("Guid", employee.Guid.ToString()),
             new Claim("FullName", $"{employee.FirstName} {employee.LastName}"),
-            new Claim("Email", employee.Email)
+            new Claim("Email", employee.Email),
+            new Claim("ProfilPicture", account.ProfilPictureUrl)
         };
         
         var getRoles = _accountRoleRepository.GetRoleNamesByAccountGuid(employee.Guid);
