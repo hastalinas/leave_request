@@ -4,6 +4,13 @@
     ViewData["Title"] = "Create";
 }
 
+<!-- Include Bootstrap Date Range Picker CSS and JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
 <div class="row">
     <div class="col-1"></div>
     <div class="col">
@@ -27,12 +34,14 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="LeaveStart" class="control-label">Leave Start</label>
-                            <input asp-for="LeaveStart" class="form-control" type="date"/>
+                            @*<input asp-for="LeaveStart" class="form-control" type="date"/>*@
+                            <input asp-for="LeaveStart" class="form-control" type="text" name="leaveStart" value="" />
                             <span asp-validation-for="LeaveStart" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="LeaveEnd" class="control-label">Leave End</label>
-                            <input asp-for="LeaveEnd" class="form-control" type="date" />
+                            @*<input asp-for="LeaveEnd" class="form-control" type="date" />*@
+                            <input asp-for="LeaveEnd" class="form-control" type="text" name="leaveEnd" value="" />
                             <span asp-validation-for="LeaveEnd" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -59,10 +68,38 @@
         </div>
     </div>
     <div class="col-1"></div>
+
+    <input type="text" name="leaveStart" value="" />
+    <input type="text" name="leaveEnd" value="" />
 </div>
 
 
 
 @section Scripts {
+    <script>
+        const Token = '@Context.Session.GetString("JWToken")'
+        $(function () {
+            $('input[name="leaveStart"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minDate: moment().startOf('day'), // Disable past dates
+                startDate: moment().add(1, 'days'), // Default start date (tomorrow)
+                endDate: moment().add(1, 'days'),   // Default end date (tomorrow)
+            }, function (start, end, label) {
+            });
+        });
+
+        $(function () {
+            $('input[name="leaveEnd"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minDate: moment().startOf('day'), // Disable past dates
+                startDate: moment().add(1, 'days'), // Default start date (tomorrow)
+                endDate: moment().add(1, 'days'),   // Default end date (tomorrow)
+            }, function (start, end, label) {
+            });
+        });
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -62,7 +62,7 @@ public class AccountRoleController : Controller
         {
             RedirectToAction("Info");
         }
-        return View();
+        return RedirectToAction("Info", "AccountRole"); ;
     }
     
     [HttpPost]
