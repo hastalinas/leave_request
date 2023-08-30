@@ -1,0 +1,11 @@
+.glassmorphism-container {
+    background: rgba(255, 255, 255, 0.2); /* Warna latar belakang transparan */
+    backdrop-filter: blur(10px); /* Efek blur pada latar belakang */
+}
+
+/* Gaya teks pada elemen dengan glassmorphism */
+.glassmorphism-text {
+    color: white;
+    text-align: center;
+    font-size: 18px;
+}

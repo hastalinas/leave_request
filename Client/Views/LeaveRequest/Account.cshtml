@@ -19,7 +19,7 @@
     @foreach (var item in  Model.OrderByDescending(i => i.LeaveStart))
     {
         var accordionId = $"accordion_{item.RequestNumber.Replace(" ", "_")}";
-        <div class="card accordion-item">
+        <div class="card accordion-item glassmorphism-container">
             <h2 class="accordion-header" id="heading_@accordionId">
                 <button type="button"
                         class="accordion-button collapsed"
@@ -55,50 +55,88 @@
                  aria-labelledby="heading_@accordionId"
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <div class="d-grid">
-                        <div class="col">
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <th>Relation Manager</th>
-                                    <td>: @Html.DisplayFor(modelItem => item.RelationManager)</td>
-                                </tr>
-                                <tr>
-                                    <th>Leave Type</th>
-                                    <td>: @Html.DisplayFor(modelItem => item.LeaveType)</td>
-                                </tr>
-                                <tr>
-                                    <th>Leave Start</th>
-                                    <td>: @Html.DisplayFor(modelItem => item.LeaveStart)</td>
-                                </tr>
-                                <tr>
-                                    <th>Leave End</th>
-                                    <td>: @Html.DisplayFor(modelItem => item.LeaveEnd)</td>
-                                </tr>
-                                <tr>
-                                    <th>Phone Number</th>
-                                    <td>:  @Html.DisplayFor(modelItem => item.PhoneNumber)</td>
-                                </tr>
-                                <tr>
-                                    <th>Notes</th>
-                                    <td>: @Html.DisplayFor(modelItem => item.Notes)</td>
-                                </tr>
-                                <tr>
-                                    <th>Leave Days</th>
-                                    <td>: @Html.DisplayFor(modelItem => item.LeaveDays.Days) Days</td>
-                                </tr>
-                                <tr>
-                                    <th>Status</th>
-                                    <td>: @Html.DisplayFor(modelItem => item.Status)</td>
-                                </tr>
-                                <tr>
-                                    <th>Attachment</th>
-                                    <td>: @Html.DisplayFor(modelItem => item.Attachment)</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                <div class="d-grid table">
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Relation Manager
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.RelationManager)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Leave Type
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.LeaveType)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Leave Start
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.LeaveStart)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Leave End
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.LeaveEnd)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Phone Number
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Notes
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.Notes)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Leave Days
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.LeaveDays.Days) Days
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Status
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.Status)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Attachment
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.Attachment)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Feedback Notes
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.FeedbackNotes)
+                                </div>
+                            </div>
                         </div>
-                    </div>
                     <div class="d-flex">
                         @if (item.Status == Status.Draft)
                         {

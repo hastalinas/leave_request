@@ -17,5 +17,5 @@ public class LeaveRequestDetailDto
     public TimeSpan LeaveDays { get; set; }
     public string Attachment { get; set; }
     public Status Status { get; set; }
-    public string FeedbackNotes { get; set; }
+    public string? FeedbackNotes { get; set; }
 }

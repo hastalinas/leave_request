@@ -156,7 +156,8 @@ public class LeaveRequestService
                 LeaveDays = leaveRequest.LeaveEnd - leaveRequest.LeaveStart,
                 Notes = leaveRequest.Notes,
                 Attachment = leaveRequest.AttachmentUrl,
-                Status = leaveRequest.Status
+                Status = leaveRequest.Status,
+                FeedbackNotes = leaveRequest.FeedbackNotes
             }
         ).ToList();
     
