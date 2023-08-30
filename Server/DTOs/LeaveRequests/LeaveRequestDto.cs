@@ -20,6 +20,7 @@ public class LeaveRequestDto
     [Display(Name = "Attachment Url")]
     public string? AttachmentUrl { get; set; }
     public Status Status { get; set; }
+    [Display(Name = "Feedback Notes")]
     public string? FeedbackNotes { get; set; }
 
     public static implicit operator LeaveRequest(LeaveRequestDto leaveRequestDto)

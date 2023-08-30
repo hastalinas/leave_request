@@ -63,9 +63,9 @@ public class LeaveRequestController : Controller
 
         if (result.Code == 200)
         {
-            RedirectToAction("Index");
+            RedirectToAction("Account");
         }
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Account));
     }
 
     [HttpGet]
@@ -110,7 +110,7 @@ public class LeaveRequestController : Controller
             TempData["Error"] = $"Failed to Delete Data - {result.Message}!";
         }
 
-        return RedirectToAction("Index", "LeaveRequest");
+        return RedirectToAction("Account", "LeaveRequest");
     }
 
     [HttpPost]
@@ -129,7 +129,7 @@ public class LeaveRequestController : Controller
             TempData["Error"] = $"{result.Message}!";
         }
 
-        return RedirectToAction("Index", "LeaveRequest");
+        return RedirectToAction("Account", "LeaveRequest");
     }
 
     [HttpGet]
