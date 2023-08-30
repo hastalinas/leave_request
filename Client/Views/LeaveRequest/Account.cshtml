@@ -16,7 +16,7 @@
 </div>
 
 <div id="accordionExample" class="accordion mt-3 accordion-without-arrow d-block">
-    @foreach (var item in Model)
+    @foreach (var item in  Model.OrderByDescending(i => i.LeaveStart))
     {
         var accordionId = $"accordion_{item.RequestNumber.Replace(" ", "_")}";
         <div class="card accordion-item">
@@ -60,39 +60,39 @@
                             <table class="table">
                                 <tbody>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.RelationManager)</th>
+                                    <th>Relation Manager</th>
                                     <td>: @Html.DisplayFor(modelItem => item.RelationManager)</td>
                                 </tr>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.LeaveType)</th>
+                                    <th>Leave Type</th>
                                     <td>: @Html.DisplayFor(modelItem => item.LeaveType)</td>
                                 </tr>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.LeaveStart)</th>
+                                    <th>Leave Start</th>
                                     <td>: @Html.DisplayFor(modelItem => item.LeaveStart)</td>
                                 </tr>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.LeaveEnd)</th>
+                                    <th>Leave End</th>
                                     <td>: @Html.DisplayFor(modelItem => item.LeaveEnd)</td>
                                 </tr>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                                    <th>Phone Number</th>
                                     <td>:  @Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                                 </tr>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.Notes)</th>
+                                    <th>Notes</th>
                                     <td>: @Html.DisplayFor(modelItem => item.Notes)</td>
                                 </tr>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.LeaveDays)</th>
+                                    <th>Leave Days</th>
                                     <td>: @Html.DisplayFor(modelItem => item.LeaveDays.Days) Days</td>
                                 </tr>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                                    <th>Status</th>
                                     <td>: @Html.DisplayFor(modelItem => item.Status)</td>
                                 </tr>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.Attachment)</th>
+                                    <th>Attachment</th>
                                     <td>: @Html.DisplayFor(modelItem => item.Attachment)</td>
                                 </tr>
                                 </tbody>
@@ -100,29 +100,50 @@
                         </div>
                     </div>
                     <div class="d-flex">
-                        <div class="m-1">
-                            <form>
-                                <a type="button" class="btn rounded-pill btn-outline-secondary" asp-action="EditEmployee" asp-route-id="@item.Guid">
+                        @if (item.Status == Status.Draft)
+                        {
+                            <div class="m-1">
+                                <form>
+                                    <a type="button" class="btn rounded-pill btn-outline-secondary" asp-action="EditEmployee" asp-route-id="@item.Guid">
+                                        <span class="tf-icons bx bx-edit d-none d-sm-inline"></span>&nbsp; Edit
+                                    </a>
+                                </form>
+                            </div>
+                            <div class="m-1">
+                                <form action="/LeaveRequest/Send" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin mengajukan cuti?')">
+                                    <input type="hidden" value="@item.Guid" name="guid"/>
+                                    <button value="" class="btn rounded-pill btn-outline-success" onclick="return true">
+                                        <span class="tf-icons bx bx-send d-none d-sm-inline"></span>&nbsp; Send
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="m-1">
+                                <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                                    <input type="hidden" value="@item.Guid" name="guid"/>
+                                    <button value="" class="btn rounded-pill btn-outline-danger" onclick="return true">
+                                        <span class="tf-icons bx bx-trash d-none d-sm-inline"></span>&nbsp; Delete
+                                    </button>
+                                </form>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="m-1">
+                                <button class="btn rounded-pill btn-outline-secondary" disabled>
                                     <span class="tf-icons bx bx-edit d-none d-sm-inline"></span>&nbsp; Edit
-                                </a>
-                            </form>
-                        </div>
-                        <div class="m-1">
-                            <form action="/LeaveRequest/Send" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin mengajukan cuti?')">
-                                <input type="hidden" value="@item.Guid" name="guid"/>
-                                <button value="" class="btn rounded-pill btn-outline-success" onclick="return true">
+                                </button>
+                            </div>
+                            <div class="m-1">
+                                <button class="btn rounded-pill btn-outline-success" disabled>
                                     <span class="tf-icons bx bx-send d-none d-sm-inline"></span>&nbsp; Send
                                 </button>
-                            </form>
-                        </div>
-                        <div class="m-1">
-                            <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
-                                <input type="hidden" value="@item.Guid" name="guid"/>
-                                <button value="" class="btn rounded-pill btn-outline-danger" onclick="return true">
+                            </div>
+                            <div class="m-1">
+                                <button class="btn rounded-pill btn-outline-danger" disabled>
                                     <span class="tf-icons bx bx-trash d-none d-sm-inline"></span>&nbsp; Delete
                                 </button>
-                            </form>
-                        </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

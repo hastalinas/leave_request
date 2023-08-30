@@ -17,9 +17,11 @@ namespace Client.Controllers;
 public class LeaveRequestController : Controller
 {
     private readonly ILeaveRequestRepository _repository;
-    public LeaveRequestController(ILeaveRequestRepository repository)
+    private readonly IEmployeeRepository _employeeRepository;
+    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository)
     {
-        this._repository = repository;
+        _repository = repository;
+        _employeeRepository = employeeRepository;
     }
 
 
@@ -51,21 +53,37 @@ public class LeaveRequestController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(RegisterLeaveDto leaveRequest)
     {
-        var register = new RegisterLeaveDto()
-        {
-            LeaveType = leaveRequest.LeaveType,
-            LeaveStart = leaveRequest.LeaveStart,
-            LeaveEnd = leaveRequest.LeaveEnd,
-            Notes = leaveRequest.Notes
-        };
+        var emp = await _employeeRepository.Get();
+        
+        // Mendapatkan klaim-klaim dari pengguna yang terautentikasi
+        var userClaims = User.Claims;
 
-        var result = await _repository.RegisterLeave(register);
+        var enumerable = userClaims.ToList();
+        var guid = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
+        var data = emp.Data.FirstOrDefault(e => e.Guid == Guid.Parse(guid));
 
-        if (result.Code == 200)
+        if (data.LeaveRemain >= (leaveRequest.LeaveEnd - leaveRequest.LeaveStart).Days)
         {
-            RedirectToAction("Index");
+            var register = new RegisterLeaveDto()
+            {
+                LeaveType = leaveRequest.LeaveType,
+                LeaveStart = leaveRequest.LeaveStart,
+                LeaveEnd = leaveRequest.LeaveEnd,
+                Notes = leaveRequest.Notes
+            };
+
+            var result = await _repository.RegisterLeave(register);
+
+            if (result.Code == 200)
+            {
+                RedirectToAction("Index");
+            }
         }
-        return RedirectToAction(nameof(Index));
+        else
+        {
+            TempData["Error"] = $"Leave remain not enough! Your leave remain : {data.LeaveRemain}";
+        }
+        return View();
     }
 
     [HttpGet]
@@ -180,12 +198,24 @@ public class LeaveRequestController : Controller
     public async Task<IActionResult> Response(LeaveRequestDto entity)
     {
         var result = await _repository.Put(entity.Guid, entity);
-        var listRequest = new LeaveRequestDto();
 
-        if (result.Data != null)
+        var employee = await _employeeRepository.Get();
+
+        try
         {
-            listRequest = (LeaveRequestDto)result.Data;
+            if (entity.Status == Status.Success && result.Data != null)
+            {
+                var data = employee.Data.FirstOrDefault(e => e.Guid == entity.EmployeeGuid);
+                data.LeaveRemain = data.LeaveRemain - (entity.LeaveEnd - entity.LeaveStart).Days;
+
+                var udate = await _employeeRepository.Put(data.Guid, data);
+            }
         }
+        catch
+        {
+            // ignored
+        }
+
         return RedirectToAction("Index", "LeaveRequest");
     }
 
