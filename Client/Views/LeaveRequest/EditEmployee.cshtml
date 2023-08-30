@@ -27,7 +27,13 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="LeaveType" class="control-label">Leave Type</label>
-                            <input asp-for="LeaveType" class="form-control" />
+                            <select class="form-control" asp-for="LeaveType" aria-label="Floating label select example">
+                                <option selected>Open this select menu</option>
+                                <option value="0">Vacation</option>
+                                <option value="1">Sick</option>
+                                <option value="2">Personal</option>
+                                <option value="3">Other</option>
+                            </select>
                             <span asp-validation-for="LeaveType" class="text-danger"></span>
                         </div>
                         <div class="form-group">
