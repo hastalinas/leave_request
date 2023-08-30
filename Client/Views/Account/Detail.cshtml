@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>AccountDetail</h1>
+<h1 class="text-center">Account Detail</h1>
 
 <div id="accordionExample" class="accordion mt-3 accordion-without-arrow d-block">
     @foreach (var item in Model)
@@ -70,7 +70,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="m-1">
-                            <form action="/Account/Activate" method="post" id="activate-form" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                            <form action="/Account/Activate" method="post" id="activate-form" onsubmit="return confirm('Apakah Anda yakin ingin mengaktifkan account ini?')">
                                 <input type="hidden" value="@item.Guid" name="guid"/>
                                 <button value="" class="btn rounded-pill btn-outline-success">
                                     <span class="tf-icons bx bx-user-check d-none d-sm-inline"></span>&nbsp; Activate
@@ -78,7 +78,7 @@
                             </form>
                         </div>
                         <div class="m-1">
-                            <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                            <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                 <input type="hidden" value="@item.Guid" name="guid"/>
                                 <button value="" class="btn rounded-pill btn-outline-danger" onclick="return true">
                                     <span class="tf-icons bx bx-trash d-none d-sm-inline"></span> Delete

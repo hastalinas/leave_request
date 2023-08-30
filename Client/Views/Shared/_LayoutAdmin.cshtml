@@ -51,9 +51,6 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="~/assets/js/config.js"></script>
 
-
-    <link href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
-
     <!--Datatable-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <!-- Include Ionicons library -->
@@ -218,48 +215,12 @@
                                         <div data-i18n="Container">Leave Request</div>
                                     </a>
                                 </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="Feedback" asp-action="Index" class="menu-link">
-                                        <div data-i18n="Container">Feedback</div>
-                                    </a>
-                                </li>
                             }
                            
-
-        
-
                             
                         </ul>
 
                     </li>
-
-                    @if (User.IsInRole("admin") || User.IsInRole("manager"))
-                    {
-                        <li class="menu-item">
-                            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                                <div data-i18n="Account Settings">Employee Leave Report</div>
-                            </a>
-                            <ul class="menu-sub">
-                                <li class="menu-item">
-                                    <a asp-action="Account" asp-controller="LeaveRequest" class="menu-link">
-                                        <div data-i18n="Account">Account</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-account-settings-notifications.html" class="menu-link">
-                                        <div data-i18n="Notifications">Notifications</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-account-settings-connections.html" class="menu-link">
-                                        <div data-i18n="Connections">Connections</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-
 
                 </ul>
             </aside>

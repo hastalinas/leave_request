@@ -12,8 +12,8 @@ using Server.Data;
 namespace Server.Migrations
 {
     [DbContext(typeof(LeaveDbContext))]
-    [Migration("20230822051241_DbBaru")]
-    partial class DbBaru
+    [Migration("20230830025423_DeleteFeedback")]
+    partial class DeleteFeedback
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,10 @@ namespace Server.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("expired_time");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
+
                     b.Property<bool>("IsUsed")
                         .HasColumnType("bit")
                         .HasColumnName("is_used");
@@ -46,7 +50,7 @@ namespace Server.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("modified_date");
 
-                    b.Property<int>("OTP")
+                    b.Property<int>("Otp")
                         .HasColumnType("int")
                         .HasColumnName("otp");
 
@@ -55,8 +59,8 @@ namespace Server.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("password");
 
-                    b.Property<byte[]>("ProfilPicture")
-                        .HasColumnType("varbinary(max)")
+                    b.Property<string>("ProfilPictureUrl")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("profil_picture");
 
                     b.HasKey("Guid");
@@ -130,80 +134,80 @@ namespace Server.Migrations
                         {
                             Guid = new Guid("b41e4d54-2ffe-4619-53c8-08dba0d4ed05"),
                             Code = "SALES",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4028),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4029),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4745),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4746),
                             Name = "Sales"
                         },
                         new
                         {
                             Guid = new Guid("51d55a47-1cab-42e6-53c9-08dba0d4ed05"),
                             Code = "MARKETING",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4030),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4031),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4748),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4749),
                             Name = "Marketing"
                         },
                         new
                         {
                             Guid = new Guid("1fcc1546-78e3-4baf-53ca-08dba0d4ed05"),
                             Code = "FINANCE",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4033),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4033),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4751),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4752),
                             Name = "Finance"
                         },
                         new
                         {
                             Guid = new Guid("e707fb58-cdb1-4c2a-53cb-08dba0d4ed05"),
                             Code = "HR",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4034),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4035),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4754),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4755),
                             Name = "Human Resources"
                         },
                         new
                         {
                             Guid = new Guid("02988287-198d-4dab-53cc-08dba0d4ed05"),
                             Code = "RND",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4036),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4036),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4756),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4757),
                             Name = "Research and Development"
                         },
                         new
                         {
                             Guid = new Guid("8ccd5722-3f93-484d-53cd-08dba0d4ed05"),
                             Code = "IT",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4069),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4069),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4758),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4759),
                             Name = "Information Technology"
                         },
                         new
                         {
                             Guid = new Guid("9b3c7c65-c99a-4e97-53ce-08dba0d4ed05"),
                             Code = "OPS",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4071),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4071),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4760),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4761),
                             Name = "Operations"
                         },
                         new
                         {
                             Guid = new Guid("1e4f0537-3ca0-4d64-53cf-08dba0d4ed05"),
                             Code = "CS",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4072),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4073),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4762),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4763),
                             Name = "Customer Service"
                         },
                         new
                         {
                             Guid = new Guid("bb4e21b9-f8ac-40ad-53d0-08dba0d4ed05"),
                             Code = "PROD",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4075),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4075),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4765),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4766),
                             Name = "Production"
                         },
                         new
                         {
                             Guid = new Guid("5eac3979-fc26-4017-53d1-08dba0d4ed05"),
                             Code = "QA",
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4076),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(4077),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4767),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4768),
                             Name = "Quality Assurance"
                         });
                 });
@@ -283,37 +287,6 @@ namespace Server.Migrations
                     b.ToTable("tb_m_employees");
                 });
 
-            modelBuilder.Entity("Server.Models.Feedback", b =>
-                {
-                    b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("guid");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_date");
-
-                    b.Property<Guid>("LeaveRequestGuid")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("leave_request");
-
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("modified_date");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("notes");
-
-                    b.HasKey("Guid");
-
-                    b.HasIndex("LeaveRequestGuid")
-                        .IsUnique();
-
-                    b.ToTable("tb_m_feedback");
-                });
-
             modelBuilder.Entity("Server.Models.LeaveRequest", b =>
                 {
                     b.Property<Guid>("Guid")
@@ -321,8 +294,8 @@ namespace Server.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
 
-                    b.Property<byte[]>("Attachment")
-                        .HasColumnType("varbinary(max)")
+                    b.Property<string>("AttachmentUrl")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("attachment");
 
                     b.Property<DateTime>("CreatedDate")
@@ -332,6 +305,9 @@ namespace Server.Migrations
                     b.Property<Guid>("EmployeeGuid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("employee_guid");
+
+                    b.Property<string>("FeedbackNotes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LeaveEnd")
                         .HasColumnType("datetime2")
@@ -391,22 +367,22 @@ namespace Server.Migrations
                         new
                         {
                             Guid = new Guid("36350d33-42d7-4c63-a244-29b0a8d13bce"),
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3891),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3894),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4533),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4537),
                             Name = "admin"
                         },
                         new
                         {
                             Guid = new Guid("4887ec13-b482-47b3-9b24-08db91a71770"),
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3896),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3896),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4540),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4541),
                             Name = "employee"
                         },
                         new
                         {
                             Guid = new Guid("a7e15d29-9c74-4e72-ae63-5a47d69b27d6"),
-                            CreatedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3899),
-                            ModifiedDate = new DateTime(2023, 8, 22, 5, 12, 41, 457, DateTimeKind.Utc).AddTicks(3900),
+                            CreatedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4544),
+                            ModifiedDate = new DateTime(2023, 8, 30, 2, 54, 23, 534, DateTimeKind.Utc).AddTicks(4545),
                             Name = "manager"
                         });
                 });
@@ -458,17 +434,6 @@ namespace Server.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("Server.Models.Feedback", b =>
-                {
-                    b.HasOne("Server.Models.LeaveRequest", "LeaveRequest")
-                        .WithOne("Feedback")
-                        .HasForeignKey("Server.Models.Feedback", "LeaveRequestGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LeaveRequest");
-                });
-
             modelBuilder.Entity("Server.Models.LeaveRequest", b =>
                 {
                     b.HasOne("Server.Models.Employee", "Employee")
@@ -496,12 +461,6 @@ namespace Server.Migrations
                         .IsRequired();
 
                     b.Navigation("LeaveRequests");
-                });
-
-            modelBuilder.Entity("Server.Models.LeaveRequest", b =>
-                {
-                    b.Navigation("Feedback")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Server.Models.Role", b =>
