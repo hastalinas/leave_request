@@ -16,7 +16,7 @@
 </div>
 
 <div id="accordionExample" class="accordion mt-3 accordion-without-arrow d-block">
-    @foreach (var item in  Model.OrderByDescending(i => i.LeaveStart))
+    @foreach (var item in  Model.OrderByDescending(item => item.RequestNumber).OrderByDescending(i => i.LeaveStart))
     {
         var accordionId = $"accordion_{item.RequestNumber.Replace(" ", "_")}";
         <div class="card accordion-item glassmorphism-container">
