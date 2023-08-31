@@ -43,7 +43,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="Gender" class="control-label"></label>
-                                    <input asp-for="Gender" class="form-control" />
+                                    <select class="form-control" asp-for="Gender" aria-label="Floating label select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="0">Male</option>
+                                        <option value="1">Female</option>
+                                    </select>
                                     <span asp-validation-for="Gender" class="text-danger"></span>
                                 </div>
                             </div>
@@ -67,17 +71,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="DepartmentGuid" class="control-label">Department</label>
-                                    <input asp-for="DepartmentGuid" class="form-control" id="depGuid" hidden />
+                                    @*<input asp-for="DepartmentGuid" class="form-control" id="depGuid" hidden />*@
                                     @*<input id="depName" class="form-control" disabled />*@
-                                    <select class="form-control" id="depName">
+                                    <select asp-for="DepartmentGuid" class="form-control depName">
                                     </select>
                                     <span asp-validation-for="DepartmentGuid" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="ManagerGuid" class="control-label">Manager</label>
-                                    <input asp-for="ManagerGuid" id="managerGuid" class="form-control" />
-                                    @*<select class="form-control" id="manager">
-                                    </select>*@
+                                    @*<input asp-for="ManagerGuid" id="managerGuid" class="form-control" />*@
+                                    <select asp-for="ManagerGuid"  class="manager form-control">
+                                    </select>
                                     <span asp-validation-for="ManagerGuid" class="text-danger"></span>
                                 </div>
                             </div>
@@ -119,43 +123,39 @@
                 result.data.forEach(dep => {
                     depOptions += `<option value="${dep.guid}">${dep.name} (${dep.code})</option>`;
                 });
-                $('#depName').html(depOptions);
+                $('.depName').html(depOptions);
                 const selectedDepartmentGuid = '@Model.DepartmentGuid';
-                $('#depName').val(selectedDepartmentGuid);
+                $('.depName').val(selectedDepartmentGuid);
             } else {
-                $('#depName').html("<option value=''>No department data</option>");
+                $('.depName').html("<option value=''>No department data</option>");
             }
         }).fail(function () {
-            $('#depName').html("<option value=''>Failed to fetch data</option>");
+            $('.depName').html("<option value=''>Failed to fetch data</option>");
         });
 
-        //account role = manager
         $.ajax({
-            url: "https://localhost:7293/api/account-role/",
+            url: "https://localhost:7293/api/employees/get-manager",
             headers: {
                 "Authorization": "Bearer " + Token
             }
         }).done(function (result) {
-            if (result.length > 0) {
+            if (result.data.length > 0) {
                 let managerOptions = '';
-
-                result.forEach(accountRole => {
-                    if (accountRole.roleGuid == "a7e15d29-9c74-4e72-ae63-5a47d69b27d6") {
-                        managerOptions += `<option value="${accountRole.accountGuid}">${accountRole.guid}</option>`;
-                    }
+                result.data.forEach(man => {
+                    managerOptions += `<option value="${man.managerGuid}">${man.managerName} (${man.departmentName})</option>`;
                 });
-
-                $('#manager').html(managerOptions);
-
-                // Set selected option based on @Model.ManagerGuid
-                const selectedManagerGuid = '@Model.ManagerGuid';
-                $('#managerGuid').val(selectedManagerGuid);
+                $('.manager').html(managerOptions);
+                const selectedDepartmentGuid = '@Model.ManagerGuid';
+                $('.manager').val(selectedDepartmentGuid);
             } else {
-                $('#manager').html("<option value=''>No manager data</option>");
+                $('.manager').html("<option value=''>No manager data</option>");
             }
         }).fail(function () {
-            $('#manager').html("<option value=''>Failed to fetch data</option>");
+            $('.manager').html("<option value=''>Failed to fetch data</option>");
         });
+
+        //account role = manager
+       
       
     </script>
 }

@@ -181,4 +181,28 @@ public class EmployeeController : ControllerBase
             Message = "Success retrieving data"
         });
     }
+
+    [HttpGet("get-manager")]
+    public IActionResult GetManager() 
+    {
+        var result = _employeeService.GetAllManager();
+
+        if (!result.Any())
+        {
+            return NotFound(new ResponseHandler<EmployeeWithName>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<EmployeeWithName>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieving data",
+            Data = result
+        });
+    }
 }

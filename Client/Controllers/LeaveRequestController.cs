@@ -194,7 +194,7 @@ public class LeaveRequestController : Controller
             TempData["Success"] = $"Data has been Successfully Updated! - {result.Message}!";
             return RedirectToAction("Account", "LeaveRequest");
         }
-        TempData["Error"] = $"Data failed to Update! - {result.Message}!";
+        TempData["Error"] = $"Data failed to Update!";
         return RedirectToAction("EditEmployee","LeaveRequest");
     }
 

@@ -39,17 +39,17 @@
                         <div class="form-group">
                             <label class="control-label">Leave Start - Leave End</label>
 
-                            <input type="text" class="form-control" name="daterange" value="" />
+                            <input type="text" class="form-control" name="daterange" value=""/>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="LeaveStart" class="control-label" hidden>Leave Start</label>
-                            <input asp-for="LeaveStart" class="form-control" hidden/>
+                            <input asp-for="LeaveStart" class="form-control" type="date" hidden/>
                             <span asp-validation-for="LeaveStart" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="LeaveEnd" class="control-label" hidden>Leave End</label>
-                            <input asp-for="LeaveEnd" class="form-control" hidden/>
+                            <input asp-for="LeaveEnd" class="form-control" type="date" hidden />
                             <span asp-validation-for="LeaveEnd" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -123,6 +123,7 @@
                 $(this).val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
             });
         });
+
     </script>
 
     @{
