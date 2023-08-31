@@ -78,13 +78,19 @@
                 @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BirthDate.Date)
+                @if (item.BirthDate != null)
+                {
+                    @item.BirthDate.Date.ToString("dd-MM-yyyy")
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gender)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HiringDate.Date)
+                @if (item.HiringDate != null)
+                {
+                    @item.HiringDate.Date.ToString("dd-MM-yyyy")
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
