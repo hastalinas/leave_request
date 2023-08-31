@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.glass-container {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+}

@@ -11,27 +11,27 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Requester)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvailableLeave)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalLeave)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EligibleLeave)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Requester)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Department)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvailableLeave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalLeave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EligibleLeave)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Requester)
@@ -54,6 +54,39 @@
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            const Token = '@Context.Session.GetString("JWToken")';
+            $.ajax({
+                url: "https://localhost:7293/api/accounts/",
+                headers: {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                if (result.data.length > 0) {
+                    const accounts = result.data.find(e => e.guid === '@User.FindFirst("Guid")?.Value');
+                    console.log(accounts)
+                    if (accounts && accounts.profilPictureUrl) {
+                        $('#profilePicture').attr('src', accounts.profilPictureUrl);
+                        $('#profilePictureDropDown').attr('src', accounts.profilPictureUrl);
+                    } else {
+                        $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
+                        $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+                    }
+                } else {
+                    $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
+                    $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+                }
+            }).fail(function () {
+                $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
+                $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+            });
+        });
+    </script>
+}

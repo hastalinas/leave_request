@@ -15,9 +15,6 @@
     </script>
 }
 
-
-
-
 <div class="row">
     <div class="col-1"></div>
     <div class="col">
@@ -80,7 +77,6 @@
             $(".selectRole").text("Failed to fetch data");
         });
 
-
         $.ajax({
             url: "https://localhost:7293/api/employees",
             headers:
@@ -101,5 +97,4 @@
     </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
 }

@@ -101,9 +101,6 @@
     <div class="col-1"></div>
 </div>
 
-
-
-
 @section Scripts{
     <script>
         const Token = '@Context.Session.GetString("JWToken")';
@@ -155,6 +152,34 @@
             }
         }).fail(function () {
             $('#manager').html("<option value=''>Failed to fetch data</option>");
+        });
+        
+        $(document).ready(function () {
+            const Token = '@Context.Session.GetString("JWToken")';
+            $.ajax({
+                url: "https://localhost:7293/api/accounts/",
+                headers: {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                if (result.data.length > 0) {
+                    const accounts = result.data.find(e => e.guid === '@User.FindFirst("Guid")?.Value');
+                    console.log(accounts)
+                    if (accounts && accounts.profilPictureUrl) {
+                        $('#profilePicture').attr('src', accounts.profilPictureUrl);
+                        $('#profilePictureDropDown').attr('src', accounts.profilPictureUrl);
+                    } else {
+                        $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
+                        $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+                    }
+                } else {
+                    $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
+                    $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+                }
+            }).fail(function () {
+                $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
+                $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+            });
         });
       
     </script>

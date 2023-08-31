@@ -132,7 +132,7 @@ public class AccountService
             new Claim("Guid", employee.Guid.ToString()),
             new Claim("FullName", $"{employee.FirstName} {employee.LastName}"),
             new Claim("Email", employee.Email),
-            new Claim("ProfilPicture", account.ProfilPictureUrl)
+            new Claim("ProfilPicture", (account.ProfilPictureUrl != null) ? account.ProfilPictureUrl : "/assets/img/avatars/1.png")
         };
         
         var getRoles = _accountRoleRepository.GetRoleNamesByAccountGuid(employee.Guid);
