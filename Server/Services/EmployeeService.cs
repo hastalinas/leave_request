@@ -12,16 +12,22 @@ public class EmployeeService
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IDepartmentRepository _departmentRepository;
     private readonly ILeaveRequestRepository _leaveRequestRepository;
+    private readonly IAccountRoleRepository _accountRoleRepository;
+    private readonly IAccountRepository _accountRepository;
 
     public EmployeeService(IEmployeeRepository employeeRepository,
         IDepartmentRepository departmentRepository,
-        ILeaveRequestRepository leaveRequestRepository)
+        ILeaveRequestRepository leaveRequestRepository,
+        IAccountRoleRepository accountRoleRepository,
+        IAccountRepository accountRepository)
     {
         _employeeRepository = employeeRepository;
         _departmentRepository = departmentRepository;
         _leaveRequestRepository = leaveRequestRepository;
+        _accountRoleRepository = accountRoleRepository;
+        _accountRepository = accountRepository;
     }
-    
+
     public IEnumerable<EmployeeDto> GetAll()
     {
         var employees = _employeeRepository.GetAll();
@@ -115,6 +121,23 @@ public class EmployeeService
                         LeaveRemain = employee.LeaveRemain
                     }).OrderBy(employee => employee.Nik);
         return merge;
+    }
+
+    public IEnumerable<EmployeeWithName>? GetAllManager()
+    {
+        var getManager = from employee in _employeeRepository.GetAll()
+                
+                join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
+                join accountRole in _accountRoleRepository.GetManager() on account.Guid equals accountRole.AccountGuid
+                join department in _departmentRepository.GetAll() on employee.DepartmentGuid equals department.Guid
+                select new EmployeeWithName
+                {
+                    ManagerGuid = employee.Guid,
+                    ManagerName = employee.FirstName + " " + employee.LastName,
+                    DepartmentName = department.Name,
+
+                };
+        return getManager;
     }
 }
 

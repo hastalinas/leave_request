@@ -78,13 +78,19 @@
                 @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
+                @if (item.BirthDate != null)
+                {
+                    @item.BirthDate.Date.ToString("dd/MM/yyyy")
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gender)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HiringDate)
+                @if (item.HiringDate != null)
+                {
+                    @item.HiringDate.Date.ToString("dd/MM/yyyy")
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -99,7 +105,7 @@
                 @Html.DisplayFor(modelItem => item.ManagerName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LeaveRemain)
+                @Html.DisplayFor(modelItem => item.LeaveRemain) days
             </td>
             @*<td>
                 @Html.DisplayFor(modelItem => item.Guid)

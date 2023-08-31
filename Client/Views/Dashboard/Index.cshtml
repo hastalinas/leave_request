@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                         <div class="icon">
-                            <i class="fas fa-solid fa-calendar-days fa-bounce fa-3x" style="color: #f3f708;"></i>
+                            <i class="bx bx-calendar bx-flashing bx-lg" style="color: #f3f708;"></i>
                         </div>
 
                     </div>
@@ -25,44 +25,133 @@
             </div>
             </a>
         </div>
+
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <a asp-action="Account" asp-controller="LeaveRequest">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="icon">
+                                <i class="fas fa-duotone fa-bars-progress fa-beat fa-3x" style="--fa-secondary-color: #b88484;"></i>
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">On Process</span>
+                        <h3 class="card-title mb-2" id="total-onprocess-employee"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <a asp-action="Account" asp-controller="LeaveRequest">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="icon">
+                                <i class="bx bxs-badge-check bx-tada bx-rotate-90 bx-lg" style="color: green;"></i>
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">Accepted</span>
+                        <h3 class="card-title mb-2" id="total-success-employee"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <a asp-action="Account" asp-controller="LeaveRequest">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="icon">
+                                <i class="fas fa-sharp fa-regular fa-xmark fa-flip fa-3x" style="color: #ff0000;"></i>
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">Rejected</span>
+                        <h3 class="card-title mb-2" id="total-rejected-employee"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
         
     }
 
-    <div class="col-lg-3 col-md-12 col-6 mb-4">
-        <a asp-area="" asp-controller = "Employee" asp-action = "Index" >
-        <div class="card bg-info">
-            <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between">
-                    <div class="icon">
-                        <i class="fas fa-users fa-3x"></i>
-                    </div>
-                </div>
-                 <span class="fw-semibold d-block mb-1 text-white">Total Employee</span>
-                <h3 class="card-title mb-2 text-white" id="total-employees"></h3>
-            </div>
-        </div>
-        </a>
-    </div>
-    
-
-    <div class="col-lg-3 col-md-12 col-6 mb-4">
-        <a asp-action="Index" asp-controller="Department">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title d-flex align-items-start justify-content-between">
-                    <div class="icon">
-                        <i class="fas fa-light fa-building fa-beat fa-3x" style="color: #1f5147;"></i>
-                    </div>
-                </div>
-                    <span class="fw-semibold d-block mb-1">Total Department</span>
-                    <h3 class="card-title mb-2" id="total-departments"></h3>
-            </div>
-        </div>
-        </a>
-    </div>
-
     @if (User.IsInRole("manager") || User.IsInRole("admin"))
     {
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <a asp-area="" asp-controller="Employee" asp-action="Index">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="icon">
+                                <i class="fas fa-users fa-bounce fa-3x"></i>
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">Total Employees</span>
+                        <h3 class="card-title mb-2" id="total-employees"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <a asp-action="Index" asp-controller="Department">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="icon">
+                                <i class="fas fa-light fa-building fa-beat fa-3x" style="color: #1f5147;"></i>
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">Total Department</span>
+                        <h3 class="card-title mb-2" id="total-departments"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        }
+
+        @if (User.IsInRole("admin"))
+        {
+
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <a asp-action="Index" asp-controller="LeaveRequest">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="icon">
+                                <i class="fas fa-list fa-flip fa-3x" style="color: #d973b8;"></i>
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">Total Request</span>
+                        <h3 class="card-title mb-2" id="total-request"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        
+    }
+
+    @if ( User.IsInRole("manager"))
+    {
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <a asp-action="Index" asp-controller="LeaveRequest">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="icon">
+                                <i class="fas fa-regular fa-square-check fa-bounce fa-3x" style="color: green;"></i>
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">Total Request Accept</span>
+                        <h3 class="card-title mb-2" id="total-request-success"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
         <div class="col-lg-3 col-md-12 col-6 mb-4">
             <a asp-action="Index" asp-controller="LeaveRequest">
                 <div class="card">
@@ -72,20 +161,19 @@
                                 <i class="fas fa-solid fa-list-check fa-fade fa-3x" style="color: #ff0000;"></i>
                             </div>
                         </div>
-                        <span class="fw-semibold d-block mb-1">Total Request</span>
-                        <h3 class="card-title mb-2" id="total-request"></h3>
+                        <span class="fw-semibold d-block mb-1">Total Request OnProcess</span>
+                        <h3 class="card-title mb-2" id="total-request-OnProcess"></h3>
                     </div>
                 </div>
             </a>
         </div>
     }
-    
 </div>
-@*<div class="row">
-    <div class="container">
-        <iframe src="https://calendar.google.com/calendar/embed?src=id.indonesian%23holiday%40group.v.calendar.google.com&ctz=Asia%2FJakarta" style="border: 1" width="600" height="600" frameborder="0" scrolling="no"></iframe>
-    </div>
-</div>*@
+
+   
+    
+
+
 <div class="row">
     <div class="col-md-6">
         <!--chart-->
@@ -151,6 +239,111 @@
             });
         });
 
+        //Request OnProcess - manager
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/leave-request/request-manager",
+                headers: {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                var totalOnProcessManager = countRequestsByStatus(result.data, 1);
+                $("#total-request-OnProcess").text(totalOnProcessManager); // Display the total count in the HTML element
+            }).fail(function () {
+                    $("#total-request-OnProcess").text('Failed to fetch data');
+            });
+        });
+
+        function countRequestsByStatus(requests, status) {
+            var count = 0;
+            for (var i = 0; i < requests.length; i++) {
+                if (requests[i].status === status) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        //Request Success - Manager
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/leave-request/request-manager",
+                headers: {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                var totalSuccessManager = countRequestsByStatus(result.data, 2);
+                $("#total-request-success").text(totalSuccessManager); // Display the total count in the HTML element
+            }).fail(function () {
+                $("#total-request-success").text('Failed to fetch data');
+            });
+        });
+
+        function countRequestsByStatus(requests, status) {
+            var count = 0;
+            for (var i = 0; i < requests.length; i++) {
+                if (requests[i].status === status) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        //Request OnProcess - Employee
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/leave-request/request",
+                headers: {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                var totalSuccess = countRequestsByStatus(result.data, 1);
+                $("#total-onprocess-employee").text(totalSuccess); // Display the total count in the HTML element
+            }).fail(function () {
+                $("#total-onprocess-employee").text('Failed to fetch data');
+            });
+        });
+
+        //Request Success - Employee
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/leave-request/request",
+                headers: {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                var totalSuccess = countRequestsByStatus(result.data, 2);
+                $("#total-success-employee").text(totalSuccess); // Display the total count in the HTML element
+            }).fail(function () {
+                $("#total-success-employee").text('Failed to fetch data');
+            });
+        });
+
+        //Request Rejected - Employee
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/leave-request/request",
+                headers: {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                var totalRejected = countRequestsByStatus(result.data, 3);
+                $("#total-rejected-employee").text(totalRejected); // Display the total count in the HTML element
+            }).fail(function () {
+                $("#total-rejected-employee").text('Failed to fetch data');
+            });
+        });
+
+        function countRequestsByStatus(requests, status) {
+            var count = 0;
+            for (var i = 0; i < requests.length; i++) {
+                if (requests[i].status === status) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         //Departements Counts
         $(document).ready(function () {
             $.ajax({
@@ -185,6 +378,7 @@
                 console.log(error);
             });
         });
+
 
         //Gender
         $(document).ready(function () {

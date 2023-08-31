@@ -181,6 +181,7 @@ public class LeaveRequestService
                 Guid = leaveRequest.Guid,
                 RequestNumber = $"{leaveRequest.LeaveType} - {employee.Nik}{DateTime.Now.Year}{requestNumber++}",
                 RelationManager = $"{manager.Nik} - {manager.FirstName} {manager.LastName}",
+                FullName = $"{employee.FirstName} {employee.LastName}",
                 LeaveType = leaveRequest.LeaveType,
                 LeaveStart = leaveRequest.LeaveStart,
                 LeaveEnd = leaveRequest.LeaveEnd,

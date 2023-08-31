@@ -12,7 +12,7 @@
                 <div>
                     <h1 class="card-header bg-primary text-white text-center">Edit Leave Request</h1>
                     <br />
-                    <form action="/LeaveRequest/Update" method="post">
+                    <form action="/LeaveRequest/UpdateEmployee" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="Guid" class="control-label" hidden></label>
@@ -21,8 +21,8 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="EmployeeGuid" class="control-label">Employee</label>
-                            <input asp-for="EmployeeGuid" type="hidden" id="employeeGuid" />
-                            <input id="employee" class="form-control" disabled />
+                            <input asp-for="EmployeeGuid" class="form-control" type="hidden" id="GuidEmployee" />
+                            <input id="Employee" class="form-control" disabled />
                             <span asp-validation-for="EmployeeGuid" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -39,17 +39,17 @@
                         <div class="form-group">
                             <label class="control-label">Leave Start - Leave End</label>
 
-                            <input type="text" class="form-control" name="daterange" value="" />
+                            <input type="text" class="form-control" name="daterange" value=""/>
                             <span class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="LeaveStart" class="control-label" hidden>Leave Start</label>
-                            <input asp-for="LeaveStart" class="form-control" hidden/>
+                            <input asp-for="LeaveStart" class="form-control" type="date" hidden/>
                             <span asp-validation-for="LeaveStart" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="LeaveEnd" class="control-label" hidden>Leave End</label>
-                            <input asp-for="LeaveEnd" class="form-control" hidden/>
+                            <input asp-for="LeaveEnd" class="form-control" type="date" hidden />
                             <span asp-validation-for="LeaveEnd" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -58,8 +58,8 @@
                             <span asp-validation-for="Notes" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="AttachmentUrl" class="control-label">Attachment Url</label>
-                            <input asp-for="AttachmentUrl" class="form-control" />
+                            <label asp-for="AttachmentUrl" class="control-label">Attachment</label>
+                            <input asp-for="AttachmentUrl" class="form-control" type="file"/>
                             <span asp-validation-for="AttachmentUrl" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -98,13 +98,13 @@
                 const employee = result.data.find(e => e.guid === '@Model.EmployeeGuid');
                 const fullName = `${employee.firstName} ${employee.lastName}`;
                 console.log(fullName);
-                $('#employee').val(fullName);
-                $('#employeeGuid').val(employee.guid);
+                $('#Employee').val(fullName);
+                $('#GuidEmployee').val(employee.guid);
             } else {
-                $('#employee').val("Failed to fetch data");
+                $('#Employee').val("Failed to fetch data");
             }
         }).fail(function () {
-            $('#employee').val("Failed to fetch data");
+            $('#Employee').val("Failed to fetch data");
         });
         console.log('@Model.EmployeeGuid');
         
@@ -136,7 +136,6 @@
             });
         });
 
-
         $(function () {
             $('input[name="daterange"]').daterangepicker({
                 opens: 'left',
@@ -152,6 +151,7 @@
                 $(this).val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
             });
         });
+
     </script>
 
     @{

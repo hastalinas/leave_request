@@ -8,6 +8,7 @@ namespace Server.DTOs.LeaveRequests;
 
 public class LeaveRequestDetailDto
 {
+    public string FullName { get; set; }    
     public Guid Guid { get; set; }
     [Display(Name = "Request Number")]
     public string RequestNumber { get; set; }

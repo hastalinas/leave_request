@@ -32,4 +32,9 @@ public class AccountRoleRepository : GeneralRepository<AccountRole>, IAccountRol
 
         return false;
     }
+
+    public IEnumerable<AccountRole>? GetManager()
+    {
+        return _context.Set<AccountRole>().Where(ar => ar.RoleGuid == Guid.Parse("a7e15d29-9c74-4e72-ae63-5a47d69b27d6")).ToList();
+    }
 }

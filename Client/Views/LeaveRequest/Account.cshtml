@@ -184,6 +184,85 @@
                                             </button>
                                         </div>
                                     }
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Leave Type
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.LeaveType)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Leave Start
+                                </div>
+                                <div class="col-7 col-md-8"> :
+                                    @if (item.LeaveStart != null)
+                                    {
+                                    @item.LeaveStart.Date.ToString("dd/MM/yyyy")
+                                    }
+                                    @*@Html.DisplayFor(modelItem => item.LeaveStart)*@
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Leave End
+                                </div>
+                                <div class="col-7 col-md-8"> :
+                                @if (item.LeaveEnd != null)
+                                {
+                                    @item.LeaveEnd.Date.ToString("dd/MM/yyyy")
+                                }
+                                    @* @Html.DisplayFor(modelItem => item.LeaveEnd)*@
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Phone Number
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Notes
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.Notes)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Leave Days
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.LeaveDays.Days) Days
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Status
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.Status)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Attachment
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.Attachment)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5 col-md-4">
+                                    Feedback Notes
+                                </div>
+                                <div class="col-7 col-md-8">
+                                    : @Html.DisplayFor(modelItem => item.FeedbackNotes)
                                 </div>
                             </div>
                         </div>
