@@ -8,6 +8,7 @@ namespace Server.DTOs.Accounts;
 public class AccountDetailDto
 {
     public Guid Guid { get; set; }
+    public string Nik { get; set; }
     public string Name { get; set; }
     [Display(Name = "Birth Date")]
     public DateTime BirthDate { get; set; }

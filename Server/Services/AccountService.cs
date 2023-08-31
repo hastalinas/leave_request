@@ -323,18 +323,19 @@ public class AccountService
 
     public IEnumerable<AccountDetailDto> GetDetailAll()
     {
-        var getAccountDetail = from e in _employeeRepository.GetAll()
+        var getAccountDetail = (from e in _employeeRepository.GetAll()
             join a in _accountRepository.GetAll() on e.Guid equals a.Guid
             select new AccountDetailDto()
             {
                 Guid = e.Guid,
+                Nik = e.Nik,
                 Name = $"{e.Nik} - {e.FirstName} {e.LastName}",
                 BirthDate = e.BirthDate.Date,
                 Gender = e.Gender,
                 Email = e.Email,
                 PhoneNumber = e.PhoneNumber,
                 IsActive = a.IsActive
-            };
+            }).OrderByDescending(e => e.Nik);
         var accountDetailDtos = getAccountDetail.ToList();
         if (!accountDetailDtos.Any())
         {

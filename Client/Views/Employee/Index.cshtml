@@ -78,13 +78,13 @@
                 @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
+                @Html.DisplayFor(modelItem => item.BirthDate.Date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gender)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.HiringDate)
+                @Html.DisplayFor(modelItem => item.HiringDate.Date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -99,7 +99,7 @@
                 @Html.DisplayFor(modelItem => item.ManagerName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LeaveRemain)
+                @Html.DisplayFor(modelItem => item.LeaveRemain) days
             </td>
             @*<td>
                 @Html.DisplayFor(modelItem => item.Guid)
