@@ -4,65 +4,85 @@
     ViewData["Title"] = "EditEmployee";
 }
 
-<h1>Edit Request</h1>
-
-<h4>Leave Request</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form action="/LeaveRequest/Update" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Guid" class="control-label" hidden></label>
-                <input asp-for="Guid" class="form-control" hidden/>
-                <span asp-validation-for="Guid" class="text-danger"></span>
+    <div class="col-1"></div>
+    <div class="col">
+        <div class="card mx-auto mb-3 border-0">
+            <div class="card-body">
+                <div>
+                    <h1 class="card-header bg-primary text-white text-center">Edit Leave Request</h1>
+                    <br />
+                    <form action="/LeaveRequest/Update" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Guid" class="control-label" hidden></label>
+                            <input asp-for="Guid" class="form-control" hidden/>
+                            <span asp-validation-for="Guid" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="EmployeeGuid" class="control-label">Employee</label>
+                            <input asp-for="EmployeeGuid" type="hidden" id="employeeGuid" />
+                            <input id="employee" class="form-control" disabled />
+                            <span asp-validation-for="EmployeeGuid" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LeaveType" class="control-label">Leave Type</label>
+                            <select class="form-control" asp-for="LeaveType" aria-label="Floating label select example">
+                                <option selected>Open this select menu</option>
+                                <option value="0">Vacation</option>
+                                <option value="1">Sick</option>
+                                <option value="2">Personal</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <span asp-validation-for="LeaveType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Leave Start - Leave End</label>
+
+                            <input type="text" class="form-control" name="daterange" value="" />
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LeaveStart" class="control-label" hidden>Leave Start</label>
+                            <input asp-for="LeaveStart" class="form-control" hidden/>
+                            <span asp-validation-for="LeaveStart" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LeaveEnd" class="control-label" hidden>Leave End</label>
+                            <input asp-for="LeaveEnd" class="form-control" hidden/>
+                            <span asp-validation-for="LeaveEnd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Notes" class="control-label"></label>
+                            <input asp-for="Notes" class="form-control" />
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AttachmentUrl" class="control-label">Attachment Url</label>
+                            <input asp-for="AttachmentUrl" class="form-control" />
+                            <span asp-validation-for="AttachmentUrl" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Status" class="control-label"></label>
+                            <input asp-for="Status" class="form-control" disabled/>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+                <br />
+                <div>
+                    <a asp-action="Account">Back to List</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="EmployeeGuid" class="control-label">Employee</label>
-                <input asp-for="EmployeeGuid" type="hidden" id="employeeGuid" />
-                <input id="employee" class="form-control" disabled />
-                <span asp-validation-for="EmployeeGuid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaveType" class="control-label">Leave Type</label>
-                <input asp-for="LeaveType" class="form-control" />
-                <span asp-validation-for="LeaveType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaveStart" class="control-label">Leave Start</label>
-                <input asp-for="LeaveStart" class="form-control" />
-                <span asp-validation-for="LeaveStart" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeaveEnd" class="control-label">Leave End</label>
-                <input asp-for="LeaveEnd" class="form-control" />
-                <span asp-validation-for="LeaveEnd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AttachmentUrl" class="control-label">Attachment Url</label>
-                <input asp-for="AttachmentUrl" class="form-control" />
-                <span asp-validation-for="AttachmentUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
+    <div class="col-1"></div>
 </div>
 
-<div>
-    <a asp-action="Account">Back to List</a>
-</div>
 
 @section Scripts {
     <script>
@@ -74,8 +94,10 @@
             }
         }).done(function (result) {
             if (result.data.length > 0) {
-                const employee = result.data.filter(e => e.guid === '@Model.EmployeeGuid')[0];
+
+                const employee = result.data.find(e => e.guid === '@Model.EmployeeGuid');
                 const fullName = `${employee.firstName} ${employee.lastName}`;
+                console.log(fullName);
                 $('#employee').val(fullName);
                 $('#employeeGuid').val(employee.guid);
             } else {
@@ -86,33 +108,50 @@
         });
         console.log('@Model.EmployeeGuid');
         
-    $(document).ready(function () {
-        const Token = '@Context.Session.GetString("JWToken")';
-        $.ajax({
-            url: "https://localhost:7293/api/accounts/",
-            headers: {
-                "Authorization": "Bearer " + Token
-            }
-        }).done(function (result) {
-            if (result.data.length > 0) {
-                const accounts = result.data.find(e => e.guid === '@User.FindFirst("Guid")?.Value');
-                console.log(accounts)
-                if (accounts && accounts.profilPictureUrl) {
-                    $('#profilePicture').attr('src', accounts.profilPictureUrl);
-                    $('#profilePictureDropDown').attr('src', accounts.profilPictureUrl);
+        $(document).ready(function () {
+            const Token = '@Context.Session.GetString("JWToken")';
+            $.ajax({
+                url: "https://localhost:7293/api/accounts/",
+                headers: {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                if (result.data.length > 0) {
+                    const accounts = result.data.find(e => e.guid === '@User.FindFirst("Guid")?.Value');
+                    console.log(accounts)
+                    if (accounts && accounts.profilPictureUrl) {
+                        $('#profilePicture').attr('src', accounts.profilPictureUrl);
+                        $('#profilePictureDropDown').attr('src', accounts.profilPictureUrl);
+                    } else {
+                        $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
+                        $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+                    }
                 } else {
                     $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
                     $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
                 }
-            } else {
+            }).fail(function () {
                 $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
                 $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
-            }
-        }).fail(function () {
-            $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
-            $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+            });
         });
-    });
+
+
+        $(function () {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left',
+                minDate: moment().startOf('day'),
+                startDate: moment().add(1, 'days'),
+                endDate: moment().add(1, 'days')
+            }, function (start, end, label) {
+                //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                $('input[name="LeaveStart"]').val(start.format('YYYY-MM-DD'));
+                $('input[name="LeaveEnd"]').val(end.format('YYYY-MM-DD'));
+
+                // Update the daterange input's value
+                $(this).val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+            });
+        });
     </script>
 
     @{

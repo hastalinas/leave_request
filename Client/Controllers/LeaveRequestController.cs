@@ -25,7 +25,7 @@ public class LeaveRequestController : Controller
     }
 
 
-    [Authorize(Roles = "manager, admin, employee")]
+    [Authorize(Roles = "manager, admin")]
     public async Task<IActionResult> Index()
     {
         var result = await _repository.GetInfoManager();
@@ -42,6 +42,7 @@ public class LeaveRequestController : Controller
 
         return View(ListRequest);
     }
+
 
     [HttpGet]
     [Authorize(Roles = "employee")]
@@ -76,7 +77,8 @@ public class LeaveRequestController : Controller
 
             if (result.Code == 200)
             {
-                RedirectToAction("Index");
+                TempData["Success"] = $"Create Leave ";
+                return RedirectToAction("Account", "LeaveRequest");
             }
         }
         else
@@ -128,7 +130,7 @@ public class LeaveRequestController : Controller
             TempData["Error"] = $"Failed to Delete Data - {result.Message}!";
         }
 
-        return RedirectToAction("Index", "LeaveRequest");
+        return RedirectToAction("Account", "LeaveRequest");
     }
 
     [HttpPost]
@@ -147,7 +149,7 @@ public class LeaveRequestController : Controller
             TempData["Error"] = $"{result.Message}!";
         }
 
-        return RedirectToAction("Index", "LeaveRequest");
+        return RedirectToAction("Account", "LeaveRequest");
     }
 
     [HttpGet]

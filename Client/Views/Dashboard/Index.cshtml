@@ -178,7 +178,6 @@
                     "Authorization": "Bearer " + Token
                 }
             }).done(function (result) {
-                console.log(result)
                 var availableLeave = result.data.availableLeave; // Ambil nilai eligibleLeave dari respons API
                 $("#eligible-leave-value").text(availableLeave); // Tampilkan nilai eligibleLeave
             }).fail(function (error) {
