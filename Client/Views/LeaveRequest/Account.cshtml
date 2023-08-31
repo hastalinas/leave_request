@@ -76,16 +76,24 @@
                                 <div class="col-5 col-md-4">
                                     Leave Start
                                 </div>
-                                <div class="col-7 col-md-8">
-                                    : @Html.DisplayFor(modelItem => item.LeaveStart)
+                                <div class="col-7 col-md-8"> :
+                                    @if (item.LeaveStart != null)
+                                    {
+                                    @item.LeaveStart.Date.ToString("dd/MM/yyyy")
+                                    }
+                                    @*@Html.DisplayFor(modelItem => item.LeaveStart)*@
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-5 col-md-4">
                                     Leave End
                                 </div>
-                                <div class="col-7 col-md-8">
-                                    : @Html.DisplayFor(modelItem => item.LeaveEnd)
+                                <div class="col-7 col-md-8"> :
+                                @if (item.LeaveEnd != null)
+                                {
+                                    @item.LeaveEnd.Date.ToString("dd/MM/yyyy")
+                                }
+                                    @* @Html.DisplayFor(modelItem => item.LeaveEnd)*@
                                 </div>
                             </div>
                             <div class="row">
