@@ -8,6 +8,7 @@ namespace Server.DTOs.LeaveRequests;
 
 public class LeaveRequestDetailDto
 {
+    public string FullName { get; set; }    
     public Guid Guid { get; set; }
     [Display(Name = "Request Number")]
     public string RequestNumber { get; set; }
@@ -26,5 +27,6 @@ public class LeaveRequestDetailDto
     public TimeSpan LeaveDays { get; set; }
     public string Attachment { get; set; }
     public Status Status { get; set; }
+    [Display(Name = "Feedback Notes")]
     public string? FeedbackNotes { get; set; }
 }

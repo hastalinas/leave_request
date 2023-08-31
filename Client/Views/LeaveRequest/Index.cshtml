@@ -51,6 +51,14 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body card-body">
                         <div class="d-grid table">
+                                <div class="row">
+                                    <div class="col-5 col-md-4">
+                                        Name
+                                    </div>
+                                    <div class="col-7 col-md-8">
+                                        : @Html.DisplayFor(modelItem => item.FullName)
+                                    </div>
+                                </div>
                             <div class="row">
                                 <div class="col-5 col-md-4">
                                     Relation Manager
