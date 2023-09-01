@@ -123,14 +123,14 @@ public class EmployeeService
         return merge;
     }
 
-    public IEnumerable<EmployeeWithName>? GetAllManager()
+    public IEnumerable<EmployeeWithNameDto>? GetAllManager()
     {
         var getManager = from employee in _employeeRepository.GetAll()
                 
                 join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
                 join accountRole in _accountRoleRepository.GetManager() on account.Guid equals accountRole.AccountGuid
                 join department in _departmentRepository.GetAll() on employee.DepartmentGuid equals department.Guid
-                select new EmployeeWithName
+                select new EmployeeWithNameDto
                 {
                     ManagerGuid = employee.Guid,
                     ManagerName = employee.FirstName + " " + employee.LastName,
