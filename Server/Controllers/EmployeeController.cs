@@ -189,7 +189,7 @@ public class EmployeeController : ControllerBase
 
         if (!result.Any())
         {
-            return NotFound(new ResponseHandler<EmployeeWithName>
+            return NotFound(new ResponseHandler<EmployeeWithNameDto>
             {
                 Code = StatusCodes.Status404NotFound,
                 Status = HttpStatusCode.NotFound.ToString(),
@@ -197,7 +197,7 @@ public class EmployeeController : ControllerBase
             });
         }
 
-        return Ok(new ResponseHandler<IEnumerable<EmployeeWithName>>
+        return Ok(new ResponseHandler<IEnumerable<EmployeeWithNameDto>>
         {
             Code = StatusCodes.Status200OK,
             Status = HttpStatusCode.OK.ToString(),
