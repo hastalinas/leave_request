@@ -192,60 +192,83 @@
                     </li>
 
                     <!-- Layouts -->
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                   
+                        @*<a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-layout"></i>
                             <div data-i18n="Layouts">Leave Application</div>
-                        </a>
+                        </a>*@
 
-                        <ul class="menu-sub">
-                            @if (User.IsInRole("admin"))
-                            {
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="Account" asp-action="Detail" class="menu-link">
-                                        <div data-i18n="Without menu">Account</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="AccountRole" asp-action="Info" class="menu-link">
-                                        <div data-i18n="Without menu">Account Role</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="Role" asp-action="Index" class="menu-link">
-                                        <div data-i18n="Without navbar">Role</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="Department" asp-action="Index" class="menu-link">
-                                        <div data-i18n="Without navbar">Department</div>
-                                    </a>
-                                </li>
-                            }
 
-                            @if ( User.IsInRole("employee"))
-                            {
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="LeaveRequest" asp-action="Account" class="menu-link">
-                                        <div data-i18n="Without menu">Leave Request Employee</div>
-                                    </a>
-                                </li>
-                            }
-                            @if ( User.IsInRole("admin") || User.IsInRole("manager"))
-                            {
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="Employee" asp-action="Index" class="menu-link">
-                                        <div data-i18n="Without menu">Employee</div>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a asp-area="" asp-controller="LeaveRequest" asp-action="Index" class="menu-link">
-                                        <div data-i18n="Container">Leave Request</div>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </li>
+
+                    @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                    {
+                        <li class="menu-item">
+                            <a asp-area="" asp-controller="Employee" asp-action="Index" class="menu-link">
+                                <i class="menu-icon fas fa-solid fa-users"></i>
+                                <div data-i18n="Without menu">Employee</div>
+                            </a>
+                        </li>
+
+                    }
+                        
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li class="menu-item">
+                            <a asp-area="" asp-controller="Account" asp-action="Detail" class="menu-link">
+                                <i class="menu-icon fas fa-solid fa-user-tie"></i>
+                                <div data-i18n="Without menu">Account</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a asp-area="" asp-controller="AccountRole" asp-action="Info" class="menu-link">
+                                <i class="menu-icon fas fa-solid fa-circle-user"></i>
+                                <div data-i18n="Without menu">Account Role</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a asp-area="" asp-controller="Role" asp-action="Index" class="menu-link">
+                                <i class="menu-icon fas fa-regular fa-address-book"></i>
+                                <div data-i18n="Without navbar">Role</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a asp-area="" asp-controller="Department" asp-action="Index" class="menu-link">
+                                <i class="menu-icon fas fa-light fa-building"></i>
+                                <div data-i18n="Without navbar">Department</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a asp-area="" asp-controller="LeaveRequest" asp-action="IndexAdmin" class="menu-link">
+                                <i class="menu-icon fas fa-solid fa-envelope-open-text"></i>
+                                <div data-i18n="Container">Leave Request</div>
+                            </a>
+                        </li>
+                    }
+
+                    
+
+                    @if ( User.IsInRole("employee"))
+                    {
+                        <li class="menu-item">
+                            <a asp-area="" asp-controller="LeaveRequest" asp-action="Account" class="menu-link">
+                                <i class="menu-icon fas fa-regular fa-pen-to-square"></i>
+                               
+                                <div data-i18n="Without menu">Leave Request Employee</div>
+                            </a>
+                        </li>
+                    }
+                            
+                    @if (User.IsInRole("manager"))
+                    {
+                        <li class="menu-item">
+                            <a asp-area="" asp-controller="LeaveRequest" asp-action="Index" class="menu-link">
+                                <i class="menu-icon fas fa-solid fa-envelope-open-text"></i>
+                                <div data-i18n="Container">Leave Request</div>
+                            </a>
+                        </li>
+                    }
+                       
+                    
                 </ul>
             </aside>
             <!-- / Menu -->

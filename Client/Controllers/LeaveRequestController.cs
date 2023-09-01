@@ -43,6 +43,23 @@ public class LeaveRequestController : Controller
         return View(ListRequest);
     }
 
+    public async Task<IActionResult> IndexAdmin()
+    {
+        var result = await _repository.Get();
+        var ListRequest = new List<LeaveRequestDto>();
+
+        try
+        {
+            ListRequest = result.Data.ToList();
+        }
+        catch
+        {
+            // ignored
+        }
+
+        return View(ListRequest);
+    }
+
 
     [HttpGet]
     [Authorize(Roles = "employee")]

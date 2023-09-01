@@ -85,7 +85,7 @@
                     <div class="card-body">
                         <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="icon">
-                                <i class="fas fa-users fa-bounce fa-3x"></i>
+                                <i class="fas fa-solid fa-users fa-3x"></i>
                             </div>
                         </div>
                         <span class="fw-semibold d-block mb-1">Total Employees</span>
@@ -101,7 +101,7 @@
                     <div class="card-body">
                         <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="icon">
-                                <i class="fas fa-light fa-building fa-beat fa-3x" style="color: #1f5147;"></i>
+                                <i class="fas fa-light fa-building fa-beat-fade fa-3x" style="color: #1f5147;"></i> 
                             </div>
                         </div>
                         <span class="fw-semibold d-block mb-1">Total Department</span>
@@ -114,14 +114,13 @@
 
         @if (User.IsInRole("admin"))
         {
-
         <div class="col-lg-3 col-md-12 col-6 mb-4">
-            <a asp-action="Index" asp-controller="LeaveRequest">
+            <a asp-action="IndexAdmin" asp-controller="LeaveRequest">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="icon">
-                                <i class="fas fa-list fa-flip fa-3x" style="color: #d973b8;"></i>
+                                <i class="fas fa-solid fa-envelope-open-text fa-flip fa-3x" style="color: #d973b8;"></i>
                             </div>
                         </div>
                         <span class="fw-semibold d-block mb-1">Total Request</span>
