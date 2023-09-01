@@ -137,6 +137,8 @@ public class LeaveRequestService
     {
         int requestNumber = 1; // You need to calculate this based on existing records
 
+        var checkDays = new CheckDaysHandler();
+        
         var leaveRequestDetail = (
             from employee in _employeeRepository.GetAll()
             join leaveRequest in _leaveRequestRepository.GetAll()
@@ -153,7 +155,7 @@ public class LeaveRequestService
                 LeaveStart = leaveRequest.LeaveStart,
                 LeaveEnd = leaveRequest.LeaveEnd,
                 PhoneNumber = employee.PhoneNumber,
-                LeaveDays = leaveRequest.LeaveEnd - leaveRequest.LeaveStart,
+                LeaveDays = checkDays.Get(leaveRequest.LeaveStart, leaveRequest.LeaveEnd),
                 Notes = leaveRequest.Notes,
                 Attachment = leaveRequest.AttachmentUrl,
                 Status = leaveRequest.Status,
@@ -167,6 +169,8 @@ public class LeaveRequestService
     public IEnumerable<LeaveRequestDetailDto>? LeaveRequestDetailManager(Guid guid)
     {
         int requestNumber = 1; // You need to calculate this based on existing records
+
+        var checkDays = new CheckDaysHandler();
 
         var leaveRequestDetail = (
             from employee in _employeeRepository.GetAll()
@@ -186,7 +190,7 @@ public class LeaveRequestService
                 LeaveStart = leaveRequest.LeaveStart,
                 LeaveEnd = leaveRequest.LeaveEnd,
                 PhoneNumber = employee.PhoneNumber,
-                LeaveDays = leaveRequest.LeaveEnd - leaveRequest.LeaveStart,
+                LeaveDays = checkDays.Get(leaveRequest.LeaveStart, leaveRequest.LeaveEnd),
                 Notes = leaveRequest.Notes,
                 Attachment = leaveRequest.AttachmentUrl,
                 Status = leaveRequest.Status,

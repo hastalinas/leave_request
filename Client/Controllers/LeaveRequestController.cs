@@ -63,7 +63,10 @@ public class LeaveRequestController : Controller
         var guid = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
         var data = emp.Data.FirstOrDefault(e => e.Guid == Guid.Parse(guid));
 
-        if (data.LeaveRemain >= (leaveRequest.LeaveEnd - leaveRequest.LeaveStart).Days)
+        var checkDays = new CheckDaysHandler();
+        var leaveDays = checkDays.Get(leaveRequest.LeaveStart, leaveRequest.LeaveEnd);
+        
+        if (data.LeaveRemain >= leaveDays)
         {
             var register = new RegisterLeaveDto()
             {

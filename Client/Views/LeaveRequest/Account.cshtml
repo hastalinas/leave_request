@@ -31,7 +31,7 @@
                                 <span class="col">@Html.DisplayFor(modelItem => item.RequestNumber)</span>
                                 <div class="row">
                                     <div class="col">
-                                        <span class="badge bg-secondary">@item.LeaveDays.Days Days</span>
+                                        <span class="badge bg-secondary">@item.LeaveDays Days</span>
                                         @if (item.Status == Status.Draft)
                                         {
                                             <span class="badge bg-secondary">Draft</span>
@@ -111,7 +111,7 @@
                                             Leave Days
                                         </div>
                                         <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.LeaveDays.Days) Days
+                                            : @Html.DisplayFor(modelItem => item.LeaveDays) Days
                                         </div>
                                     </div>
                                     <div class="row">
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex">
-                                    @if (item.Status == Status.Draft)
+                                    @if (item.Status is Status.Draft or Status.Rejected)
                                     {
                                         <div class="m-1">
                                             <form>
@@ -204,7 +204,7 @@
                                 <span class="col">@Html.DisplayFor(modelItem => item.RequestNumber)</span>
                                 <div class="row">
                                     <div class="col">
-                                        <span class="badge bg-secondary">@item.LeaveDays.Days Days</span>
+                                        <span class="badge bg-secondary">@item.LeaveDays Days</span>
                                         @if (item.Status == Status.Draft)
                                         {
                                             <span class="badge bg-secondary">Draft</span>
@@ -284,7 +284,7 @@
                                             Leave Days
                                         </div>
                                         <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.LeaveDays.Days) Days
+                                            : @Html.DisplayFor(modelItem => item.LeaveDays) Days
                                         </div>
                                     </div>
                                     <div class="row">
@@ -313,7 +313,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex">
-                                    @if (item.Status == Status.Draft)
+                                    @if (item.Status is Status.Draft or Status.Rejected)
                                     {
                                         <div class="m-1">
                                             <form>

@@ -3,7 +3,13 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+<style>
+    /* Warna merah untuk hari libur nasional dan akhir pekan */
+    .daterangepicker td.weekends {
+        background-color: red !important;
+        color: white !important;
+    }
+</style>
 
 <div class="row">
     <div class="col-1"></div>
@@ -82,12 +88,16 @@
                 opens: 'left',
                 minDate: moment().startOf('day'),
                 startDate: moment().add(1, 'days'),
-                endDate: moment().add(1, 'days')
+                endDate: moment().add(1, 'days'),
+                isInvalidDate: function (date) {
+                    // Mengembalikan true jika tanggal adalah akhir pekan (Sabtu atau Minggu)
+                    return (date.day() === 0 || date.day() === 6);
+                }
             }, function (start, end, label) {
                 //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
                 $('input[name="LeaveStart"]').val(start.format('YYYY-MM-DD'));
                 $('input[name="LeaveEnd"]').val(end.format('YYYY-MM-DD'));
-
+        
                 // Update the daterange input's value
                 $(this).val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
             });

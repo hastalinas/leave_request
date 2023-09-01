@@ -158,7 +158,7 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpGet("detail")]
-    [Authorize(Roles = "employee")]
+    [Authorize]
     public IActionResult RequestInformation()
     {
         // Mendapatkan klaim-klaim dari pengguna yang terautentikasi
@@ -188,7 +188,7 @@ public class LeaveRequestController : ControllerBase
     }
     
     [HttpPost("request")]
-    [Authorize(Roles = "employee")]
+    [Authorize]
     public IActionResult RegisterLeave(RegisterLeaveDto registerLeaveDto)
     {
         // Mendapatkan klaim-klaim dari pengguna yang terautentikasi
@@ -233,7 +233,7 @@ public class LeaveRequestController : ControllerBase
     }
     
     [HttpGet("request")]
-    [Authorize(Roles = "employee")]
+    [Authorize]
     public IActionResult LeaveRequestDetail()
     {
         // Mendapatkan klaim-klaim dari pengguna yang terautentikasi
@@ -263,7 +263,7 @@ public class LeaveRequestController : ControllerBase
     }
     
     [HttpPut("request")]
-    [Authorize(Roles = "employee")]
+    [Authorize]
     public IActionResult UpdateLeaveRequest(RegisterLeaveDto registerLeaveDto)
     {
         // Mendapatkan klaim-klaim dari pengguna yang terautentikasi

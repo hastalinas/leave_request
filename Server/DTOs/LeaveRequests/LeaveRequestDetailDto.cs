@@ -24,7 +24,7 @@ public class LeaveRequestDetailDto
     public string PhoneNumber { get; set; }
     public string? Notes { get; set; }
     [Display(Name = "Leave Days")]
-    public TimeSpan LeaveDays { get; set; }
+    public int LeaveDays { get; set; }
     public string Attachment { get; set; }
     public Status Status { get; set; }
     [Display(Name = "Feedback Notes")]
