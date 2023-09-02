@@ -51,8 +51,8 @@
                     @*<td>
                         @Html.DisplayFor(modelItem => item.Guid)
                     </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmployeeGuid)
+                        <td>
+                         @Html.DisplayFor(modelItem => item.EmployeeGuid)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.LeaveType)
@@ -97,8 +97,11 @@
 @section Scripts
     {
     <script>
+        const Token = '@Context.Session.GetString("JWToken")';
+
+
         $(document).ready(function () {
-            const Token = '@Context.Session.GetString("JWToken")';
+                 const Token = '@Context.Session.GetString("JWToken")';
             $.ajax({
                 url: "https://localhost:7293/api/accounts/",
                 headers: {

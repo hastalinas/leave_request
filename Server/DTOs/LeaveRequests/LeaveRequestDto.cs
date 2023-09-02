@@ -8,7 +8,7 @@ namespace Server.DTOs.LeaveRequests;
 
 public class LeaveRequestDto
 {
-    public Guid Guid { get; set; }
+    public Guid Guid { get; set; } 
     public Guid EmployeeGuid { get; set; }
     [Display(Name = "Leave Type")]
     public LeaveType LeaveType { get; set; }
