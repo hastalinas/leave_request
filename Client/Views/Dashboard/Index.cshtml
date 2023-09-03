@@ -246,10 +246,10 @@
                     "Authorization": "Bearer " + Token
                 }
             }).done(function (result) {
-                var totalRequest = result.data.length;
+                var totalRequest = countRequestsByStatus(result.data, 1);
                 $("#total-request").text(totalRequest);
             }).fail(function (error) {
-                $("#total-request").text("Failed to fetch data");
+                $("#total-request").text("0");
                 console.log(error)
             });
         });
@@ -265,7 +265,7 @@
                 var totalOnProcessManager = countRequestsByStatus(result.data, 1);
                 $("#total-request-OnProcess").text(totalOnProcessManager); // Display the total count in the HTML element
             }).fail(function () {
-                    $("#total-request-OnProcess").text('Failed to fetch data');
+                    $("#total-request-OnProcess").text('0');
             });
         });
 
@@ -290,7 +290,7 @@
                 var totalSuccessManager = countRequestsByStatus(result.data, 2);
                 $("#total-request-success").text(totalSuccessManager); // Display the total count in the HTML element
             }).fail(function () {
-                $("#total-request-success").text('Failed to fetch data');
+                $("#total-request-success").text('0');
             });
         });
 
@@ -315,7 +315,7 @@
                 var totalSuccess = countRequestsByStatus(result.data, 1);
                 $("#total-onprocess-employee").text(totalSuccess); // Display the total count in the HTML element
             }).fail(function () {
-                $("#total-onprocess-employee").text('Failed to fetch data');
+                $("#total-onprocess-employee").text('0');
             });
         });
 
@@ -330,7 +330,7 @@
                 var totalSuccess = countRequestsByStatus(result.data, 2);
                 $("#total-success-employee").text(totalSuccess); // Display the total count in the HTML element
             }).fail(function () {
-                $("#total-success-employee").text('Failed to fetch data');
+                $("#total-success-employee").text('0');
             });
         });
 
@@ -345,7 +345,7 @@
                 var totalRejected = countRequestsByStatus(result.data, 3);
                 $("#total-rejected-employee").text(totalRejected); // Display the total count in the HTML element
             }).fail(function () {
-                $("#total-rejected-employee").text('Failed to fetch data');
+                $("#total-rejected-employee").text('0');
             });
         });
 
@@ -372,7 +372,7 @@
                 var totalDepartments = result.data.length;
                 $("#total-departments").text(totalDepartments);
             }).fail(function (error) {
-                $("#total-departments").text("Failed to fetch data");
+                $("#total-departments").text("0");
                 console.log(error)
             });
         });
@@ -389,7 +389,7 @@
                 var availableLeave = result.data.availableLeave; // Ambil nilai eligibleLeave dari respons API
                 $("#eligible-leave-value").text(availableLeave); // Tampilkan nilai eligibleLeave
             }).fail(function (error) {
-                $("#eligible-leave-value").text("Failed to fetch data");
+                $("#eligible-leave-value").text("0");
                 console.log(error);
             });
         });

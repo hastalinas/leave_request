@@ -11,102 +11,68 @@
 
 <div class="card">
     <h1 class="card-header text-center">Data Leave Request</h1>
-    <div class="table-responsive text-nowrap">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        No.
-                    </th>
-                    @*<th>
-                        @Html.DisplayNameFor(model => model.Guid)
-                    </th>*@
-                    <th>
-                        @Html.DisplayNameFor(model => model.FullName)
-                    </th>
-                    @*<th>
-                        @Html.DisplayNameFor(model => model.EmployeeGuid)
-                    </th>*@
-                    <th>
-                        @Html.DisplayNameFor(model => model.LeaveType)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.LeaveStart)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.LeaveEnd)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Notes)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.AttachmentUrl)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Status)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FeedbackNotes)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    int rowNumber = 1;
-                }
-        @foreach (var item in Model) {
-                <tr>
-                        <td>
-                            @rowNumber
-                        </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.Guid)
-                    </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-                   @* <td>
-                        @Html.DisplayFor(modelItem => item.EmployeeGuid)
-                    </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaveType)
-                    </td>
-                    <td>
-                        @if (item.LeaveStart != null)
+    @if (Model != null && Model.Any(item => item.Status != Server.Utilities.Enums.Status.Draft))
+    {
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Full Name</th>
+                        <th>Leave Type</th>
+                        <th>Leave Start</th>
+                        <th>Leave End</th>
+                        <th>Notes</th>
+                        <th>Attachment</th>
+                        <th>Status</th>
+                        <th>Feedback Notes</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int rowNumber = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.Status == Server.Utilities.Enums.Status.Draft)
                         {
-                            @item.LeaveStart.Date.ToString("dd/MM/yyyy")
+                            continue;
                         }
-                    </td>
-                    <td>
-                        @if (item.LeaveEnd != null)
-                        {
-                            @item.LeaveEnd.Date.ToString("dd/MM/yyyy")
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Notes)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AttachmentUrl)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FeedbackNotes)
-                    </td>
-                    @*<td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>*@
-                </tr>
-                    rowNumber++;
-        }
-            </tbody>
-        </table>
-    </div>
+                        <tr>
+                            <td>@rowNumber</td>
+                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LeaveType)</td>
+                            <td>
+                                @if (item.LeaveStart != null)
+                                {
+                                    @item.LeaveStart.Date.ToString("dd/MM/yyyy")
+                                }
+                            </td>
+                            <td>
+                                @if (item.LeaveEnd != null)
+                                {
+                                    @item.LeaveEnd.Date.ToString("dd/MM/yyyy")
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Notes)</td>
+                            <td>@Html.DisplayFor(modelItem => item.AttachmentUrl)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FeedbackNotes)</td>
+                            <td>
+                                @* Tambahkan tombol Edit, Details, Delete jika diperlukan *@
+                                @* Contoh: *@
+                                @* <a href="@Url.Action("Edit", new { id = item.Guid })">Edit</a> | *@
+                                @* <a href="@Url.Action("Details", new { id = item.Guid })">Details</a> | *@
+                                @* <a href="@Url.Action("Delete", new { id = item.Guid })">Delete</a> *@
+                            </td>
+                        </tr>
+                        rowNumber++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
 
 

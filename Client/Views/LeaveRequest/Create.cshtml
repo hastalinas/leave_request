@@ -4,44 +4,47 @@
     ViewData["Title"] = "Create";
 }
 
+
+
+
 <div class="wrapper">
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-12">
                 <div class="card m-b-20">
                     <div class="card-body" style="padding-left: 100px; padding-right: 100px;">
                         <br>
-                        <h4>Requester Information</h4>
+                        <h4 class="text-center">Requester Information</h4>
                         <hr>
                         <div class="form-group row">
-                            <label class="col-md-4 label-request">Requester :</label>
+                            <label class="col-md-4 label-request"><b>Requester</b>  </label>:
                             <span class="col-md-7" id="requester"></span>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-4 label-request">Department :</label>
+                            <label class="col-md-4 label-request"><b>Department</b> </label>:
                             <span class="col-md-7" id="department">ADD 1</span>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-4 label-request">Total Leave :</label>
+                            <label class="col-md-4 label-request"><b>Total Leave</b> </label>:
                             <span class="col-md-7" id="">0 days</span>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-4 label-request">Eligible Leave :</label>
+                            <label class="col-md-4 label-request"><b>Eligible Leave</b> </label>:
                             <span class="col-md-7" id="eligibleText">3 days</span>
                             <input type="hidden" id="eligibleValue" name="eligibleValue" value="3">
                         </div>
                         <br>
-
+                        <br />
                         <div class="card">
-                            <div class="card-header">Leave Request Detail</div>
+                            <div class="card-header bg-label-secondary text-center"><h4>Leave Request Detail</h4></div>
+                            
                             <form id="formRequestLeave" method="POST" enctype="multipart/form-data" novalidate="novalidate">
                                 @* <input type="hidden" name="_csrf" value="6093fdaa-439d-47b0-8d8c-008a26047284"> *@
 
                                 <div class="card-body">
                                     <div id="alertReminder"></div>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label">Leave Type :</label>
+                                        <label class="col-md-4 col-form-label"><b>Leave Type</b> </label>:
                                         <div class="col-md-7">
                                             <select class="form-control" id="grupType" name="LeaveType">
                                                 <option value="0">Vacation</option>
@@ -51,8 +54,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <br />
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label">Leave Date :</label>
+                                        <label class="col-md-4 col-form-label"><b>Leave Date</b> </label>:
                                         <div class="col-md-7">
                                             <span>
                                                 <div class="input-daterange input-group" id="date-range">
@@ -61,30 +65,26 @@
                                                     <input id="endDate" type="text" class="form-control" name="LeaveEnd" asp-for="LeaveEnd" placeholder="End Date" autocomplete="off" onchange="leaveDate()">
                                                 </div>
                                             </span>
-
                                         </div>
                                     </div>
+                                    <br />
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label">Notes :</label>
+                                        <label class="col-md-4 col-form-label"><b>Notes</b> </label>:
                                         <div class="col-md-7">
                                             <textarea id="notes" name="Notes" class="form-control" maxlength="225" rows="3" placeholder="This notes has a limit of 225 chars."></textarea>
                                         </div>
                                     </div>
+                                    <br />
                                     <div class="form-group row">
-                                        <label for="example-text-input" class="col-md-4 col-form-label">Leave
-                                            Days :</label>
+                                        <label for="example-text-input" class="col-md-4 col-form-label"><b>Leave Days</b> </label>:
                                         <div class="col-md-4 col-form-label">
                                             <span id="leaveDayText">1</span> days
                                             <input type="hidden" id="leaveDayValue" name="leaveDayValue" value="1">
                                         </div>
-                                        <label for="example-text-input" class="col-md-1 col-form-label">Holidays :</label>
-                                        <div class="col-md-2 col-form-label">
-                                            <span id="holidayText">0</span> days
-                                            <input type="hidden" id="holidayValue" name="holidayValue" value="0">
-                                        </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label">Upload file :</label>
+                                        <label class="col-md-4 col-form-label"><b>Upload file</b></label>:
+                                       
                                         <div class="col-md-7 col-form-label">
                                             <input type="file" name="FileUpload" class="filestyle" data-buttonname="btn-secondary" asp-for="FileUpload">
                                             <span name="Attachment" hidden></span>
@@ -96,6 +96,7 @@
                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Submit</button>
                                     </div>
                                 </div>
+                                <br />
                             </form>
                         </div>
                         <br>
