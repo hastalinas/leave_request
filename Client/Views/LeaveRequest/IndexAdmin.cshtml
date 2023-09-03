@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Server.DTOs.LeaveRequests.LeaveRequestDto>
+﻿@model IEnumerable<Server.DTOs.LeaveRequests.LeaveRequestAdminDto>
 
 @{
     ViewData["Title"] = "IndexAdmin";
@@ -15,12 +15,18 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>
+                        No.
+                    </th>
                     @*<th>
                         @Html.DisplayNameFor(model => model.Guid)
                     </th>*@
                     <th>
-                        @Html.DisplayNameFor(model => model.EmployeeGuid)
+                        @Html.DisplayNameFor(model => model.FullName)
                     </th>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.EmployeeGuid)
+                    </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.LeaveType)
                     </th>
@@ -46,14 +52,23 @@
                 </tr>
             </thead>
             <tbody>
+                @{
+                    int rowNumber = 1;
+                }
         @foreach (var item in Model) {
                 <tr>
+                        <td>
+                            @rowNumber
+                        </td>
                     @*<td>
                         @Html.DisplayFor(modelItem => item.Guid)
                     </td>*@
-                        <td>
-                         @Html.DisplayFor(modelItem => item.EmployeeGuid)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
                     </td>
+                   @* <td>
+                        @Html.DisplayFor(modelItem => item.EmployeeGuid)
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.LeaveType)
                     </td>
@@ -87,6 +102,7 @@
                         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                     </td>*@
                 </tr>
+                    rowNumber++;
         }
             </tbody>
         </table>

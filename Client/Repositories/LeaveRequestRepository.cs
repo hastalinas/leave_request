@@ -72,7 +72,28 @@ public class LeaveRequestRepository : GeneralRepository<LeaveRequestDto, Guid>, 
         return entityVM;
     }
 
-   
+    public async Task<ResponseHandler<IEnumerable<LeaveRequestAdminDto>>> GetLeaveRequestAdmin()
+    {
+        var jwtToken = _contextAccessor.HttpContext?.Session.GetString("JWToken");
+        var entityVM = new ResponseHandler<IEnumerable<LeaveRequestAdminDto>>();
+
+        if (!string.IsNullOrEmpty(jwtToken))
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var claims = tokenHandler.ReadJwtToken(jwtToken).Claims;
+
+            var guid = claims.FirstOrDefault(c => c.Type == "Guid")?.Value;
+
+            using (var response = await _httpClient.GetAsync(_request + "request-with-name"))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                entityVM = JsonConvert.DeserializeObject<ResponseHandler<IEnumerable<LeaveRequestAdminDto>>>(apiResponse);
+            }
+        }
+        return entityVM;
+    }
+
+
 }
 
 

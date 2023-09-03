@@ -247,5 +247,25 @@ public class LeaveRequestService
         return result? 1 : 0;
     }
 
+    public IEnumerable<LeaveRequestAdminDto>? GetLeaveRequestWithNames()
+    {
+        var merge = (from employee in _employeeRepository.GetAll()
+                     join leaveRequest in _leaveRequestRepository.GetAll() on employee.Guid equals leaveRequest.EmployeeGuid
+                     
+                     select new LeaveRequestAdminDto
+                     {
+                         Guid = employee.Guid,
+                         EmployeeGuid = leaveRequest.EmployeeGuid,
+                         FullName = employee.FirstName + " " + employee.LastName,
+                         LeaveType = leaveRequest.LeaveType,
+                         LeaveStart = leaveRequest.LeaveStart,
+                         LeaveEnd = leaveRequest.LeaveEnd,
+                         Notes = leaveRequest.Notes,
+                         AttachmentUrl = leaveRequest.AttachmentUrl,
+                         FeedbackNotes = leaveRequest.FeedbackNotes, 
+                         Status = leaveRequest.Status,
+                     }).OrderBy(LeaveRequest => LeaveRequest.LeaveStart);
+        return merge;
+    }
 
 }
