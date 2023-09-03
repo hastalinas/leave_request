@@ -350,4 +350,28 @@ public class LeaveRequestController : ControllerBase
         );
     }
 
+    [HttpGet("request-with-name")]
+    public IActionResult GetRequestWithName()
+    {
+        var result = _leaveRequestService.GetLeaveRequestWithNames();
+        if (!result.Any())
+        {
+            return NotFound(new ResponseHandler<LeaveRequestAdminDto>
+            {
+                Code = StatusCodes.Status404NotFound,
+                Status = HttpStatusCode.NotFound.ToString(),
+                Message = "Guid is not found"
+            });
+        }
+
+        return Ok(new ResponseHandler<IEnumerable<LeaveRequestAdminDto>>
+        {
+            Code = StatusCodes.Status200OK,
+            Status = HttpStatusCode.OK.ToString(),
+            Message = "Success retrieving data",
+            Data = result
+        });
+    }
+
+
 }

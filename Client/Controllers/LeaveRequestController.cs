@@ -47,6 +47,35 @@ public class LeaveRequestController : Controller
         return View(ListRequest);
     }
 
+    public async Task<IActionResult> IndexAdmin()
+    {
+        var result = await _repository.GetLeaveRequestAdmin();
+        var listRequest = new List<LeaveRequestAdminDto>();
+        foreach (var employee in result.Data)
+        {
+            var LeaveRequestNewList = new LeaveRequestAdminDto
+            {
+                Guid = employee.Guid,
+                EmployeeGuid = employee.EmployeeGuid,
+                FullName = employee.FullName,
+                LeaveType = employee.LeaveType,
+                LeaveStart = employee.LeaveStart,
+                LeaveEnd = employee.LeaveEnd,
+                Notes = employee.Notes,
+                AttachmentUrl  = employee.AttachmentUrl,
+                Status = employee.Status,
+                FeedbackNotes = employee.FeedbackNotes
+            };
+            listRequest.Add(LeaveRequestNewList);
+        }
+
+        if (result.Data != null)
+        {
+            listRequest = result.Data.ToList();
+        }
+        return View(listRequest);
+    }
+
 
     [HttpGet]
     [Authorize(Roles = "employee")]
