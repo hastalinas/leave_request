@@ -7,6 +7,8 @@ using Server.DTOs.LeaveRequests;
 using Server.Models;
 using System.Data;
 using System.Security.Claims;
+using Client.Models;
+using Microsoft.Net.Http.Headers;
 using Server.DTOs.Employees;
 using Server.Utilities.Enums;
 using Server.Utilities.Handler;
@@ -18,10 +20,12 @@ public class LeaveRequestController : Controller
 {
     private readonly ILeaveRequestRepository _repository;
     private readonly IEmployeeRepository _employeeRepository;
-    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository)
+    private readonly IWebHostEnvironment _env;
+    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository, IWebHostEnvironment env)
     {
         _repository = repository;
         _employeeRepository = employeeRepository;
+        _env = env;
     }
 
 
@@ -52,28 +56,61 @@ public class LeaveRequestController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(RegisterLeaveDto leaveRequest)
+    public async Task<IActionResult> Create(RegisterLeaveRequestDto leaveRequest)
     {
+        var userClaims = User.Claims;
+        var guid = userClaims.FirstOrDefault(c => c.Type == "Guid")?.Value;
+        try
+        {
+            if (leaveRequest.FileUpload != null && leaveRequest.FileUpload.Length > 0)
+            {
+                // Generate a unique file name
+                string fileName = Guid.Parse(guid) + Path.GetExtension(leaveRequest.FileUpload.FileName);
+
+                // Construct the full path within the wwwroot folder
+                string uploadPath = Path.Combine("uploads", $"{guid}", fileName);
+                string fullPath = Path.Combine(_env.WebRootPath, uploadPath);
+
+                // Ensure the directory exists before attempting to save the file
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await leaveRequest.FileUpload.CopyToAsync(stream);
+                }
+
+                // Image successfully uploaded
+                ViewBag.Message = "Upload successful";
+
+                leaveRequest.Attachment = "/" + uploadPath;
+            }
+            else
+            {
+                ViewBag.Message = "No file selected";
+            }
+        }
+        catch (Exception ex)
+        {
+            ViewBag.Message = $"Error: {ex.Message}";
+        }
+        
+        RegisterLeaveDto leaveRequestDto = leaveRequest;
         var emp = await _employeeRepository.Get();
         
-        // Mendapatkan klaim-klaim dari pengguna yang terautentikasi
-        var userClaims = User.Claims;
-
-        var enumerable = userClaims.ToList();
-        var guid = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
         var data = emp.Data.FirstOrDefault(e => e.Guid == Guid.Parse(guid));
 
         var checkDays = new CheckDaysHandler();
-        var leaveDays = checkDays.Get(leaveRequest.LeaveStart, leaveRequest.LeaveEnd);
+        var leaveDays = checkDays.Get(leaveRequestDto.LeaveStart, leaveRequestDto.LeaveEnd);
         
         if (data.LeaveRemain >= leaveDays)
         {
-            var register = new RegisterLeaveDto()
+            var register = new RegisterLeaveRequestDto()
             {
                 LeaveType = leaveRequest.LeaveType,
                 LeaveStart = leaveRequest.LeaveStart,
                 LeaveEnd = leaveRequest.LeaveEnd,
-                Notes = leaveRequest.Notes
+                Notes = leaveRequest.Notes,
+                Attachment = leaveRequest.Attachment
             };
 
             var result = await _repository.RegisterLeave(register);
@@ -226,7 +263,9 @@ public class LeaveRequestController : Controller
             if (entity.Status == Status.Success && result.Data != null)
             {
                 var data = employee.Data.FirstOrDefault(e => e.Guid == entity.EmployeeGuid);
-                data.LeaveRemain = data.LeaveRemain - (entity.LeaveEnd - entity.LeaveStart).Days;
+                var checkDays = new CheckDaysHandler();
+                var leaveDays = checkDays.Get(entity.LeaveStart, entity.LeaveEnd);
+                data.LeaveRemain = data.LeaveRemain - leaveDays;
 
                 var udate = await _employeeRepository.Put(data.Guid, data);
             }
@@ -239,18 +278,12 @@ public class LeaveRequestController : Controller
         return RedirectToAction("Index", "LeaveRequest");
     }
 
-    public async Task<IActionResult> Notification()
-    {
-
-        return View();
-    }
-
-   /* [HttpPost]
-    public async Task<IActionResult> GetOnProcessRequests()
-    {
-        var onProcessRequests = _dbContext.Requests.Where(r => r.Status == "OnProcess").ToList();
-        return Ok(onProcessRequests);
-    }*/
+    /* [HttpPost]
+     public async Task<IActionResult> GetOnProcessRequests()
+     {
+         var onProcessRequests = _dbContext.Requests.Where(r => r.Status == "OnProcess").ToList();
+         return Ok(onProcessRequests);
+     }*/
 
 }
 

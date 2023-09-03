@@ -1,6 +1,7 @@
 using FluentValidation;
 using Server.Contracts;
 using Server.DTOs.Employees;
+using Server.DTOs.LeaveRequests;
 
 namespace Server.Utilities.Validations.LeaveRequests
 {

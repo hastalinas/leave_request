@@ -13,6 +13,7 @@ using TokenHandler = ClientServer.Utilities.Handlers.TokenHandler;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Server.Utilities.Validations.Response;
 
@@ -44,6 +45,8 @@ builder.Services.AddScoped<RoleService>();
 
 // Add Service
 builder.Services.AddScoped<ITokenHandler, TokenHandler>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Register FluentValidation
 builder.Services.AddFluentValidationAutoValidation()
@@ -150,10 +153,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors();
-
 
 app.UseCors();
+
+app.UseStaticFiles();
 
 app.UseAuthentication();
 

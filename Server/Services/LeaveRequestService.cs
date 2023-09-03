@@ -115,17 +115,19 @@ public class LeaveRequestService
         }
 
         var result = _employeeRepository.Update(employeeDto);
+        var checkDays = new CheckDaysHandler();
 
         var requestInformation = (
             from employee in _employeeRepository.GetAll()
             where employee.Guid == guid
             join department in _departmentRepository.GetAll() on employee.DepartmentGuid equals department.Guid
+            join leaveRequest in _leaveRequestRepository.GetAll() on employee.Guid equals leaveRequest.EmployeeGuid
             select new RequestInformationDto
             {
                 Requester = $"{employee.Nik} - {employee.FirstName} {employee.LastName}",
                 Department = $"{department.Code} - {department.Name}",
                 AvailableLeave = employee.LeaveRemain, // Set your calculation here
-                TotalLeave = 0,      // Set your calculation here
+                TotalLeave = checkDays.Get(leaveRequest.LeaveStart, leaveRequest.LeaveEnd),      // Set your calculation here
                 EligibleLeave = 2    // Set your calculation here
             }
         ).FirstOrDefault();

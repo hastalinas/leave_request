@@ -1,6 +1,6 @@
 using Server.Utilities.Enums;
 
-namespace Server.DTOs.Employees;
+namespace Server.DTOs.LeaveRequests;
 
 public class RegisterLeaveDto
 {

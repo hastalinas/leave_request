@@ -2,7 +2,7 @@ namespace Server.Utilities.Handler;
 
 public class CheckDaysHandler
 {
-    public int Get(DateTime leaveStart, DateTime leaveEnd)
+    public int Get(DateTime leaveStart, DateTime leaveEnd) // yang dimasukkan dd/mm/yyyy yang sesuai datetime mm/dd/yyyy
     {
         List<DateTime> holidays = new List<DateTime>
         {
