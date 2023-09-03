@@ -51,22 +51,29 @@ public class LeaveRequestController : Controller
     {
         var result = await _repository.GetLeaveRequestAdmin();
         var listRequest = new List<LeaveRequestAdminDto>();
-        foreach (var employee in result.Data)
+        try
         {
-            var LeaveRequestNewList = new LeaveRequestAdminDto
+            foreach (var employee in result.Data)
             {
-                Guid = employee.Guid,
-                EmployeeGuid = employee.EmployeeGuid,
-                FullName = employee.FullName,
-                LeaveType = employee.LeaveType,
-                LeaveStart = employee.LeaveStart,
-                LeaveEnd = employee.LeaveEnd,
-                Notes = employee.Notes,
-                AttachmentUrl  = employee.AttachmentUrl,
-                Status = employee.Status,
-                FeedbackNotes = employee.FeedbackNotes
-            };
-            listRequest.Add(LeaveRequestNewList);
+                var LeaveRequestNewList = new LeaveRequestAdminDto
+                {
+                    Guid = employee.Guid,
+                    EmployeeGuid = employee.EmployeeGuid,
+                    FullName = employee.FullName,
+                    LeaveType = employee.LeaveType,
+                    LeaveStart = employee.LeaveStart,
+                    LeaveEnd = employee.LeaveEnd,
+                    Notes = employee.Notes,
+                    AttachmentUrl = employee.AttachmentUrl,
+                    Status = employee.Status,
+                    FeedbackNotes = employee.FeedbackNotes
+                };
+                listRequest.Add(LeaveRequestNewList);
+            }
+        }
+        catch
+        {
+
         }
 
         if (result.Data != null)

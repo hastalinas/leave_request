@@ -15,19 +15,7 @@
     <div class="row">
       <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-md-row mb-3">
-          <li class="nav-item">
-            <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> Account</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="pages-account-settings-notifications.html"
-              ><i class="bx bx-bell me-1"></i> Notifications</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="pages-account-settings-connections.html"
-              ><i class="bx bx-link-alt me-1"></i> Connections</a
-            >
-          </li>
+          
         </ul>
         <div class="card mb-4">
           <h5 class="card-header">Profile Details</h5>
@@ -75,87 +63,7 @@
               
               <br/>
               
-              <div class="row">
-                <div class="mb-3 col-md-6">
-                  <label for="firstName" class="form-label">Name</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    asp-for="FullName"
-                    autofocus
-                    disabled
-                  />
-                </div>
-                
-                <div class="mb-3 col-md-6">
-                  <label for="email" class="form-label">E-mail</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="email"
-                    name="email"
-                    asp-for="Email"
-                    disabled
-                  />
-                </div>
-                
-                <div class="mb-3 col-md-6">
-                  <label for="email" class="form-label">Phone Number</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="phoneNumber"
-                    asp-for="PhoneNumber"
-                  />
-                </div>
-                
-                <div class="mb-3 col-md-6">
-                  <label for="email" class="form-label">NIK</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="nik"
-                    asp-for="Nik"
-                    disabled
-                  />
-                </div>
-
-                <div class="mb-3 col-md-6">
-                  <label for="email" class="form-label">Birth Date</label>
-                  <input
-                    class="form-control"
-                    type="date"
-                    name="nik"
-                    asp-for="BirthDate"
-                    disabled
-                  />
-                </div>
-
-                <div class="mb-3 col-md-6">
-                  <label for="email" class="form-label">Deartment</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    name="nik"
-                    asp-for="DepartmentName"
-                    disabled
-                  />
-                </div>
-
-                <div class="mb-3 col-md-6">
-                  <label for="email" class="form-label">Hiring Date</label>
-                  <input
-                    class="form-control"
-                    type="date"
-                    name="nik"
-                    asp-for="HiringDate"
-                    disabled
-                  />
-                </div>
-
-              </div>
+              
             </form>
           </div>
         </div>
@@ -222,14 +130,17 @@
                 } else {
                     $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
                     $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
+                    $('#uploadedAvatar').attr('src', '/assets/img/avatars/1.png');
                 }
             } else {
                 $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
                 $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
-            }
+                $('#uploadedAvatar').attr('src', '/assets/img/avatars/1.png');
+            } 
         }).fail(function () {
             $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
             $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
+            $('#uploadedAvatar').attr('src', '/assets/img/avatars/1.png');
         });
     });
     </script>

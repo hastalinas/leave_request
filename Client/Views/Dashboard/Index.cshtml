@@ -202,6 +202,22 @@
 
     <script>
         const Token = '@Context.Session.GetString("JWToken")'
+        //eligible leave
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/leave-request/detail",
+                headers:
+                {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                var availableLeave = result.data.availableLeave; // Ambil nilai eligibleLeave dari respons API
+                $("#eligible-leave-value").text(availableLeave); // Tampilkan nilai eligibleLeave
+            }).fail(function (error) {
+                $("#eligible-leave-value").text("Failed to fetch data");
+                console.log(error);
+            });
+        });
 
         //Employees counts
         $(document).ready(function () {
