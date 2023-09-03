@@ -12,7 +12,7 @@
 <div id="accordionExample" class="accordion mt-3 accordion-without-arrow d-block">
     <div class="row">
         <div class="col-lg-6">
-            @foreach (var item in  Model.OrderByDescending(item => item.Nik).Take(Model.Count()/2))
+            @foreach (var item in  Model.OrderByDescending(item => item.IsActive).Take(Model.Count()/2))
             {
                 var accordionId = $"accordion_{item.Name.Replace(" ", "_")}";
                 var isLastItem = Model.Last() == item; // Menentukan apakah item adalah item terakhir
