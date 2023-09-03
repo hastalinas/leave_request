@@ -13,10 +13,13 @@
     @foreach (var item in Model)
     {
         var accordionId = $"accordion_{item.Name.Replace(" ", "_")}";
+        var isFirstItem = Model.First() == item; // Menentukan apakah item adalah item terakhir
         <div class="card accordion-item">
             <h2 class="accordion-header" id="heading_@accordionId">
                 <button type="button"
-                        class="accordion-button collapsed"
+                        class="accordion-button @if (isFirstItem) {
+            <text>show</text>
+} collapsed"
                         data-bs-toggle="collapse"
                         data-bs-target="#@accordionId"
                         aria-controls="@accordionId">
@@ -36,7 +39,9 @@
                 </button>
             </h2>
             <div id="@accordionId"
-                 class="accordion-collapse collapse"
+                 class="accordion-collapse collapse @if (isFirstItem) {
+        <text>show</text>
+}"
                  aria-labelledby="heading_@accordionId"
                  data-bs-parent="#accordionExample">
                 <div class="accordion-body">
