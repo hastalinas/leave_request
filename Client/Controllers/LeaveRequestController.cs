@@ -283,7 +283,7 @@ public class LeaveRequestController : Controller
                 body += $"<li><strong>Tanggal Mulai Cuti:</strong> {leaveRequest.Data.LeaveStart}</li>";
                 body += $"<li><strong>Tanggal Berakhir Cuti:</strong> {leaveRequest.Data.LeaveEnd}</li>";
                 body += $"<li><strong>Catatan:</strong> {leaveRequest.Data.Notes}</li>";
-                body += $"<li><strong>Link Lampiran:</strong> <a href='{leaveRequest.Data.AttachmentUrl}'>Attachment</a></li>";
+                body += $"<li><strong>Link Lampiran:</strong> <a href='{_env.WebRootPath}{leaveRequest.Data.AttachmentUrl}'>Attachment</a></li>";
                 body += "</ul>";
                 body += "<p>Terima kasih atas permohonan cuti Anda. Kami akan memprosesnya segera.</p>";
                 body += "<p>Harap jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan lebih lanjut.</p>";
