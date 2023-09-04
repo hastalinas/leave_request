@@ -6,6 +6,7 @@ namespace Server.DTOs.LeaveRequests;
 public class NewLeaveRequestDto
 {
     public Guid EmployeeGuid { get; set; }
+    public string RequestNumber { get; set; }
     public LeaveType LeaveType { get; set; }
     public DateTime LeaveStart { get; set; }
     public DateTime LeaveEnd { get; set; }
@@ -18,6 +19,7 @@ public class NewLeaveRequestDto
         return new LeaveRequest
         {
             Guid = new Guid(),
+            RequestNumber = newLeaveRequestDto.RequestNumber,
             EmployeeGuid = newLeaveRequestDto.EmployeeGuid,
             LeaveType = newLeaveRequestDto.LeaveType,
             LeaveStart = newLeaveRequestDto.LeaveStart,
@@ -34,6 +36,7 @@ public class NewLeaveRequestDto
     {
         return new NewLeaveRequestDto
         {
+            RequestNumber = leaveRequest.RequestNumber,
             EmployeeGuid = leaveRequest.EmployeeGuid,
             LeaveType = leaveRequest.LeaveType,
             LeaveStart = leaveRequest.LeaveStart,

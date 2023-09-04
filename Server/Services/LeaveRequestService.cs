@@ -148,7 +148,7 @@ public class LeaveRequestService
             select new LeaveRequestDetailDto
             {
                 Guid = leaveRequest.Guid,
-                RequestNumber = $"{leaveRequest.LeaveType} - {employee.Nik}{DateTime.Now.Year}{requestNumber++}",
+                RequestNumber = leaveRequest.RequestNumber,
                 RelationManager = $"{manager.Nik} - {manager.FirstName} {manager.LastName}",
                 LeaveType = leaveRequest.LeaveType,
                 LeaveStart = leaveRequest.LeaveStart,
@@ -182,7 +182,7 @@ public class LeaveRequestService
             select new LeaveRequestDetailDto
             {
                 Guid = leaveRequest.Guid,
-                RequestNumber = $"{leaveRequest.LeaveType} - {employee.Nik}{DateTime.Now.Year}{requestNumber++}",
+                RequestNumber = leaveRequest.RequestNumber,
                 RelationManager = $"{manager.Nik} - {manager.FirstName} {manager.LastName}",
                 FullName = $"{employee.FirstName} {employee.LastName}",
                 LeaveType = leaveRequest.LeaveType,

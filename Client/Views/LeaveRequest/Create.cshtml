@@ -3,9 +3,49 @@
 @{
     ViewData["Title"] = "Create";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
+<style>
+    /* Gaya dasar datepicker */
+    .datepicker {
+        background-color: #fff; /* Warna latar belakang */
+    }
+    
+    /* Gaya untuk input datepicker */
+    .datepicker table {
+        font-size: 14px; /* Ukuran teks */
+    }
+    
+    /* Gaya untuk tanda panah navigasi */
+    .datepicker th.prev, .datepicker th.next {
+        color: #007BFF; /* Warna panah */
+    }
+    
+    /* Gaya untuk tanggal yang dipilih */
+    .datepicker .active {
+        background-color: #007BFF; /* Warna latar belakang tanggal aktif */
+        color: #fff; /* Warna teks tanggal aktif */
+    }
+    
+    /* Gaya untuk header tanggal */
+    .datepicker .datepicker-days thead {
+        background-color: #f8f9fa; /* Warna latar belakang header */
+        border-bottom: none; /* Menghapus garis bawah header */
+    }
+    
+    /* Gaya untuk teks bulan dan tahun */
+    .datepicker .datepicker-months thead {
+        background-color: #f8f9fa;
+        border-bottom: none;
+    }
+    
+    /* Gaya untuk bulan yang dipilih */
+    .datepicker .datepicker-months .active {
+        background-color: #007BFF;
+        color: #fff;
+    }
 
-
+</style>
 
 <div class="wrapper">
     <div class="container-fluid">
@@ -58,9 +98,9 @@
                                         <div class="col-md-7">
                                             <span>
                                                 <div class="input-daterange input-group" id="date-range">
-                                                    <input id="startDate" type="text" class="form-control" name="LeaveStart" asp-for="LeaveStart" placeholder="Start Date" autocomplete="off" onchange="dateValidation()">
+                                                    <input id="startDate" type="text" class="form-control datepicker" name="LeaveStart" asp-for="LeaveStart" placeholder="Start Date" autocomplete="off" onchange="dateValidation()">
                                                     <input type="text" id="setFromDate" hidden="">
-                                                    <input id="endDate" type="text" class="form-control" name="LeaveEnd" asp-for="LeaveEnd" placeholder="End Date" autocomplete="off" onchange="leaveDate()">
+                                                    <input id="endDate" type="text" class="form-control datepicker" name="LeaveEnd" asp-for="LeaveEnd" placeholder="End Date" autocomplete="off" onchange="leaveDate()">
                                                 </div>
                                             </span>
                                         </div>

@@ -15,10 +15,12 @@ namespace Server.Controllers;
 public class LeaveRequestController : ControllerBase
 {
     private readonly LeaveRequestService _leaveRequestService;
+    private readonly EmployeeService _employeeService;
     
-    public LeaveRequestController(LeaveRequestService leaveRequestService)
+    public LeaveRequestController(LeaveRequestService leaveRequestService, EmployeeService employeeService)
     {
         _leaveRequestService = leaveRequestService;
+        _employeeService = employeeService;
     }
 
     [HttpGet]
@@ -196,13 +198,16 @@ public class LeaveRequestController : ControllerBase
 
         var enumerable = userClaims.ToList();
         var guidClaim = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
+
+        var requestNumber = 0;
         
         // Dapatkan peran (role) pengguna dari klaim tipe "Role"
         var roles = enumerable.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
-
+        var employee = _employeeService.GetByGuid(Guid.Parse(guidClaim));
         var register = new NewLeaveRequestDto()
         {
             EmployeeGuid = Guid.Parse(guidClaim),
+            RequestNumber = $"{registerLeaveDto.LeaveType} - {employee.Nik}{DateTime.Now.Year}{requestNumber++}",
             LeaveType = registerLeaveDto.LeaveType,
             LeaveStart = registerLeaveDto.LeaveStart,
             LeaveEnd = registerLeaveDto.LeaveEnd,
