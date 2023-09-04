@@ -1,5 +1,4 @@
-﻿using Client.Contracts;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTOs.Departments;
@@ -9,10 +8,13 @@ using System.Data;
 using System.Security.Claims;
 using Client.Models;
 using Microsoft.Net.Http.Headers;
+using Server.Contracts;
 using Server.DTOs.Employees;
 using Server.Utilities.Enums;
 using Server.Utilities.Handler;
 using Server.DTOs.AccountRoles;
+using IEmployeeRepository = Client.Contracts.IEmployeeRepository;
+using ILeaveRequestRepository = Client.Contracts.ILeaveRequestRepository;
 
 namespace Client.Controllers;
 
@@ -21,11 +23,13 @@ public class LeaveRequestController : Controller
     private readonly ILeaveRequestRepository _repository;
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IWebHostEnvironment _env;
-    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository, IWebHostEnvironment env)
+    private readonly IEmailHandler _emailHandler;
+    public LeaveRequestController(ILeaveRequestRepository repository, IEmployeeRepository employeeRepository, IWebHostEnvironment env, IEmailHandler emailHandler)
     {
         _repository = repository;
         _employeeRepository = employeeRepository;
         _env = env;
+        _emailHandler = emailHandler;
     }
 
 
@@ -215,9 +219,85 @@ public class LeaveRequestController : Controller
         var leaveRequest = await _repository.Get(guid);
         leaveRequest.Data.Status = Status.OnProcess;
         var result = await _repository.Put(guid, leaveRequest.Data);
+        var employees = await _employeeRepository.Get();
+        var employee = employees.Data.FirstOrDefault(e => e.Guid == leaveRequest.Data.EmployeeGuid);
         if (result.Code == 200)
         {
-            TempData["Success"] = $"{result.Message}!";
+            var userEmail = User.FindFirst("Email")?.Value;
+            if (!string.IsNullOrEmpty(userEmail))
+            {
+                var subject = "Leave Request - Created";
+                // Membuat konten HTML
+                var body = "<!DOCTYPE html>";
+                body += "<html>";
+                body += "<head>";
+                body += "<title>Leave Request - Created</title>";
+                body += "<style>";
+                body += "body {";
+                body += "  font-family: Arial, sans-serif;";
+                body += "  background: #f0f0f0;";
+                body += "  background-size: cover;";
+                body += "}";
+                body += ".container {";
+                body += "  max-width: 600px;";
+                body += "  margin: 0 auto;";
+                body += "  padding: 20px;";
+                body += "  background-color: rgba(255, 255, 255, 0.9);";
+                body += "  border-radius: 10px;";
+                body += "  backdrop-filter: blur(15px);";
+                body += "  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
+                body += "}";
+                body += "h1 {";
+                body += "  color: #007BFF;";
+                body += "  text-align: center;";
+                body += "}";
+                body += "ul {";
+                body += "  list-style-type: none;";
+                body += "  padding: 0;";
+                body += "}";
+                body += "li {";
+                body += "  margin-bottom: 10px;";
+                body += "}";
+                body += "strong {";
+                body += "  font-weight: bold;";
+                body += "}";
+                body += "a {";
+                body += "  color: #007BFF;";
+                body += "  text-decoration: none;";
+                body += "}";
+                body += ".footer {";
+                body += "  text-align: center;";
+                body += "  color: #888;";
+                body += "}";
+                body += "</style>";
+                body += "</head>";
+                body += "<body>";
+                body += "<div class='container'>";
+                body += "<h1>Permohonan Cuti - Dibuat</h1>";
+                body += "<p>Berikut ini adalah rincian permohonan cuti:</p>";
+                body += "<ul>";
+                body += $"<li><strong>Nama :</strong> {employee.FirstName} {employee.LastName}</li>";
+                body += $"<li><strong>Nik :</strong> {employee.Nik}</li>";
+                body += $"<li><strong>Nomor Hp :</strong> {employee.PhoneNumber}</li>";
+                body += $"<li><strong>Tipe Cuti:</strong> {leaveRequest.Data.LeaveType}</li>";
+                body += $"<li><strong>Tanggal Mulai Cuti:</strong> {leaveRequest.Data.LeaveStart}</li>";
+                body += $"<li><strong>Tanggal Berakhir Cuti:</strong> {leaveRequest.Data.LeaveEnd}</li>";
+                body += $"<li><strong>Catatan:</strong> {leaveRequest.Data.Notes}</li>";
+                body += $"<li><strong>Link Lampiran:</strong> <a href='{leaveRequest.Data.AttachmentUrl}'>Attachment</a></li>";
+                body += "</ul>";
+                body += "<p>Terima kasih atas permohonan cuti Anda. Kami akan memprosesnya segera.</p>";
+                body += "<p>Harap jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan lebih lanjut.</p>";
+                body += "<div class='footer'>";
+                body += "<p>Salam,</p>";
+                body += $"<p>Manager</p>";
+                body += "</div>";
+                body += "</div>";
+                body += "</body>";
+                body += "</html>";
+
+                // Mengirim email dengan HTML
+                _emailHandler.SendEmail(userEmail, subject, body);
+            }
         }
         else
         {
@@ -303,7 +383,87 @@ public class LeaveRequestController : Controller
                 var leaveDays = checkDays.Get(entity.LeaveStart, entity.LeaveEnd);
                 data.LeaveRemain = data.LeaveRemain - leaveDays;
 
-                var udate = await _employeeRepository.Put(data.Guid, data);
+                var update = await _employeeRepository.Put(data.Guid, data);
+                
+                var userEmail = User.FindFirst("Email")?.Value;
+                if (!string.IsNullOrEmpty(userEmail))
+                {
+                    // Informasi pengajuan cuti
+                    var leaveType = entity.LeaveType;
+                    var leaveStart = entity.LeaveStart;
+                    var leaveEnd = entity.LeaveEnd;
+                    var notes = entity.FeedbackNotes;
+                    var status = entity.Status;
+
+                    var subject = "Pengajuan Cuti Anda";
+
+                    // Membuat konten HTML
+                    var body = "<!DOCTYPE html>";
+                    body += "<html>";
+                    body += "<head>";
+                    body += "<title>Pengajuan Cuti Anda</title>";
+                    body += "<style>";
+                    body += "body {";
+                    body += "  font-family: Arial, sans-serif;";
+                    body += "  background: #f0f0f0;";
+                    body += "}";
+                    body += ".container {";
+                    body += "  max-width: 600px;";
+                    body += "  margin: 0 auto;";
+                    body += "  padding: 20px;";
+                    body += "  background-color: rgba(255, 255, 255, 0.9);";
+                    body += "  border-radius: 10px;";
+                    body += "  backdrop-filter: blur(15px);";
+                    body += "  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
+                    body += "}";
+                    body += "h1 {";
+                    body += "  color: #007BFF;";
+                    body += "  text-align: center;";
+                    body += "}";
+                    body += "ul {";
+                    body += "  list-style-type: none;";
+                    body += "  padding: 0;";
+                    body += "}";
+                    body += "li {";
+                    body += "  margin-bottom: 10px;";
+                    body += "}";
+                    body += "strong {";
+                    body += "  font-weight: bold;";
+                    body += "}";
+                    body += "a {";
+                    body += "  color: #007BFF;";
+                    body += "  text-decoration: none;";
+                    body += "}";
+                    body += ".footer {";
+                    body += "  text-align: center;";
+                    body += "  color: #888;";
+                    body += "}";
+                    body += "</style>";
+                    body += "</head>";
+                    body += "<body>";
+                    body += "<div class='container'>";
+                    body += "<h1>Pengajuan Cuti Anda</h1>";
+                    body += "<p>Status Pengajuan Cuti: <strong>" + status + "</strong></p>";
+                    body += "<p>Berikut ini adalah rincian pengajuan cuti Anda:</p>";
+                    body += "<ul>";
+                    body += $"<li><strong>Tipe Cuti:</strong> {leaveType}</li>";
+                    body += $"<li><strong>Tanggal Mulai Cuti:</strong> {leaveStart}</li>";
+                    body += $"<li><strong>Tanggal Berakhir Cuti:</strong> {leaveEnd}</li>";
+                    body += $"<li><strong>Notes:</strong> {notes}</li>";
+                    body += "</ul>";
+                    body += "<p>Terima kasih atas pengajuan cuti Anda.</p>";
+                    body += "<p>Harap jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan lebih lanjut.</p>";
+                    body += "<div class='footer'>";
+                    body += "<p>Salam,</p>";
+                    body += $"<p>Manager</p>";
+                    body += "</div>";
+                    body += "</div>";
+                    body += "</body>";
+                    body += "</html>";
+
+                    // Mengirim email dengan HTML
+                    _emailHandler.SendEmail(userEmail, subject, body);
+                }
             }
         }
         catch

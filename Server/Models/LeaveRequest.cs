@@ -13,6 +13,9 @@ public class LeaveRequest : BaseTable
     [Column("employee_guid")]
     [ForeignKey("Employee")]
     public Guid EmployeeGuid { get; set; }
+    
+    [Column("request_number")]
+    public string RequestNumber { get; set; }
 
     [Column("leave_type")]
     public LeaveType LeaveType { get; set; }

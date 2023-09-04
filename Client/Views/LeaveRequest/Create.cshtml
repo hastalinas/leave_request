@@ -3,9 +3,49 @@
 @{
     ViewData["Title"] = "Create";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
+<style>
+    /* Gaya dasar datepicker */
+    .datepicker {
+        background-color: #fff; /* Warna latar belakang */
+    }
+    
+    /* Gaya untuk input datepicker */
+    .datepicker table {
+        font-size: 14px; /* Ukuran teks */
+    }
+    
+    /* Gaya untuk tanda panah navigasi */
+    .datepicker th.prev, .datepicker th.next {
+        color: #007BFF; /* Warna panah */
+    }
+    
+    /* Gaya untuk tanggal yang dipilih */
+    .datepicker .active {
+        background-color: #007BFF; /* Warna latar belakang tanggal aktif */
+        color: #fff; /* Warna teks tanggal aktif */
+    }
+    
+    /* Gaya untuk header tanggal */
+    .datepicker .datepicker-days thead {
+        background-color: #f8f9fa; /* Warna latar belakang header */
+        border-bottom: none; /* Menghapus garis bawah header */
+    }
+    
+    /* Gaya untuk teks bulan dan tahun */
+    .datepicker .datepicker-months thead {
+        background-color: #f8f9fa;
+        border-bottom: none;
+    }
+    
+    /* Gaya untuk bulan yang dipilih */
+    .datepicker .datepicker-months .active {
+        background-color: #007BFF;
+        color: #fff;
+    }
 
-
+</style>
 
 <div class="wrapper">
     <div class="container-fluid">
@@ -39,8 +79,6 @@
                             <div class="card-header bg-label-secondary text-center"><h4>Leave Request Detail</h4></div>
                             
                             <form id="formRequestLeave" method="POST" enctype="multipart/form-data" novalidate="novalidate">
-                                @* <input type="hidden" name="_csrf" value="6093fdaa-439d-47b0-8d8c-008a26047284"> *@
-
                                 <div class="card-body">
                                     <div id="alertReminder"></div>
                                     <div class="form-group row">
@@ -60,9 +98,9 @@
                                         <div class="col-md-7">
                                             <span>
                                                 <div class="input-daterange input-group" id="date-range">
-                                                    <input id="startDate" type="text" class="form-control" name="LeaveStart" asp-for="LeaveStart" placeholder="Start Date" autocomplete="off" onchange="dateValidation()">
+                                                    <input id="startDate" type="text" class="form-control datepicker" name="LeaveStart" asp-for="LeaveStart" placeholder="Start Date" autocomplete="off" onchange="dateValidation()">
                                                     <input type="text" id="setFromDate" hidden="">
-                                                    <input id="endDate" type="text" class="form-control" name="LeaveEnd" asp-for="LeaveEnd" placeholder="End Date" autocomplete="off" onchange="leaveDate()">
+                                                    <input id="endDate" type="text" class="form-control datepicker" name="LeaveEnd" asp-for="LeaveEnd" placeholder="End Date" autocomplete="off" onchange="leaveDate()">
                                                 </div>
                                             </span>
                                         </div>
@@ -71,7 +109,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label"><b>Notes</b> </label>:
                                         <div class="col-md-7">
-                                            <textarea id="notes" name="Notes" class="form-control" maxlength="225" rows="3" placeholder="This notes has a limit of 225 chars."></textarea>
+                                            <textarea id="notes" name="Notes" class="form-control" maxlength="225" rows="3" placeholder="This notes has a limit of 225 chars." ></textarea>
                                         </div>
                                     </div>
                                     <br />
@@ -91,8 +129,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row m-t-20">
-                                    <div class="col text-right pr-5">
+                                <div class="form-group row">
+                                    <div class="col-12 text-right pr-5">
                                         <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Submit</button>
                                     </div>
                                 </div>
@@ -108,7 +146,6 @@
 </div>
 
 @section Scripts {
-
     <!-- App js -->
     <script src="~/assets/js/leave-request/app.js"></script>
     <script src="~/assets/js/leave-request/session.js"></script>
@@ -117,7 +154,7 @@
     <script src="~/assets/js/leave-request/bootstrap-datepicker.min.js"></script>
     <script src="~/assets/js/leave-request/bootstrap-maxlength.min.js"></script>
     <script src="~/assets/js/leave-request/sweetalert2@8"></script>
-    
+
     <script>
         const Token = '@Context.Session.GetString("JWToken")'
         $(document).ready(function () {
@@ -237,7 +274,7 @@
         });
     });
     </script>
-    
+
     <script>
             $(document).ready(function () {
                 $("#formRequestLeave").validate({
@@ -265,7 +302,7 @@
             });
         </script>
 
-    <script type="text/javascript">
+    <script type="text/javascript">  
         var minDate = new Date();
         var sift = $('#sifting').val();
         // Date Picker
@@ -334,6 +371,8 @@
             var toDate = $('#endDate').val();
             var noHp = $('#noHp').val();
             var notes = $('#notes').val();
+            // var notes = CKEDITOR.instances.editor.getData();
+            console.log(notes);
             var form = this;
             if (typeLeave === '' || fromDate === '' || toDate === '' || noHp === '' || notes.length < 5) {
                 Swal.fire({
