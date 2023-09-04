@@ -131,8 +131,7 @@ public class AccountService
         {
             new Claim("Guid", employee.Guid.ToString()),
             new Claim("FullName", $"{employee.FirstName} {employee.LastName}"),
-            new Claim("Email", employee.Email),
-            new Claim("ProfilPicture", (account.ProfilPictureUrl != null) ? account.ProfilPictureUrl : "/assets/img/avatars/1.png")
+            new Claim("Email", employee.Email)
         };
         
         var getRoles = _accountRoleRepository.GetRoleNamesByAccountGuid(employee.Guid);
@@ -277,6 +276,7 @@ public class AccountService
             ModifiedDate = DateTime.Now,
             CreatedDate = getAccount.CreatedDate,
             Otp = getAccount.Otp,
+            IsActive = getAccount.IsActive,
             ExpiredTime = getAccount.ExpiredTime,
             Password = HashingHandler.GenerateHash(changePasswordDto.NewPassword)
         };
@@ -310,6 +310,7 @@ public class AccountService
             ExpiredTime = DateTime.Now.AddMinutes(5),
             Otp = otp,
             IsUsed = false,
+            IsActive = getAccountDetail.IsActive,
             CreatedDate = getAccountDetail.CreatedDate,
             ModifiedDate = DateTime.Now
         };
@@ -319,8 +320,68 @@ public class AccountService
         if (!isUpdated)
             return -1;
         
-        _emailHandler.SendEmail(forgotPassword.Email,"Leave Request - Forgot Password OTP", $"Your OTP is {otp}");
-        
+        var subject = "OTP Verification";
+
+        // Membuat konten HTML
+        var body = "<!DOCTYPE html>";
+        body += "<html>";
+        body += "<head>";
+        body += "<title>OTP Verification</title>";
+        body += "<style>";
+        body += "body {";
+        body += "  font-family: Arial, sans-serif;";
+        body += "  background: #f0f0f0;";
+        body += "}";
+        body += ".container {";
+        body += "  max-width: 600px;";
+        body += "  margin: 0 auto;";
+        body += "  padding: 20px;";
+        body += "  background-color: rgba(255, 255, 255, 0.9);";
+        body += "  border-radius: 10px;";
+        body += "  backdrop-filter: blur(15px);";
+        body += "  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
+        body += "}";
+        body += "h1 {";
+        body += "  color: #007BFF;";
+        body += "  text-align: center;";
+        body += "}";
+        body += "ul {";
+        body += "  list-style-type: none;";
+        body += "  padding: 0;";
+        body += "}";
+        body += "li {";
+        body += "  margin-bottom: 10px;";
+        body += "}";
+        body += "strong {";
+        body += "  font-weight: bold;";
+        body += "}";
+        body += "a {";
+        body += "  color: #007BFF;";
+        body += "  text-decoration: none;";
+        body += "}";
+        body += ".footer {";
+        body += "  text-align: center;";
+        body += "  color: #888;";
+        body += "}";
+        body += "</style>";
+        body += "</head>";
+        body += "<body>";
+        body += "<div class='container'>";
+        body += "<h1>OTP Verification</h1>";
+        body += "<p>Your OTP code is:</p>";
+        body += $"<p><strong>{otp}</strong></p>"; // Menambahkan OTP ke email
+        body += "<p>Please use this code to verify your email.</p>";
+        body += "<div class='footer'>";
+        body += "<p>Salam,</p>";
+        body += $"<p>Manager</p>";
+        body += "</div>";
+        body += "</div>";
+        body += "</body>";
+        body += "</html>";
+
+        // Mengirim email dengan HTML
+        _emailHandler.SendEmail(forgotPassword.Email, subject, body);
+
         return 1;
     }
 

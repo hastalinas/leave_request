@@ -2,9 +2,17 @@ using System.Net;
 using System.Text;
 using Client.Contracts;
 using Client.Repositories;
+using ClientServer.Utilities.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Server.Contracts;
 using Server.Services;
+using IAccountRepository = Client.Contracts.IAccountRepository;
+using IAccountRoleRepository = Client.Contracts.IAccountRoleRepository;
+using IDepartmentRepository = Client.Contracts.IDepartmentRepository;
+using IEmployeeRepository = Client.Contracts.IEmployeeRepository;
+using ILeaveRequestRepository = Client.Contracts.ILeaveRequestRepository;
+using IRoleRepository = Client.Contracts.IRoleRepository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +35,13 @@ builder.Services.AddHttpContextAccessor();
     options.Cookie.IsEssential = true;
     // Atur opsi sesuai kebutuhan Anda
 });*/
+
+// Add SmtpClient to the container.
+builder.Services.AddTransient<IEmailHandler, EmailHandler>(_ => new EmailHandler(
+    builder.Configuration["EmailService:SmtpServer"],
+    int.Parse(builder.Configuration["EmailService:SmtpPort"]),
+    builder.Configuration["EmailService:FromEmailAddress"]
+));
 
 // JWT Configuration
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
