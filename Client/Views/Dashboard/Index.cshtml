@@ -246,7 +246,7 @@
                     "Authorization": "Bearer " + Token
                 }
             }).done(function (result) {
-                var totalRequest = countRequestsByStatus(result.data, 1);
+                var totalRequest = countRequestsByStatus(result.data, 1 && 2 && 3);
                 $("#total-request").text(totalRequest);
             }).fail(function (error) {
                 $("#total-request").text("0");
