@@ -226,7 +226,7 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Detail()
     {
         var result = await _repository.GetDetailAll();

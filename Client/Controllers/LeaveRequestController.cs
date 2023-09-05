@@ -390,18 +390,18 @@ public class LeaveRequestController : Controller
                 }
 
                 // Image successfully uploaded
-                ViewBag.Message = "Upload successful";
+                TempData["Success"] = "Upload successful";
 
                 leave.Attachment = "/" + uploadPath;
             }
             else
             {
-                ViewBag.Message = "No file selected";
+                
             }
         }
         catch (Exception ex)
         {
-            ViewBag.Message = $"Error: {ex.Message}";
+            TempData["Error"] = $"Error: {ex.Message}";
         }
         
         var result = await _repository.Put(leave.Guid, leave);

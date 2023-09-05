@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Client.Controllers;
-[Authorize(Roles = "employee")]
 
 public class DashboardController : Controller
 {
@@ -12,8 +11,7 @@ public class DashboardController : Controller
     {
     }
 
-    // [Authorize(Roles = "employee,manager,admin")]
-    [AllowAnonymous]
+    [Authorize(Roles = "admin,employee,manager")]
     public IActionResult Index()
     {
         return View();

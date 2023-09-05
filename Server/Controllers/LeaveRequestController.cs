@@ -337,7 +337,7 @@ public class LeaveRequestController : ControllerBase
     }
     
     [HttpGet("request-manager")]
-    [Authorize(Roles = "employee")]
+    [Authorize(Roles = "manager")]
     public IActionResult LeaveRequestDetailManager()
     {
         // Mendapatkan klaim-klaim dari pengguna yang terautentikasi

@@ -11,15 +11,15 @@
 
 <div id="accordionExample" class="accordion mt-3 accordion-without-arrow d-block">
     <div class="row">
-        <div class="col-lg-6">
-            @foreach (var item in  Model.OrderByDescending(item => item.IsActive).Take(Model.Count()/2))
+        <div class="col">
+            @foreach (var item in  Model.OrderByDescending(item => item.Nik).OrderBy(item => item.IsActive))
             {
                 var accordionId = $"accordion_{item.Name.Replace(" ", "_")}";
-                var isLastItem = Model.Last() == item; // Menentukan apakah item adalah item terakhir
+                var isFirstItem = Model.FirstOrDefault() == item; // Menentukan apakah item adalah item terakhir
                 <div class="card accordion-item mb-2">
                     <h2 class="accordion-header" id="heading_@accordionId">
                         <button type="button"
-                                class="accordion-button @if (isLastItem) {<text>show</text>} collapsed"
+                                class="accordion-button @if (isFirstItem) {<text>show</text>} collapsed"
                                 data-bs-toggle="collapse"
                                 data-bs-target="#@accordionId"
                                 aria-controls="@accordionId">
@@ -39,7 +39,7 @@
                         </button>
                     </h2>
                     <div id="@accordionId"
-                         class="accordion-collapse collapse @if (isLastItem) {
+                         class="accordion-collapse collapse @if (isFirstItem) {
                                  <text>show</text>
                          }"
                          aria-labelledby="heading_@accordionId"
@@ -82,9 +82,9 @@
                                 @if (item.IsActive is true)
                                 {
                                     <div class="m-1">
-                                        <form action="/Account/Activate" method="post" id="activate-form" onsubmit="return confirm('Apakah Anda yakin ingin mengaktifkan account ini?')">
+                                        <form action="/Account/Activate" method="post" class="formActive" >
                                             <input type="hidden" value="@item.Guid" name="guid"/>
-                                            <button value="" class="btn rounded-pill btn-outline-danger">
+                                            <button value="" class="btn rounded-pill btn-outline-danger" type="submit">
                                                 <span class="tf-icons bx bx-user-check d-none d-sm-inline"></span>&nbsp; Deactive
                                             </button>
                                         </form>
@@ -93,131 +93,20 @@
                                 else if (item.IsActive is false)
                                 {
                                     <div class="m-1">
-                                        <form action="/Account/Activate" method="post" id="activate-form" onsubmit="return confirm('Apakah Anda yakin ingin mengaktifkan account ini?')">
+                                        <form action="/Account/Activate" method="post" class="formDeactive">
                                             <input type="hidden" value="@item.Guid" name="guid"/>
-                                            <button value="" class="btn rounded-pill btn-outline-success">
+                                            <button value="" class="btn rounded-pill btn-outline-success" type="submit">
                                                 <span class="tf-icons bx bx-user-check d-none d-sm-inline"></span>&nbsp; Activate
                                             </button>
                                         </form>
                                     </div>
                                 }
-
-                                <div class="m-1">
-                                    <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                        <input type="hidden" value="@item.Guid" name="guid"/>
-                                        <button value="" class="btn rounded-pill btn-outline-danger" onclick="return true">
-                                            <span class="tf-icons bx bx-trash d-none d-sm-inline"></span> Delete
-                                        </button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             }
         </div>
-        <div class="col-lg-6">
-                    @foreach (var item in  Model.OrderByDescending(item => item.IsActive).Skip(Model.Count()/2))
-                    {
-                        var accordionId = $"accordion_{item.Name.Replace(" ", "_")}";
-                        <div class="card accordion-item mb-2">
-                            <h2 class="accordion-header" id="heading_@accordionId">
-                                <button type="button"
-                                        class="accordion-button collapsed"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#@accordionId"
-                                        aria-controls="@accordionId">
-                                    <span class="col">@Html.DisplayFor(modelItem => item.Name)</span>
-                                    <div class="row">
-                                        <div class="col">
-                                            @if (item.IsActive is true)
-                                            {
-                                                <span class="badge bg-success">Account is Active</span>
-                                            }
-                                            else if (item.IsActive is false)
-                                            {
-                                                <span class="badge bg-danger">Account Need to Activate</span>
-                                            }
-                                        </div>
-                                    </div>
-                                </button>
-                            </h2>
-                            <div id="@accordionId"
-                                 class="accordion-collapse collapse"
-                                 aria-labelledby="heading_@accordionId"
-                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <div class="d-grid">
-                                        <div class="col">
-                                            <table class="table">
-                                                <tbody>
-                                                <tr>
-                                                    <th>@Html.DisplayNameFor(model => model.Name)</th>
-                                                    <td>: @Html.DisplayFor(modelItem => item.Name)</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>@Html.DisplayNameFor(model => model.BirthDate.Date)</th>
-                                                    <td>:
-                                                        @if (item.BirthDate != null)
-                                                        {
-                                                            @item.BirthDate.Date.ToString("dd/MM/yyyy")
-                                                        }
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>@Html.DisplayNameFor(model => model.Gender)</th>
-                                                    <td>: @Html.DisplayFor(modelItem => item.Gender)</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>@Html.DisplayNameFor(model => model.Email)</th>
-                                                    <td>: @Html.DisplayFor(modelItem => item.Email)</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
-                                                    <td>: @Html.DisplayFor(modelItem => item.PhoneNumber)</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        @if (item.IsActive is true)
-                                        {
-                                            <div class="m-1">
-                                                <form action="/Account/Activate" method="post" id="activate-form" onsubmit="return confirm('Apakah Anda yakin ingin mengaktifkan account ini?')">
-                                                    <input type="hidden" value="@item.Guid" name="guid"/>
-                                                    <button value="" class="btn rounded-pill btn-outline-danger">
-                                                        <span class="tf-icons bx bx-user-check d-none d-sm-inline"></span>&nbsp; Deactive
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        }
-                                        else if (item.IsActive is false)
-                                        {
-                                            <div class="m-1">
-                                                <form action="/Account/Activate" method="post" id="activate-form" onsubmit="return confirm('Apakah Anda yakin ingin mengaktifkan account ini?')">
-                                                    <input type="hidden" value="@item.Guid" name="guid"/>
-                                                    <button value="" class="btn rounded-pill btn-outline-success">
-                                                        <span class="tf-icons bx bx-user-check d-none d-sm-inline"></span>&nbsp; Activate
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        }
-        
-                                        <div class="m-1">
-                                            <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                <input type="hidden" value="@item.Guid" name="guid"/>
-                                                <button value="" class="btn rounded-pill btn-outline-danger" onclick="return true">
-                                                    <span class="tf-icons bx bx-trash d-none d-sm-inline"></span> Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
     </div>
 </div>
 
@@ -265,6 +154,56 @@
             }).fail(function () {
                 $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
                 $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
+            });
+        });
+        
+        $('.formDeactive').on('submit', function (e) {
+            e.preventDefault();
+            var form = this;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will active this request!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Active!'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        title: 'Activated!',
+                        type: 'success',
+                        text: 'This account has activated!',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    form.submit();
+                }
+            });
+        });
+        
+        $('.formActive').on('submit', function (e) {
+            e.preventDefault();
+            var form = this;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will deactive this account!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Deactive!'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        title: 'Deactived!',
+                        type: 'success',
+                        text: 'This account has deactive!',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    form.submit();
+                }
             });
         });
     </script>
