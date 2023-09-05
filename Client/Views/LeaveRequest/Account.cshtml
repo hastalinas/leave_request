@@ -21,7 +21,7 @@
                 {
                     var accordionId = $"accordion_{item.RequestNumber.Replace(" ", "_")}";
                     var isLastItem = Model.Last() == item; // Menentukan apakah item adalah item terakhir
-                    <div class="card accordion-item mt-2">
+                    <div class="card accordion-item mt-2 animate__animated animate__zoomIn">
                         <h2 class="accordion-header" id="heading_@accordionId">
                             <button type="button"
                                     class="accordion-button @if (isLastItem) {
