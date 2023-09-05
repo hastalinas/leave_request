@@ -18,6 +18,39 @@ public class EmployeeController : Controller
         this._repository = repository;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Value()
+    {
+        var result = await _repository.GetAllEmployeewithName();
+        var listEmployee = new List<EmployeeWithNameDto>();
+        foreach (var employee in result.Data)
+        {
+            var EmployeeNewList = new EmployeeWithNameDto
+            {
+                Guid = employee.Guid,
+                BirthDate = employee.BirthDate,
+                DepartmentGuid = employee.DepartmentGuid,
+                DepartmentName = employee.DepartmentName,
+                Email = employee.Email,
+                FullName = employee.FullName,
+                Gender = employee.Gender,
+                HiringDate = employee.HiringDate,
+                LastLeaveUpdate = employee.LastLeaveUpdate,
+                LeaveRemain = employee.LeaveRemain,
+                ManagerGuid = employee.ManagerGuid,
+                ManagerName = employee.ManagerName,
+                Nik = employee.Nik,
+                PhoneNumber = employee.PhoneNumber,
+            };
+            listEmployee.Add(EmployeeNewList);
+        }
+
+        if (result.Data != null)
+        {
+            listEmployee = result.Data.ToList();
+        }
+        return Json(listEmployee);
+    }
     public async Task<IActionResult> Index()
     {
         var result = await _repository.GetAllEmployeewithName();

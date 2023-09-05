@@ -43,12 +43,12 @@
                 @Html.DisplayFor(modelItem => item.ExpiredTime)
             </td>
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
-                    <form action="/Account/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
-                        @*<a asp-action="Delete" onclick="return true" asp-route-id="@item.Guid" class="fas fa-trash text-danger"></a>*@
-                        <input type="hidden" value="@item.Guid" name="guid" />
-                        <button value="" class="fas fa-trash text-danger" onclick="return true"></button>
-                    </form>
+                <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                <form action="/Account/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                    @*<a asp-action="Delete" onclick="return true" asp-route-id="@item.Guid" class="fas fa-trash text-danger"></a>*@
+                    <input type="hidden" value="@item.Guid" name="guid" />
+                    <button value="" class="fas fa-trash text-danger" onclick="return true"></button>
+                </form>
             </td>
         </tr>
 }

@@ -67,9 +67,9 @@
         </tr>
     </thead>
     <tbody>
-                @{
-                    int rowNumber = 1;
-                }
+        @{
+            int rowNumber = 1;
+        }
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -146,6 +146,61 @@
 @section Scripts
 {
     <script>
+    
+    function getDataTables() {
+        // Define the DataTable initialization options outside of the document.ready function
+        const dataTableOptions = {
+            dom: 'Blfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print', 'colvis'
+            ],
+            ajax: {
+                url: "Employee/",
+                dataSrc: "data", // Use "data" instead of "results" to access the array directly
+                dataType: "JSON",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Include the Authorization header with the token
+                    // Authorization: `Bearer ${token}`,
+                },
+            },
+            columns: [
+                {
+                    data: "",
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    },
+                },
+                { data: "nik" },
+                { data: "fullName" },
+                {
+                    data: "birthDate",
+                    render: function (data, type, row) {
+                        const dateObj = new Date(data);
+                        return dateObj.toLocaleDateString("en-GB");
+                    },
+                },
+                {
+                    data: "gender",
+                    render: function (data, type, row) {
+                        return data ? "perempuan" : "laki-laki";
+                    },
+                },
+                {
+                    data: '',
+                    render: function (data, type) {
+                        return '';
+                    }
+                }
+            ]
+        };
+    
+        // Initialize DataTable inside the document.ready function
+        $(document).ready(function () {
+            let table = $("#myTable").DataTable(dataTableOptions);
+        });
+    }
+    
     $(document).ready(function () {
         const Token = '@Context.Session.GetString("JWToken")';
         $.ajax({

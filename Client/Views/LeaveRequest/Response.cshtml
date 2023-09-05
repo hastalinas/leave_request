@@ -12,7 +12,7 @@
                 <div>
                     <h1 class="card-header bg-info text-white text-center">Response Leave Request</h1>
                     <br />
-                    <form action="/LeaveRequest/Response" method="post">
+                    <form action="/LeaveRequest/Response" method="post" class="formResponse">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <input asp-for="Guid" class="form-control" hidden/>
@@ -69,8 +69,6 @@
     <div class="col-1"></div>
 </div>
 
-
-
 @section Scripts
 {
     <script>
@@ -99,6 +97,30 @@
             }).fail(function () {
                 $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
                 $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
+            });
+        });
+        $('.formResponse').on('submit', function (e) {
+            e.preventDefault();
+            var form = this;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will response this request!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Response!'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        title: 'Submitted!',
+                        type: 'success',
+                        text: 'Your leave request has been response!',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    form.submit();
+                }
             });
         });
     </script>

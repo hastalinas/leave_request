@@ -220,105 +220,53 @@ public class LeaveRequestController : Controller
             {
                 var subject = "Leave Request - Created";
                 // Membuat konten HTML
-                var body = $@"
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Leave Request - Created</title>
-                        <style>
-                            body {{
-                                font-family: Arial, sans-serif;
-                                background: #f0f0f0;
-                                background-size: cover;
-                            }}
-                            .container {{
-                                max-width: 600px;
-                                margin: 0 auto;
-                                padding: 20px;
-                                background-color: rgba(255, 255, 255, 0.9);
-                                border-radius: 10px;
-                                backdrop-filter: blur(15px);
-                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                            }}
-                            h1 {{
-                                color: #007BFF;
-                                text-align: center;
-                            }}
-                            table {{
-                                width: 100%;
-                            }}
-                            table, th, td {{
-                                border: 1px solid #ddd;
-                                border-collapse: collapse;
-                            }}
-                            th, td {{
-                                padding: 8px;
-                                text-align: left;
-                            }}
-                            th {{
-                                background-color: #f2f2f2;
-                            }}
-                            a {{
-                                color: #007BFF;
-                                text-decoration: none;
-                            }}
-                            .footer {{
-                                text-align: center;
-                                color: #888;
-                            }}
-                        </style>
-                    </head>
-                    <body>
-                        <div class='container'>
-                            <h1>Permohonan Cuti - Dibuat</h1>
+                var content = $@"<h1>Permohonan Cuti - Dibuat</h1>
                             <table>
                                 <tr>
                                     <th>Informasi</th>
                                     <th>Detail</th>
                                 </tr>
                                 <tr>
-                                    <td><strong>Nama :</strong></td>
+                                    <td><strong>Nama </strong></td>
                                     <td>{employee.FirstName} {employee.LastName}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Nik :</strong></td>
+                                    <td><strong>Nik </strong></td>
                                     <td>{employee.Nik}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Nomor Hp :</strong></td>
+                                    <td><strong>Nomor Hp </strong></td>
                                     <td>{employee.PhoneNumber}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Tipe Cuti:</strong></td>
+                                    <td><strong>Tipe Cuti</strong></td>
                                     <td>{leaveRequest.Data.LeaveType}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Tanggal Mulai Cuti:</strong></td>
+                                    <td><strong>Tanggal Mulai Cuti</strong></td>
                                     <td>{leaveRequest.Data.LeaveStart:dddd, dd/MM/yyyy}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Tanggal Berakhir Cuti:</strong></td>
+                                    <td><strong>Tanggal Berakhir Cuti</strong></td>
                                     <td>{leaveRequest.Data.LeaveEnd:dddd, dd/MM/yyyy}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Catatan:</strong></td>
+                                    <td><strong>Catatan</strong></td>
                                     <td>{leaveRequest.Data.Notes}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Link Lampiran:</strong></td>
+                                    <td><strong>Link Lampiran</strong></td>
                                     <td><a href='{_env.WebRootPath}{leaveRequest.Data.AttachmentUrl}'>Attachment</a></td>
                                 </tr>
                             </table>
                             <p>Terima kasih atas permohonan cuti Anda. Kami akan memprosesnya segera.</p>
                             <p>Harap jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan lebih lanjut.</p>
-                            <div class='footer'>
-                                <p>Salam,</p>
-                                <p>Manager</p>
-                            </div>
-                        </div>
-                    </body>
-                    </html>";
+                            <br>
+                            <p>Salam,</p>
+                            <p>Leave Request Management System</p>
+";
 
+                var body = Body(content);
                 // Mengirim email dengan HTML
                 _emailHandler.SendEmail(userEmail, subject, body);
             }
@@ -442,7 +390,7 @@ public class LeaveRequestController : Controller
                 var data = employee.Data.FirstOrDefault(e => e.Guid == entity.EmployeeGuid);
                 var checkDays = new CheckDaysHandler();
                 var leaveDays = checkDays.Get(entity.LeaveStart, entity.LeaveEnd);
-                data.LeaveRemain = data.LeaveRemain - leaveDays;
+                data.LeaveRemain -= leaveDays;
 
                 var update = await _employeeRepository.Put(data.Guid, data);
                 
@@ -460,103 +408,92 @@ public class LeaveRequestController : Controller
                     var subject = "Pengajuan Cuti Anda";
 
                     // Membuat konten HTML
-                    var body = $@"
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <title>Pengajuan Cuti Anda</title>
-                            <style>
-                                body {{
-                                    font-family: Arial, sans-serif;
-                                    background: #f0f0f0;
-                                    background-size: cover;
-                                }}
-                                table {{
-                                    width: 100%;
-                                    border-collapse: collapse;
-                                }}
-                                th, td {{
-                                    border: 1px solid #ddd;
-                                    padding: 8px;
-                                    text-align: left;
-                                }}
-                                th {{
-                                    background-color: #f2f2f2;
-                                }}
-                                h1 {{
-                                    color: #007BFF;
-                                    text-align: center;
-                                }}
-                                strong {{
-                                    font-weight: bold;
-                                }}
-                                a {{
-                                    color: #007BFF;
-                                    text-decoration: none;
-                                }}
-                                .footer {{
-                                    text-align: center;
-                                    color: #888;
-                                }}
-                                .container {{
-                                    max-width: 600px;
-                                    margin: 0 auto;
-                                    padding: 20px;
-                                    background-color: rgba(255, 255, 255, 0.9);
-                                    border-radius: 10px;
-                                    backdrop-filter: blur(15px);
-                                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                                }}
-                            </style>
-                        </head>
-                        <body>
-                            <div class='container'>
-                                <h1>Pengajuan Cuti Anda</h1>
+                    var content = $@"<h1>Pengajuan Cuti Anda</h1>
                                 <table>
                                     <tr>
-                                        <th>Status Pengajuan Cuti:</th>
+                                        <th>Status Pengajuan Cuti</th>
                                         <td><strong>{status}</strong></td>
                                     </tr>
                                     <tr>
                                         <th colspan='2'>Berikut ini adalah rincian pengajuan cuti Anda:</th>
                                     </tr>
                                     <tr>
-                                        <th>Tipe Cuti:</th>
+                                        <th>Tipe Cuti</th>
                                         <td>{leaveType}</td>
                                     </tr>
                                     <tr>
-                                        <th>Tanggal Mulai Cuti:</th>
+                                        <th>Tanggal Mulai Cuti</th>
                                         <td>{leaveStart:dddd, dd/MM/yyyy}</td>
                                     </tr>
                                     <tr>
-                                        <th>Tanggal Berakhir Cuti:</th>
+                                        <th>Tanggal Berakhir Cuti</th>
                                         <td>{leaveEnd:dddd, dd/MM/yyyy}</td>
                                     </tr>
                                     <tr>
-                                        <th>Notes:</th>
+                                        <th>Notes</th>
                                         <td>{notes}</td>
                                     </tr>
                                     <!-- Jika Anda memiliki data attachment, Anda bisa menambahkannya di sini -->
                                     <tr>
-                                        <th>Attachment:</th>
+                                        <th>Attachment</th>
                                         <td><a href='{attachmentLink}'>Download Attachment</a></td>
                                     </tr>
                                 </table>
                                 <p>Terima kasih atas pengajuan cuti Anda.</p>
                                 <p>Harap jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan lebih lanjut.</p>
-                                <div class='footer'>
-                                    <p>Salam,</p>
-                                    <p>Manager</p>
-                                </div>
-                            </div>
-                        </body>
-                        </html>";
+                                <br>
+                                <p>Salam,</p>
+                                <p>Leave Request Management System</p>";
+
+                    var managerContent = $@"
+                        <h1>Pengajuan Cuti Karyawan</h1>
+                        <table>
+                            <tr>
+                                <th>Nama Karyawan</th>
+                                <td><strong>{data.FirstName} {data.LastName}</strong></td>
+                            </tr>
+                            <tr>
+                                <th>Status Pengajuan Cuti</th>
+                                <td><strong>{status}</strong></td>
+                            </tr>
+                            <tr>
+                                <th colspan='2'>Berikut ini adalah rincian pengajuan cuti karyawan:</th>
+                            </tr>
+                            <tr>
+                                <th>Tipe Cuti</th>
+                                <td>{leaveType}</td>
+                            </tr>
+                            <tr>
+                                <th>Tanggal Mulai Cuti</th>
+                                <td>{leaveStart:dddd, dd/MM/yyyy}</td>
+                            </tr>
+                            <tr>
+                                <th>Tanggal Berakhir Cuti</th>
+                                <td>{leaveEnd:dddd, dd/MM/yyyy}</td>
+                            </tr>
+                            <tr>
+                                <th>Notes</th>
+                                <td>{notes}</td>
+                            </tr>
+                            <!-- Jika karyawan memiliki data attachment, Anda bisa menambahkannya di sini -->
+                            <tr>
+                                <th>Attachment</th>
+                                <td><a href='{attachmentLink}'>Download Attachment</a></td>
+                            </tr>
+                        </table>
+                        <p>Silakan tinjau pengajuan cuti karyawan ini dan ambil tindakan yang sesuai.</p>
+                        <p>Jangan ragu untuk menghubungi karyawan ini jika Anda memiliki pertanyaan lebih lanjut.</p>
+                        <br>
+                        <p>Salam,</p>
+                        <p>Leave Request Management System</p>";
+
+                    var bodyManager = Body(managerContent);
+                    var body = Body(content);
 
                     // Mengirim email dengan HTML
-                    _emailHandler.SendEmail(userEmail, subject, body);
+                    _emailHandler.SendEmail(userEmail, subject, bodyManager);
+                    _emailHandler.SendEmail(data.Email, subject, body);
                 }
-
-
             }
         }
         catch
@@ -567,12 +504,93 @@ public class LeaveRequestController : Controller
         return RedirectToAction("Index", "LeaveRequest");
     }
 
-    /* [HttpPost]
-     public async Task<IActionResult> GetOnProcessRequests()
-     {
-         var onProcessRequests = _dbContext.Requests.Where(r => r.Status == "OnProcess").ToList();
-         return Ok(onProcessRequests);
-     }*/
+    public string Body(string content)
+{
+    return $@"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leave Request - Created</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            background-size: cover;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }}
+        header {{
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 2px solid #603838;
+        }}
+        footer {{
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-top: 2px solid #574040;
+        }}
+        h1 {{
+            color: #007BFF;
+            text-align: center;
+        }}
+        table {{
+            width: 100%;
+        }}
+        table, th, td {{
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+        }}
+        th, td {{
+            padding: 8px;
+            text-align: left;
+        }}
+        th {{
+            background-color: #f2f2f2;
+        }}
+        a {{
+            color: #007BFF;
+            text-decoration: none;
+        }}
+        .footer {{
+            text-align: center;
+            color: #888;
+        }}
+        /* Style untuk gambar di header */
+        .header-image {{
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+            height: auto;
+        }}
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <img src='file:///D:/workspace/Metrodata/GIT/leave_request/Server/uploads/7e33ae6c-69c2-4a1a-99fc-83159b22d81c_metrodata.webp' alt='Metrodata Logo' class='header-image'>
+        </header>
+
+        {content}
+
+        <footer>
+            <p class='footer'>PT. Mitra Integrasi Informatika</p>
+            <p class='footer'>APL Tower Lantai 37, Jl. Letjen S. Parman Kav. 28, RT.12/RW.6,</p>
+            <p class='footer'>Tj. Duren Sel., Jakarta Barat, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470</p>
+        </footer>
+    </div>
+</body>
+</html>
+";
+}
 
 }
 

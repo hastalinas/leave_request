@@ -72,7 +72,7 @@
 <hr />
 <form action="/Account/Register" method="post">
     <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-lg-6">
         
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -106,12 +106,12 @@
 
             <div class="form-group">
                 <label asp-for="HiringDate" class="control-label">Hiring Date</label>
-                <input asp-for="HiringDate" class="form-control" type="date" />
+                <input asp-for="HiringDate" class="form-control" type="date"/>
                 <span asp-validation-for="HiringDate" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-12 col-lg-6">
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
@@ -217,7 +217,6 @@
                 });
             }
         });
-
     </script>
     }
 
