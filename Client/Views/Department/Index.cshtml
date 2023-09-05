@@ -7,10 +7,14 @@
 
 <div class="card">
     <h1 class="card-header text-center">Data Departments</h1>
-    <div class="container">
-        <a class="btn btn-primary" href="/Department/Create">Add Department <i class="bx bx-buildings bx-md"></i></a>
-        @* <a asp-action="Create">Create New</a>*@
-    </div>
+    @if (User.IsInRole("admin"))
+    {
+        <div class="container">
+            <a class="btn btn-primary" href="/Department/Create">Add Department <i class="bx bx-buildings bx-md"></i></a>
+            @* <a asp-action="Create">Create New</a>*@
+        </div>
+    }
+   
     <br />
     <div class="table-responsive text-nowrap">
         <table class="table table-hover" id="departmentTable">
