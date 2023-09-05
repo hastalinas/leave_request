@@ -28,14 +28,14 @@ ViewData["Title"] = "Index";
                <h5 class="card-title name">@employee.FullName</h5>
                <p class="card-text">
                   NIK: @employee.Nik<br/>
-                  Department: @employee.DepartmentName<br/>
-                  Manager: @employee.ManagerName<br/>
                   Leave Remain: @employee.LeaveRemain<br/>
                   Gender: @employee.Gender<br/>
-                  Hiring Date: @employee.HiringDate.ToShortDateString()<br/>
                   Email: @employee.Email<br/>
                   Phone Number: @employee.PhoneNumber<br/>
-                  Birth Date: @employee.BirthDate.ToString("dd MMMM yyyy")
+                  Birth Date: @employee.BirthDate.ToString("dd MMMM yyyy")<br/>
+                  Hiring Date: @employee.HiringDate.ToString("dd MMMM yyyy")<br/>
+                  Department: @employee.DepartmentName<br/>
+                  Manager: @employee.ManagerName
                </p>
             </div>
          </div>
