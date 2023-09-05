@@ -12,7 +12,7 @@
 <div id="accordionExample" class="accordion accordion-without-arrow">
 <div class="row">
 <div class="col">
-    @foreach (var item in Model.OrderByDescending(item => item.RequestNumber).ThenBy(item => item.Status))
+    @foreach (var item in Model.OrderByDescending(item => item.LeaveStart).OrderBy(item => item.Status))
     {
         if (item.Status == Status.Draft)
         {
@@ -25,9 +25,7 @@
             <div class="card accordion-item mt-2">
                 <h2 class="accordion-header" id="heading_@accordionId">
                     <button type="button"
-                            class="accordion-button @if (isLastItem) {
-                                        <text>show</text>
-                            } collapsed"
+                            class="accordion-button collapsed"
                             data-bs-toggle="collapse"
                             data-bs-target="#@accordionId"
                             aria-controls="@accordionId">
@@ -56,9 +54,7 @@
                     </button>
                 </h2>
                 <div id="@accordionId"
-                     class="accordion-button @if (isLastItem) {
-                                 <text>show</text>
-                     } collapsed"
+                     class="accordion-collapse collapse"
                      aria-labelledby="heading_@accordionId"
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body card-body">
