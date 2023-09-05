@@ -85,7 +85,7 @@
                     <div class="card-body">
                         <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="icon">
-                                <i class="fas fa-solid fa-users fa-3x"></i>
+                                <i class="fas fa-solid fa-users fa-beat fa-3x"></i>
                             </div>
                         </div>
                         <span class="fw-semibold d-block mb-1">Total Employees</span>
@@ -125,6 +125,22 @@
                         </div>
                         <span class="fw-semibold d-block mb-1">Total Request</span>
                         <h3 class="card-title mb-2" id="total-request"></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-6 mb-4">
+            <a asp-action="Detail" asp-controller="Account">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="icon">
+                                <i class="fas fa-solid fa-user-tie fa-fade fa-3x" style="color: darkred;"></i>
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">Account Inactive</span>
+                        <h3 class="card-title mb-2" id="account-inactive"></h3>
                     </div>
                 </div>
             </a>
@@ -202,6 +218,33 @@
 
     <script>
         const Token = '@Context.Session.GetString("JWToken")'
+        //Account inactive
+        function countInactiveAccounts(data) {
+            var count = 0;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].isActive === false) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "https://localhost:7293/api/accounts",
+                headers:
+                {
+                    "Authorization": "Bearer " + Token
+                }
+            }).done(function (result) {
+                var totalInactive = countInactiveAccounts(result.data, false);
+                $("#account-inactive").text(totalInactive);
+            }).fail(function (error) {
+                $("#account-inactive").text("0");
+                console.log(error)
+            });
+        });
+
         //eligible leave
         $(document).ready(function () {
             $.ajax({
@@ -246,7 +289,7 @@
                     "Authorization": "Bearer " + Token
                 }
             }).done(function (result) {
-                var totalRequest = countRequestsByStatus(result.data, 1);
+                var totalRequest = countRequestsByStatus(result.data, 1 && 2 && 3);
                 $("#total-request").text(totalRequest);
             }).fail(function (error) {
                 $("#total-request").text("0");
@@ -491,12 +534,12 @@
                         $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
                     }
                 } else {
-                    $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
-                    $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+                    $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
+                    $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
                 }
             }).fail(function () {
-                $('#profilePicture').attr('src', '~/assets/img/avatars/1.png');
-                $('#profilePictureDropDown').attr('src', '~/assets/img/avatars/1.png');
+                $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
+                $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
             });
         });
     </script>
