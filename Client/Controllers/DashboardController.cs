@@ -12,6 +12,7 @@ public class DashboardController : Controller
     {
     }
 
+    // [Authorize(Roles = "employee,manager,admin")]
     [AllowAnonymous]
     public IActionResult Index()
     {

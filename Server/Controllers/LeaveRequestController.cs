@@ -198,16 +198,27 @@ public class LeaveRequestController : ControllerBase
 
         var enumerable = userClaims.ToList();
         var guidClaim = enumerable.FirstOrDefault(c => c.Type == "Guid")?.Value;
-
-        var requestNumber = 0;
-        
         // Dapatkan peran (role) pengguna dari klaim tipe "Role"
         var roles = enumerable.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
         var employee = _employeeService.GetByGuid(Guid.Parse(guidClaim));
+        var newRequestNumber = "";
+
+        try
+        {
+            var requests = _leaveRequestService.GetAll();
+            var latestRequest = requests.LastOrDefault().RequestNumber;
+            var parts = latestRequest.Substring(latestRequest.Length - 3);
+            newRequestNumber = $"{registerLeaveDto.LeaveType}-{employee.Nik}{DateTime.Now.Year}{(int.Parse(parts) + 1).ToString("D3")}";
+        }
+        catch
+        {
+            newRequestNumber = $"{registerLeaveDto.LeaveType}-{employee.Nik}{DateTime.Now.Year}001";
+        }
+        
         var register = new NewLeaveRequestDto()
         {
             EmployeeGuid = Guid.Parse(guidClaim),
-            RequestNumber = $"{registerLeaveDto.LeaveType} - {employee.Nik}{DateTime.Now.Year}{requestNumber++}",
+            RequestNumber = newRequestNumber,
             LeaveType = registerLeaveDto.LeaveType,
             LeaveStart = registerLeaveDto.LeaveStart,
             LeaveEnd = registerLeaveDto.LeaveEnd,

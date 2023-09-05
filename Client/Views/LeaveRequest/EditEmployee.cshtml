@@ -1,116 +1,177 @@
-﻿@model Server.DTOs.LeaveRequests.LeaveRequestDto
+﻿@model Client.Models.EditLeaveRequestDto
 
 @{
-    ViewData["Title"] = "EditEmployee";
+    ViewData["Title"] = "Create";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
-<div class="row">
-    <div class="col-1"></div>
-    <div class="col">
-        <div class="card mx-auto mb-3 border-0">
-            <div class="card-body">
-                <div>
-                    <h1 class="card-header bg-primary text-white text-center">Edit Leave Request</h1>
-                    <br />
-                    <form action="/LeaveRequest/UpdateEmployee" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="Guid" class="control-label" hidden></label>
-                            <input asp-for="Guid" class="form-control" hidden/>
-                            <span asp-validation-for="Guid" class="text-danger"></span>
-                        </div>
+<style>
+    /* Gaya dasar datepicker */
+    .datepicker {
+        background-color: #fff; /* Warna latar belakang */
+    }
+    
+    /* Gaya untuk input datepicker */
+    .datepicker table {
+        font-size: 14px; /* Ukuran teks */
+    }
+    
+    /* Gaya untuk tanda panah navigasi */
+    .datepicker th.prev, .datepicker th.next {
+        color: #007BFF; /* Warna panah */
+    }
+    
+    /* Gaya untuk tanggal yang dipilih */
+    .datepicker .active {
+        background-color: #007BFF; /* Warna latar belakang tanggal aktif */
+        color: #fff; /* Warna teks tanggal aktif */
+    }
+    
+    /* Gaya untuk header tanggal */
+    .datepicker .datepicker-days thead {
+        background-color: #f8f9fa; /* Warna latar belakang header */
+        border-bottom: none; /* Menghapus garis bawah header */
+    }
+    
+    /* Gaya untuk teks bulan dan tahun */
+    .datepicker .datepicker-months thead {
+        background-color: #f8f9fa;
+        border-bottom: none;
+    }
+    
+    /* Gaya untuk bulan yang dipilih */
+    .datepicker .datepicker-months .active {
+        background-color: #007BFF;
+        color: #fff;
+    }
 
-                        <div class="form-group">
-                            <label asp-for="EmployeeGuid" class="control-label">Employee</label>
-                            <input asp-for="EmployeeGuid" class="form-control" type="hidden" id="GuidEmployee" />
-                            <input id="Employee" class="form-control" disabled />
-                            <span asp-validation-for="EmployeeGuid" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="LeaveType" class="control-label">Leave Type</label>
-                            <select class="form-control" asp-for="LeaveType" aria-label="Floating label select example">
-                                <option selected>Open this select menu</option>
-                                <option value="0">Vacation</option>
-                                <option value="1">Sick</option>
-                                <option value="2">Personal</option>
-                                <option value="3">Other</option>
-                            </select>
-                            <span asp-validation-for="LeaveType" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Leave Start - Leave End</label>
+</style>
 
-                            <input type="text" class="form-control" name="daterange" value=""/>
-                            <span class="text-danger"></span>
+<div class="wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card m-b-20">
+                    <div class="card-body" style="padding-left: 100px; padding-right: 100px;">
+                        <br>
+                        <h4 class="text-center">Requester Information</h4>
+                        <hr>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request"><b>Requester</b>  </label>:
+                            <span class="col-md-7" id="requester"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="LeaveStart" class="control-label" hidden>Leave Start</label>
-                            <input asp-for="LeaveStart" class="form-control" type="date" hidden/>
-                            <span asp-validation-for="LeaveStart" class="text-danger"></span>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request"><b>Department</b> </label>:
+                            <span class="col-md-7" id="department">ADD 1</span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="LeaveEnd" class="control-label" hidden>Leave End</label>
-                            <input asp-for="LeaveEnd" class="form-control" type="date" hidden />
-                            <span asp-validation-for="LeaveEnd" class="text-danger"></span>
+                        <div class="form-group row">
+                            <label class="col-md-4 label-request"><b>Eligible Leave</b> </label>:
+                            <span class="col-md-7" id="eligibleText">3 days</span>
+                            <input type="hidden" id="eligibleValue" name="eligibleValue" value="3">
                         </div>
-                        <div class="form-group">
-                            <label asp-for="Notes" class="control-label"></label>
-                            <input asp-for="Notes" class="form-control" />
-                            <span asp-validation-for="Notes" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="AttachmentUrl" class="control-label">Attachment</label>
-                            <input asp-for="AttachmentUrl" class="form-control" type="file"/>
-                            <span asp-validation-for="AttachmentUrl" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Status" class="control-label"></label>
-                            <input asp-for="Status" class="form-control" disabled/>
-                            <span asp-validation-for="Status" class="text-danger"></span>
-                        </div>
+                        <br>
                         <br />
-                        <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary" />
+                        <div class="card">
+                            <div class="card-header bg-label-secondary text-center"><h4>Leave Request Detail</h4></div>
+                            
+                            <form id="formRequestLeave" method="POST" enctype="multipart/form-data" novalidate="novalidate">
+                                <div class="card-body">
+                                    <div id="alertReminder"></div>
+                                    <div class="form-group row" hidden>
+                                        <label for="example-text-input" class="col-md-4 col-form-label"><b>Request Number</b> </label>:
+                                        <div class="col-md-4 col-form-label">
+                                            <input type="hidden" id="requestNumber" name="RequestNumber" asp-for="RequestNumber">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" hidden>
+                                        <label for="example-text-input" class="col-md-4 col-form-label"><b>Guid</b> </label>:
+                                        <div class="col-md-4 col-form-label">
+                                            <input type="hidden" id="Guid" name="Guid" asp-for="Guid">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" hidden>
+                                        <label for="example-text-input" class="col-md-4 col-form-label"><b>Employee Guid</b> </label>:
+                                        <div class="col-md-4 col-form-label">
+                                            <input type="hidden" id="employeeGuid" name="EmployeeGuid" asp-for="EmployeeGuid">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><b>Leave Type</b> </label>:
+                                        <div class="col-md-7">
+                                            <select class="form-control" id="grupType" name="LeaveType" asp-for="LeaveType">
+                                                <option value="0">Vacation</option>
+                                                <option value="1">Sick</option>
+                                                <option value="2">Personal</option>
+                                                <option value="3">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><b>Leave Date</b> </label>:
+                                        <div class="col-md-7">
+                                            <span>
+                                                <div class="input-daterange input-group" id="date-range">
+                                                    <input id="startDate" type="text" class="form-control datepicker" name="LeaveStart" asp-for="LeaveStart" placeholder="Start Date" autocomplete="off" onchange="dateValidation()">
+                                                    <input type="text" id="setFromDate" hidden="">
+                                                    <input id="endDate" type="text" class="form-control datepicker" name="LeaveEnd" asp-for="LeaveEnd" placeholder="End Date" autocomplete="off" onchange="leaveDate()">
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><b>Notes</b> </label>:
+                                        <div class="col-md-7">
+                                            <textarea id="notes" name="Notes" asp-for="Notes" class="form-control" maxlength="225" rows="3" placeholder="This notes has a limit of 225 chars." ></textarea>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-md-4 col-form-label"><b>Leave Days</b> </label>:
+                                        <div class="col-md-4 col-form-label">
+                                            <span id="leaveDayText">1</span> days
+                                            <input type="hidden" id="leaveDayValue" name="leaveDayValue" value="1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><b>Upload file</b></label>:
+                                       
+                                        <div class="col-md-7 col-form-label">
+                                            <input type="file" name="FileUpload" class="filestyle" data-buttonname="btn-secondary" asp-for="FileUpload">
+                                            <span name="Attachment" hidden></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12 text-right pr-5">
+                                        <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                                <br />
+                            </form>
                         </div>
-                    </form>
+                        <br>
+                    </div>
                 </div>
-                <br />
-                <div>
-                    <a asp-action="Account">Back to List</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-1"></div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+    </div> <!-- end container -->
 </div>
 
-
 @section Scripts {
-    <script>
-        const Token = '@Context.Session.GetString("JWToken")';
-        $.ajax({
-            url: "https://localhost:7293/api/employees/",
-            headers: {
-                "Authorization": "Bearer " + Token
-            }
-        }).done(function (result) {
-            if (result.data.length > 0) {
+    <!-- App js -->
+    <script src="~/assets/js/leave-request/app.js"></script>
+    <script src="~/assets/js/leave-request/session.js"></script>
+    <script src="~/assets/js/leave-request/jquery.validate.min.js"></script>
 
-                const employee = result.data.find(e => e.guid === '@Model.EmployeeGuid');
-                const fullName = `${employee.firstName} ${employee.lastName}`;
-                console.log(fullName);
-                $('#Employee').val(fullName);
-                $('#GuidEmployee').val(employee.guid);
-            } else {
-                $('#Employee').val("Failed to fetch data");
-            }
-        }).fail(function () {
-            $('#Employee').val("Failed to fetch data");
-        });
-        console.log('@Model.EmployeeGuid');
-        
+    <script src="~/assets/js/leave-request/bootstrap-datepicker.min.js"></script>
+    <script src="~/assets/js/leave-request/bootstrap-maxlength.min.js"></script>
+    <script src="~/assets/js/leave-request/sweetalert2@8"></script>
+
+    <script>
+        const Token = '@Context.Session.GetString("JWToken")'
         $(document).ready(function () {
-            const Token = '@Context.Session.GetString("JWToken")';
             $.ajax({
                 url: "https://localhost:7293/api/accounts/",
                 headers: {
@@ -135,29 +196,618 @@
                 $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
                 $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
             });
-        });
+        })
 
-        $(function () {
-            $('input[name="daterange"]').daterangepicker({
-                opens: 'left',
-                minDate: moment().startOf('day'),
-                startDate: moment().add(1, 'days'),
-                endDate: moment().add(1, 'days')
-            }, function (start, end, label) {
-                //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                $('input[name="LeaveStart"]').val(start.format('YYYY-MM-DD'));
-                $('input[name="LeaveEnd"]').val(end.format('YYYY-MM-DD'));
-
-                // Update the daterange input's value
-                $(this).val(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+        function loadLeaveInfo() {
+            // Gantilah URL dengan URL API yang sesuai
+            var apiUrl = "https://localhost:7293/api/leave-request/detail";
+        
+            // Lakukan permintaan AJAX dengan bearer token
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + Token
+                },
+                success: function (data) {
+                    // Mengganti konten berdasarkan ID
+                    $('#requester').text(data.data.requester);
+                    $('#department').text(data.data.department);
+                    $('#eligibleText').text(data.data.availableLeave + ' days');
+                },
+                error: function () {
+                    // Handle error jika ada
+                    $('#leave-info-container').html('<p>Terjadi kesalahan saat mengambil informasi cuti.</p>');
+                }
             });
-        });
-
+        }
+        // Memuat informasi cuti pertama kali saat halaman dimuat
+        loadLeaveInfo();
     </script>
 
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script>
+    // Menambahkan event listener untuk mengirim permintaan ketika formulir disubmit
+    form.addEventListener('submit', function (e) {
+        e.preventDefault(); // Menghentikan pengiriman formulir bawaan
+    
+        // Mengambil nilai-nilai dari elemen-elemen dalam formulir
+        var leaveType = document.getElementById('grupType').value;
+        var leaveStart = document.getElementById('startDate').value;
+        var leaveEnd = document.getElementById('endDate').value;
+        var notes = document.getElementById('notes').value;
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0]; // Mengambil file yang dipilih oleh pengguna
+    
+        // Membuat FormData untuk mengunggah file terlebih dahulu
+        var fileData = new FormData();
+        fileData.append('file', file);
+    
+        // Mengirim permintaan POST untuk mengunggah file
+        fetch('https://localhost:7293/api/FileUpload/upload', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + Token, // Ganti YOUR_BEARER_TOKEN dengan token Anda
+            },
+            body: fileData // Menggunakan FormData untuk mengunggah file
+        })
+        .then(response => response.json())
+        .then(uploadResponse => {
+            // Dapatkan URL file yang diunggah dari respons server
+            var attachmentPath = uploadResponse.data;
+    
+            // Setelah Anda mendapatkan URL file, Anda bisa mengirim permintaan POST dengan path file
+            var requestData = {
+                "employeeGuid": @User.FindFirst("Guid").Value.ToString(),
+                "leaveType": parseInt(leaveType),
+                "leaveStart": leaveStart,
+                "leaveEnd": leaveEnd,
+                "notes": notes,
+                "attachment": attachmentPath, // Gunakan path file dari respons upload
+                "status": 0
+            };
+    
+            // Mengirim permintaan POST dengan path file dalam attachment
+            return fetch('https://localhost:7293/api/leave-request', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + Token, // Ganti YOUR_BEARER_TOKEN dengan token Anda
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle respons dari server
+            console.log(data);
+            // Di sini Anda bisa menambahkan logika untuk menangani respons sesuai kebutuhan Anda
+        })
+        .catch(error => {
+            // Handle kesalahan jika terjadi
+            console.error('Error:', error);
+        });
+    });
+    </script>
+
+    <script>
+            $(document).ready(function () {
+                $("#formRequestLeave").validate({
+                    rules: {
+                        grupType: "required",
+                        startDate: "required",
+                        endDate: "required",
+                        noHp: {
+                        required: true,
+                            number: true
+                        },
+                        notes: {
+                            required: true,
+                            minlength: 5,
+                            maxlength: 255
+                        }
+                    },
+                    messages: {
+                        notes: {
+                            required: "Please enter a notes",
+                            minlength: "Your notes must consist of at least 5 characters"
+                        }
+                    }
+                });
+            });
+        </script>
+
+    <script type="text/javascript">  
+        var minDate = new Date();
+        var sift = $('#sifting').val();
+        // Date Picker
+        if(sift === "Shifting"){
+            jQuery('#startDate').datepicker({
+            startDate: '-7d',
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        }).on('changeDate', function(selected) {
+            minDate = new Date(selected.date.valueOf());
+            $('#setFromDate').val(minDate);
+            $('#endDate').datepicker('setStartDate', minDate);
+        });
+        
+        $('#endDate').datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayHighlight: true
+        }).on('changeDate', function(selected) {
+            var minDate = new Date(selected.date.valueOf());
+            var getstdate = new Date($('#setFromDate').val());
+            var jcuti = $('#eligibleText').text();
+            getstdate.setDate(getstdate.getDate() - 1 + parseInt(jcuti));
+            $('#startDate').datepicker('setStartDate', minDate);
+        });
+        }else{
+            jQuery('#startDate').datepicker({
+            startDate: '-7d',
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true,
+            daysOfWeekDisabled: [0, 6]
+        }).on('changeDate', function(selected) {
+            minDate = new Date(selected.date.valueOf());
+            $('#setFromDate').val(minDate);
+            $('#endDate').datepicker('setStartDate', minDate);
+        });
+        
+        $('#endDate').datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true,
+            todayHighlight: true,
+            daysOfWeekDisabled: [0, 6]
+        }).on('changeDate', function(selected) {
+            var minDate = new Date(selected.date.valueOf());
+            var getstdate = new Date($('#setFromDate').val());
+            var jcuti = $('#eligibleText').text();
+            getstdate.setDate(getstdate.getDate() - 1 + parseInt(jcuti));
+            $('#startDate').datepicker('setStartDate', minDate);
+        });
+        }
+
+        $('textarea#textarea').maxlength({
+            alwaysShow: true,
+            warningClass: "badge badge-info",
+            limitReachedClass: "badge badge-warning"
+        });
+        
+        $('#formRequestLeave').on('submit', function (e) {
+            e.preventDefault();
+            var typeLeave = $('#grupType').val();
+            var fromDate = $('#startDate').val();
+            var toDate = $('#endDate').val();
+            var noHp = $('#noHp').val();
+            var notes = $('#notes').val();
+            // var notes = CKEDITOR.instances.editor.getData();
+            console.log(notes);
+            var form = this;
+            if (typeLeave === '' || fromDate === '' || toDate === '' || noHp === '' || notes.length < 5) {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Sorry...',
+                    showConfirmButton: false,
+                    text: "Please fill all fields"
+                });
+                setTimeout(function () {
+                location.reload();
+                }, 500)
+            } else {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You will save this request!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Submit!'
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire({
+                            title: 'Submitted!',
+                            type: 'success',
+                            text: 'Your leave request has been submitted!',
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        form.submit();
+                    }
+                });
+            }
+        });
+        
+        function dateValidation() {
+            var selectedDate = $('#startDate').datepicker('getDate');
+            var now = new Date();
+            now.setHours(0, 0, 0, 0);
+            if (selectedDate < now) {
+                document.getElementById("alertReminder").innerHTML =
+                        "<div class='alert alert-info' role='alert'><strong>Reminder!</strong> you have selected a start date that is earlier from todays date </div>";
+                $('#alertReminder').fadeTo(4000, 500).slideUp(500, function () {
+                    $('#alertReminder').slideUp(500);
+                })
+            }
+        }
+        
+        function leaveDate() {
+            var from = $('#startDate').val();
+            var to = $('#endDate').val();
+            $('#leaveDayText').text(betweenDates(from, to));
+            $('#leaveDayValue').val(betweenDates(from, to));
+            $('input[name="LeaveStart"]').val(from);
+            $('input[name="LeaveEnd"]').val(to);
+        }
+        //leave kondisi sifting
+        function leaveDate1() {
+            var from = $('#startDate').val();
+            var to = $('#endDate').val();
+            $('#leaveDayText').text(betweenDates1(from, to));
+            $('#leaveDayValue').val(betweenDates1(from, to));
+        }
+
+        function betweenDates(d1, d2) {
+            var startDate = parseDate(d1.split("-").reverse().join("-"));
+            var endDate = parseDate(d2.split("-").reverse().join("-"));
+            var millisecondsPerDay = 86400 * 1000; // Day in milliseconds
+            startDate.setHours(0, 0, 0, 1); // Start just after midnight
+            endDate.setHours(23, 59, 59, 999); // End just before midnight
+            var diff = endDate - startDate; // Milliseconds between datetime objects
+            var days = Math.ceil(diff / millisecondsPerDay);
+            var weeks = Math.floor(days / 7); //Mengurangi 2 hari disetiap akhir pekan
+            var startDay = startDate.getDay();
+            var endDay = endDate.getDay();
+            days -= weeks * 2
+            if (startDay - endDay > 1) { // Remove weekend not previously removed.
+                days -= 2;
+            }
+            if (startDay == 0 && endDay != 6) { // Remove start day if span starts on Sunday but ends before Saturday
+                days--;
+            }
+            if (endDay == 6 && startDay != 0) { // Remove end day if span ends on Saturday but starts after Sunday
+                days--;
+            }
+            
+            if (startDate > endDate) {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Sorry...',
+                    showConfirmButton: false,
+                    text: "The start date field is greater than the end date field"
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 700);
+            }
+
+            var holidays = [];
+            /*<![CDATA[*/
+            
+            holidays.push("2023-01-01");
+            holidays.push("2023-01-22");
+            holidays.push("2023-02-18");
+            holidays.push("2023-03-22");
+            holidays.push("2023-04-07");
+            holidays.push("2023-04-22");
+            holidays.push("2023-04-23");
+            holidays.push("2023-05-01");
+            holidays.push("2023-05-18");
+            holidays.push("2023-06-01");
+            holidays.push("2023-06-04");
+            holidays.push("2023-06-29");
+            holidays.push("2023-07-19");
+            holidays.push("2023-08-17");
+            holidays.push("2023-09-28");
+            holidays.push("2023-12-25");
+            holidays.push("2023-01-23");
+            holidays.push("2023-03-23");
+            holidays.push("2023-04-19");
+            holidays.push("2023-04-20");
+            holidays.push("2023-04-21");
+            holidays.push("2023-04-24");
+            holidays.push("2023-06-02");
+            holidays.push("2023-12-26");
+            holidays.push("2023-04-25");
+            
+            /*]]>*/
+            var i = 0;
+            var holiday = 0;
+            for (i in holidays) {
+                var s = parseDate(holidays[i]);
+                if ((holidays[i] >= d1.split("-").reverse().join("-")) && (holidays[i] <= d2.split("-").reverse().join("-"))) {
+                    if (s.getDay() === 0 || s.getDay() === 6) {
+                        console.log('lewat sini');
+                    } else {
+                        days--;
+                        holiday++;
+                    }
+                }
+            }
+            $('#holidayText').text(holiday);
+            $('#holidayValue').val(holiday);
+            var leavegivn = document.getElementById("grupType").value; // Get value leaveGiven sesuai dengan type leave
+            var givenLeaveId = leavegivn.substring(leavegivn.indexOf("-") + 1);
+            var lgid = leavegivn.substring(0, leavegivn.indexOf("-"));
+            $('#leaveGivenText').text(givenLeaveId);
+            $('#leaveGivenValue').val(givenLeaveId);
+            days = days - givenLeaveId;
+            if (days <= 0) {
+                days = 0;
+            }
+
+            var availcurrent = 0;
+            var availlast = 0;
+            
+            var availCurrentValue = availcurrent - days;
+            $('#currentYearText').text(days);
+            $('#lastYearText').text(availlast);
+            var eligible = $('#eligibleText').text();
+            var reduceLast, reduceCur;
+            if (Number(eligible.substring(0, eligible.indexOf(" "))) < days && lgid !== '5') {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Sorry...',
+                    showConfirmButton: false,
+                    text: "Your Leave Shouldn't greater than Eligible Leave"
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 700);
+            } else if (lgid === '3') {
+                $('#lastYearText', '#currentYearText', '#leaveDayText').text(0);
+                $('#reduceLastValue', '#reduceCurrentValue').val(0);
+                days = 0;
+                console.log('Yes Masuk Sini');
+            } else if (givenLeaveId >= days) {
+                if (availlast !== 0) {
+                    $('#lastYearText').text(days);
+                    $('#reduceLastValue').val(days);
+                    $('#currentYearText').text(0);
+                    $('#reduceCurrentValue').val(0);
+                    console.log("Ke sini dia");
+                } else {
+                    $('#lastYearText').text(0);
+                    $('#reduceLastValue').val(0);
+                    $('#currentYearText').text(days);
+                    $('#reduceCurrentValue').val(days);
+                    console.log("Sini loh");
+                }
+            } else if (d1 === d2) {
+                if (availlast !== 0) {
+                    reduceLast = 1;
+                    $('#lastYearText').text(reduceLast);
+                    $('#reduceLastValue').val(reduceLast);
+                    $('#currentYearText').text(0);
+                    $('#reduceCurrentValue').val(0);
+                    console.log('OH Masuk Sini');
+                } else {
+                    reduceCur = 1;
+                    $('#lastYearText').text(0);
+                    $('#reduceLastValue').val(0);
+                    $('#currentYearText').text(reduceCur);
+                    $('#reduceCurrentValue').val(reduceCur);
+                    console.log('Iya Masuk Sini');
+                }
+            } else if (days !== 0) {
+                var sisa = availlast - days;
+                console.log(sisa);
+                if (sisa !== 0) {
+                    if (sisa <= 0) {
+                        var a = Math.abs(sisa);
+                        console.log(a);
+                        var variabel = Math.abs(a - availcurrent);
+                        console.log(variabel);
+                        if (variabel > availcurrent) {
+                            reduceCur = variabel;
+                            console.log(reduceCur + " : MINUS");
+                        } else {
+                            reduceCur = Math.abs(variabel - availcurrent);
+                            console.log(reduceCur + " : PLUS");
+                        }
+                        reduceLast = Math.abs(days + sisa);
+                        console.log(reduceLast);
+                        console.log("OKE SIP");
+                    } else {
+                        var b = Math.abs(sisa);
+                        reduceLast = Math.abs(availlast - b);
+                        reduceCur = 0;
+                        console.log("ASSHHIIIIIAAAAPPP")
+                    }
+                } else {
+                    var c = Math.abs(sisa);
+                    reduceLast = Math.abs(c - days);
+                    reduceCur = 0;
+                    console.log('Mantap');
+                }
+                $('#lastYearText').text(reduceLast);
+                $('#reduceLastValue').val(reduceLast);
+                $('#currentYearText').text(reduceCur);
+                $('#reduceCurrentValue').val(reduceCur);
+            } else {
+                console.log("END");
+            }
+
+            return days;
+        }
+        
+        //leave kondisi shifting
+        function betweenDates1(d1, d2) {
+            var startDate = parseDate(d1.split("-").reverse().join("-"));
+            var endDate = parseDate(d2.split("-").reverse().join("-"));
+            var millisecondsPerDay = 86400 * 1000; // Day in milliseconds
+            startDate.setHours(0, 0, 0, 1); // Start just after midnight
+            endDate.setHours(23, 59, 59, 999); // End just before midnight
+            var diff = endDate - startDate; // Milliseconds between datetime objects
+            var days = Math.ceil(diff / millisecondsPerDay);
+            var weeks = Math.floor(days / 7); //Mengurangi 2 hari disetiap akhir pekan
+            var startDay = startDate.getDay();
+            var endDay = endDate.getDay();
+            
+
+            if (startDate > endDate) {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Sorry...',
+                    showConfirmButton: false,
+                    text: "The start date field is greater than the end date field"
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 700);
+            }
+
+            var holidays = [];
+            /*<![CDATA[*/
+            
+            holidays.push("2023-01-01");
+            holidays.push("2023-01-22");
+            holidays.push("2023-02-18");
+            holidays.push("2023-03-22");
+            holidays.push("2023-04-07");
+            holidays.push("2023-04-22");
+            holidays.push("2023-04-23");
+            holidays.push("2023-05-01");
+            holidays.push("2023-05-18");
+            holidays.push("2023-06-01");
+            holidays.push("2023-06-04");
+            holidays.push("2023-06-29");
+            holidays.push("2023-07-19");
+            holidays.push("2023-08-17");
+            holidays.push("2023-09-28");
+            holidays.push("2023-12-25");
+            holidays.push("2023-01-23");
+            holidays.push("2023-03-23");
+            holidays.push("2023-04-19");
+            holidays.push("2023-04-20");
+            holidays.push("2023-04-21");
+            holidays.push("2023-04-24");
+            holidays.push("2023-06-02");
+            holidays.push("2023-12-26");
+            holidays.push("2023-04-25");
+            
+            /*]]>*/
+            var i = 0;
+            var holiday = 0;
+            for (i in holidays) {
+                var s = parseDate(holidays[i]);
+                if ((holidays[i] >= d1.split("-").reverse().join("-")) && (holidays[i] <= d2.split("-").reverse().join("-"))) {
+                    if (s.getDay() === 0 || s.getDay() === 6) {
+                        console.log('lewat sini');
+                    } else {
+                        days--;
+                        holiday++;
+                    }
+                }
+            }
+            $('#holidayText').text(holiday);
+            $('#holidayValue').val(holiday);
+            var leavegivn = document.getElementById("grupType").value; // Get value leaveGiven sesuai dengan type leave
+            var givenLeaveId = leavegivn.substring(leavegivn.indexOf("-") + 1);
+            var lgid = leavegivn.substring(0, leavegivn.indexOf("-"));
+            $('#leaveGivenText').text(givenLeaveId);
+            $('#leaveGivenValue').val(givenLeaveId);
+            days = days - givenLeaveId;
+            if (days <= 0) {
+                days = 0;
+            }
+
+            var availcurrent = 0;
+            var availlast = 0;
+            
+            var availCurrentValue = availcurrent - days;
+            $('#currentYearText').text(days);
+            $('#lastYearText').text(availlast);
+            var eligible = $('#eligibleText').text();
+            var reduceLast, reduceCur;
+            if (Number(eligible.substring(0, eligible.indexOf(" "))) < days && lgid !== '5') {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Sorry...',
+                    showConfirmButton: false,
+                    text: "Your Leave Shouldn't greater than Eligible Leave"
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 700);
+            } else if (lgid === '3') {
+                $('#lastYearText', '#currentYearText', '#leaveDayText').text(0);
+                $('#reduceLastValue', '#reduceCurrentValue').val(0);
+                days = 0;
+                console.log('Yes Masuk Sini');
+            } else if (givenLeaveId >= days) {
+                if (availlast !== 0) {
+                    $('#lastYearText').text(days);
+                    $('#reduceLastValue').val(days);
+                    $('#currentYearText').text(0);
+                    $('#reduceCurrentValue').val(0);
+                    console.log("Ke sini dia");
+                } else {
+                    $('#lastYearText').text(0);
+                    $('#reduceLastValue').val(0);
+                    $('#currentYearText').text(days);
+                    $('#reduceCurrentValue').val(days);
+                    console.log("Sini loh");
+                }
+            } else if (d1 === d2) {
+                if (availlast !== 0) {
+                    reduceLast = 1;
+                    $('#lastYearText').text(reduceLast);
+                    $('#reduceLastValue').val(reduceLast);
+                    $('#currentYearText').text(0);
+                    $('#reduceCurrentValue').val(0);
+                    console.log('OH Masuk Sini');
+                } else {
+                    reduceCur = 1;
+                    $('#lastYearText').text(0);
+                    $('#reduceLastValue').val(0);
+                    $('#currentYearText').text(reduceCur);
+                    $('#reduceCurrentValue').val(reduceCur);
+                    console.log('Iya Masuk Sini');
+                }
+            } else if (days !== 0) {
+                var sisa = availlast - days;
+                if (sisa !== 0) {
+                    if (sisa <= 0) {
+                        var a = Math.abs(sisa);
+                        var variabel = Math.abs(a - availcurrent);
+                        reduceCur = Math.abs(variabel - availcurrent);
+                        reduceLast = Math.abs(days + sisa);
+                        console.log("OKE SIP");
+                    } else {
+                        var b = Math.abs(sisa);
+                        reduceLast = Math.abs(availlast - b);
+                        reduceCur = 0;
+                        console.log("ASSHHIIIIIAAAAPPP");
+                    }
+                } else {
+                    var c = Math.abs(sisa);
+                    reduceLast = Math.abs(c - days);
+                    reduceCur = 0;
+                    console.log('Mantap');
+                }
+                $('#lastYearText').text(reduceLast);
+                $('#reduceLastValue').val(reduceLast);
+                $('#currentYearText').text(reduceCur);
+                $('#reduceCurrentValue').val(reduceCur);
+            } else {
+                console.log("END");
+            }
+
+            return days;
+        }
+        function parseDate(input) {
+        // Transform date from text to date
+        var parts = input.match(/(\d+)/g);
+        // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+        return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
+        }
+        
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-
