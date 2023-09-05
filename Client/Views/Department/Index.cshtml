@@ -2,30 +2,82 @@
 
 @{
     ViewData["Title"] = "Index";
-    
+    string GetIconClass(string code) {
+        switch (code) {
+            case "SALES":
+                return "fas fa-chart-line";
+            case "MARKETING":
+                return "fas fa-bullhorn";
+            case "FINANCE":
+                return "fas fa-money-bill";
+            case "HR":
+                return "fas fa-users";
+            case "RND":
+                return "fas fa-flask";
+            case "IT":
+                return "fas fa-laptop";
+            case "OPS":
+                return "fas fa-cog";
+            case "CS":
+                return "fas fa-headset";
+            case "PROD":
+                return "fas fa-cogs";
+            case "QA":
+                return "fas fa-check-circle";
+            default:
+                return "fas fa-building";
+        }
+    }
 }
 
-<div class="card">
-    <h1 class="card-header text-center">Data Departments</h1>
+@if (User.IsInRole("manager"))
+{
     <div class="container">
-        <a class="btn btn-primary" href="/Department/Create">Add Department <i class="bx bx-buildings bx-md"></i></a>
-        @* <a asp-action="Create">Create New</a>*@
+        <h2 class="col-6">Department List</h2>
+        <div class="row">
+            @foreach (var department in Model)
+            {
+                <div class="col-12 col-md-6 col-xl-4 col-md-4 mb-4 custom-card">
+                    <div class="card">
+                        <div class="" style="position: absolute; top: 20px; right: -10px; width: 100px;font-size: 50px">
+                            <i class="@GetIconClass(@department.Code)"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title name">@department.Name</h5>
+                            <p class="card-text">
+                                CODE: @department.Code<br/>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
-    <br />
-    <div class="table-responsive text-nowrap">
-        <table class="table table-hover" id="departmentTable">
-        <thead>
-        <tr>
-            <th>
-                No.
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Code)
-            </th>
-            @*<th>
+}
+
+@if (User.IsInRole("admin"))
+{
+    <div class="card">
+        <h1 class="card-header text-center">Data Departments</h1>
+        <div class="container">
+            <a class="btn btn-primary" href="/Department/Create">Add Department <i class="bx bx-buildings bx-md"></i></a>
+            @* <a asp-action="Create">Create New</a>*@
+        </div>
+        <br/>
+        <div class="table-responsive text-nowrap">
+            <table class="table table-hover" id="departmentTable">
+                <thead>
+                <tr>
+                    <th>
+                        No.
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].Code)
+                    </th>
+                    @*<th>
                 @Html.DisplayNameFor(model => model.Guid)
             </th>
             <th>
@@ -34,29 +86,30 @@
             <th>
                 @Html.DisplayNameFor(model => model.ModifiedDate)
             </th>*@
-            @if (User.IsInRole("admin"))
-            {
-                <th>Action</th>
-            }
-            
-        </tr>
-    </thead>
-    <tbody>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <th>Action</th>
+                    }
+
+                </tr>
+                </thead>
+                <tbody>
                 @{
                     int rowNumber = 1;
                 }
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @rowNumber
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            @*<td>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @rowNumber
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        @*<td>
                 @Html.DisplayFor(modelItem => item.Guid)
             </td>
             <td>
@@ -66,29 +119,27 @@
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>*@
 
-            @if (User.IsInRole("admin"))
-            {
-                <td>
-                    <div class="table-actions" style="display: flex;">
-                        <form>
-                            <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
-                        </form>
-                        <form action="/Department/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
-                            <input type="hidden" value="@item.Guid" name="guid" />
-                            <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
-                        </form>
-                    </div>
 
-                </td>
-            }
-                       
-        </tr>
-        rowNumber++;
+                        <td>
+                            <div class="table-actions" style="display: flex;">
+                                <form>
+                                    <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                                </form>
+                                <form action="/Department/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                                    <input type="hidden" value="@item.Guid" name="guid"/>
+                                    <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
+                                </form>
+                            </div>
+
+                        </td>
+                    </tr>
+                    rowNumber++;
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
 }
-    </tbody>
-</table>
-</div>
-</div>
 
 @section Scripts
 {

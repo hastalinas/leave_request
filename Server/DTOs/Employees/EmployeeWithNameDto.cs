@@ -34,6 +34,5 @@ public class EmployeeWithNameDto
     public DateTime LastLeaveUpdate { get; set; }
 
     public IFormFile? ProfileImage { get; set; }
-
-    
+    public string profilImageUrl { get; set; }
 }

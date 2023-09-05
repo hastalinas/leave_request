@@ -1,234 +1,296 @@
 ﻿@model List<Server.DTOs.Employees.EmployeeWithNameDto>
-
 @{
-    ViewData["Title"] = "Index";
-    
+ViewData["Title"] = "Index";
+}
+@if (User.IsInRole("manager"))
+{
+   <div class="container row mb-4">
+      <h2 class="col-6">Employee List</h2>
+      <div class="col-6">
+         <div class="row">
+            <div class="col-8">
+               <input type="text" id="searchInput" class="form-control" placeholder="Cari Karyawan">
+            </div>
+            <div class="col-4">
+               <button id="searchButton" class="btn btn-primary">Cari</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="container">
+   <div class="row">
+      @foreach (var employee in Model)
+      {
+      <div class="col-12 col-md-6 col-xl-4 col-md-4 mb-4 custom-card">
+         <div class="card">
+            <img src="@(!string.IsNullOrEmpty(employee.profilImageUrl) ? employee.profilImageUrl : "/assets/img/avatars/1.png")" class="card-img" alt="Foto Profil" style="position: absolute; top: 10px; right: 10px; width: 100px;">
+            <div class="card-body">
+               <h5 class="card-title name">@employee.FullName</h5>
+               <p class="card-text">
+                  NIK: @employee.Nik<br/>
+                  Department: @employee.DepartmentName<br/>
+                  Manager: @employee.ManagerName<br/>
+                  Leave Remain: @employee.LeaveRemain<br/>
+                  Gender: @employee.Gender<br/>
+                  Hiring Date: @employee.HiringDate.ToShortDateString()<br/>
+                  Email: @employee.Email<br/>
+                  Phone Number: @employee.PhoneNumber<br/>
+                  Birth Date: @employee.BirthDate.ToString("dd MMMM yyyy")
+               </p>
+            </div>
+         </div>
+      </div>
+      }
+   </div>
+</div>
 }
 
-
+@if (User.IsInRole("admin"))
+{
+<h2>Employee List</h2>
 <div class="card">
-    <h1 class="card-header text-center">Data Employees</h1>
-    <p>
-        @*<a class="btn btn-primary" href="/Employee/Create">Add Employee <i class="fa-solid fa-plus"></i></a>
-        <a asp-action="Create">Create New</a>*@
-    </p>
-    <div class="table-responsive text-nowrap">
-        <table class="table table-hover" id="employeeTable">
-        <thead>
-        <tr>
-            <th>
-                No.
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Nik)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].FullName)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model[0].BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].HiringDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].DepartmentName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].ManagerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].LeaveRemain)
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Guid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>*@
-            @if (User.IsInRole("admin"))
-            {
-                <th>Action</th>
-            }
-            
-        </tr>
-    </thead>
-    <tbody>
-        @{
+   <h1 class="card-header text-center">Data Employees</h1>
+   <p>
+      @*<a class="btn btn-primary" href="/Employee/Create">Add Employee <i class="fa-solid fa-plus"></i></a>
+      <a asp-action="Create">Create New</a>*@
+   </p>
+   <div class="table-responsive text-nowrap">
+      <table class="table table-hover" id="employeeTable">
+         <thead>
+            <tr>
+               <th>
+                  No.
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].Nik)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].FullName)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].BirthDate)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].Gender)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].HiringDate)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].Email)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].PhoneNumber)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].DepartmentName)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].ManagerName)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model[0].LeaveRemain)
+               </th>
+               @*
+               <th>
+                  @Html.DisplayNameFor(model => model.Guid)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model.CreatedDate)
+               </th>
+               <th>
+                  @Html.DisplayNameFor(model => model.ModifiedDate)
+               </th>
+               *@
+               @if (User.IsInRole("admin"))
+               {
+               <th>Action</th>
+               }
+            </tr>
+         </thead>
+         <tbody>
+            @{
             int rowNumber = 1;
-        }
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @rowNumber
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nik)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @if (item.BirthDate != null)
-                {
-                    @item.BirthDate.Date.ToString("dd/MM/yyyy")
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @if (item.HiringDate != null)
-                {
-                    @item.HiringDate.Date.ToString("dd/MM/yyyy")
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartmentName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ManagerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveRemain) days
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Guid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
-            </td>*@
-            @if (User.IsInRole("admin"))
-            {
-                <td>
-                    <div class="table-actions" style="display: flex;">
-                        <form>
-                            <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
-                        </form>
-                        <form action="/Employee/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
-                            <input type="hidden" value="@item.Guid" name="guid" />
-                            <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
-                        </form>
-                    </div>
-                </td>
             }
-                        
-        </tr>
-        rowNumber++;
+            @foreach (var item in Model)
+            {
+            <tr>
+               <td>
+                  @rowNumber
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.Nik)
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.FullName)
+               </td>
+               <td>
+                  @if (item.BirthDate != null)
+                  {
+                  @item.BirthDate.Date.ToString("dd/MM/yyyy")
+                  }
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.Gender)
+               </td>
+               <td>
+                  @if (item.HiringDate != null)
+                  {
+                  @item.HiringDate.Date.ToString("dd/MM/yyyy")
+                  }
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.Email)
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.PhoneNumber)
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.DepartmentName)
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.ManagerName)
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.LeaveRemain) days
+               </td>
+               @*
+               <td>
+                  @Html.DisplayFor(modelItem => item.Guid)
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.CreatedDate)
+               </td>
+               <td>
+                  @Html.DisplayFor(modelItem => item.ModifiedDate)
+               </td>
+               *@
+               <td>
+                  <div class="table-actions" style="display: flex;">
+                     <form>
+                        <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                     </form>
+                     <form action="/Employee/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                        <input type="hidden" value="@item.Guid" name="guid"/>
+                        <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
+                     </form>
+                  </div>
+               </td>
+            </tr>
+            rowNumber++;
+            }
+         </tbody>
+      </table>
+   </div>
+</div>
 }
-    </tbody>
-</table>
-</div>
-</div>
-
 @section Scripts
 {
-    <script>
-    
-    function getDataTables() {
-        // Define the DataTable initialization options outside of the document.ready function
-        const dataTableOptions = {
-            dom: 'Blfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print', 'colvis'
-            ],
-            ajax: {
-                url: "Employee/",
-                dataSrc: "data", // Use "data" instead of "results" to access the array directly
-                dataType: "JSON",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Include the Authorization header with the token
-                    // Authorization: `Bearer ${token}`,
-                },
-            },
-            columns: [
-                {
-                    data: "",
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    },
-                },
-                { data: "nik" },
-                { data: "fullName" },
-                {
-                    data: "birthDate",
-                    render: function (data, type, row) {
-                        const dateObj = new Date(data);
-                        return dateObj.toLocaleDateString("en-GB");
-                    },
-                },
-                {
-                    data: "gender",
-                    render: function (data, type, row) {
-                        return data ? "perempuan" : "laki-laki";
-                    },
-                },
-                {
-                    data: '',
-                    render: function (data, type) {
-                        return '';
-                    }
-                }
-            ]
-        };
-    
-        // Initialize DataTable inside the document.ready function
-        $(document).ready(function () {
-            let table = $("#myTable").DataTable(dataTableOptions);
-        });
-    }
-    
-    $(document).ready(function () {
-        const Token = '@Context.Session.GetString("JWToken")';
-        $.ajax({
-            url: "https://localhost:7293/api/accounts/",
-            headers: {
-                "Authorization": "Bearer " + Token
-            }
-        }).done(function (result) {
-            if (result.data.length > 0) {
-                const accounts = result.data.find(e => e.guid === '@User.FindFirst("Guid")?.Value');
-                console.log(accounts)
-                if (accounts && accounts.profilPictureUrl) {
-                    $('#profilePicture').attr('src', accounts.profilPictureUrl);
-                    $('#profilePictureDropDown').attr('src', accounts.profilPictureUrl);
-                } else {
-                    $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
-                    $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
-                }
-            } else {
-                $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
-                $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
-            }
-        }).fail(function () {
-            $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
-            $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
-        });
-    });
-    </script>
+<script>
+   $(document).ready(function () {
+       $("#searchButton").click(function () {
+           search();
+       });
+   
+       $("#searchInput").keyup(function (event) {
+           if (event.key === "Enter") {
+               search();
+           }
+       });
+   
+       function search() {
+           var searchTerm = $("#searchInput").val().toLowerCase();
+           $(".custom-card").each(function () {
+               var cardText = $(this).find(".name").text().toLowerCase();
+               if (cardText.includes(searchTerm)) {
+                   $(this).show();
+               } else {
+                   $(this).hide();
+               }
+           });
+       }
+   });
+   
+   function getDataTables() {
+      // Define the DataTable initialization options outside of the document.ready function
+      const dataTableOptions = {
+          dom: 'Blfrtip',
+          buttons: [
+              'copy', 'csv', 'excel', 'pdf', 'print', 'colvis'
+          ],
+          ajax: {
+              url: "Employee/",
+              dataSrc: "data", // Use "data" instead of "results" to access the array directly
+              dataType: "JSON",
+              headers: {
+                  "Content-Type": "application/json",
+                  // Include the Authorization header with the token
+                  // Authorization: `Bearer ${token}`,
+              },
+          },
+          columns: [
+              {
+                  data: "",
+                  render: function (data, type, row, meta) {
+                      return meta.row + meta.settings._iDisplayStart + 1;
+                  },
+              },
+              { data: "nik" },
+              { data: "fullName" },
+              {
+                  data: "birthDate",
+                  render: function (data, type, row) {
+                      const dateObj = new Date(data);
+                      return dateObj.toLocaleDateString("en-GB");
+                  },
+              },
+              {
+                  data: "gender",
+                  render: function (data, type, row) {
+                      return data ? "perempuan" : "laki-laki";
+                  },
+              },
+              {
+                  data: '',
+                  render: function (data, type) {
+                      return '';
+                  }
+              }
+          ]
+      };
+   
+      // Initialize DataTable inside the document.ready function
+      $(document).ready(function () {
+          let table = $("#myTable").DataTable(dataTableOptions);
+      });
+   }
+   
+   $(document).ready(function () {
+      const Token = '@Context.Session.GetString("JWToken")';
+      $.ajax({
+          url: "https://localhost:7293/api/accounts/",
+          headers: {
+              "Authorization": "Bearer " + Token
+          }
+      }).done(function (result) {
+          if (result.data.length > 0) {
+              const accounts = result.data.find(e => e.guid === '@User.FindFirst("Guid")?.Value');
+              console.log(accounts)
+              if (accounts && accounts.profilPictureUrl) {
+                  $('#profilePicture').attr('src', accounts.profilPictureUrl);
+                  $('#profilePictureDropDown').attr('src', accounts.profilPictureUrl);
+              } else {
+                  $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
+                  $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
+              }
+          } else {
+              $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
+              $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
+          }
+      }).fail(function () {
+          $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
+          $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
+      });
+   });
+</script>
 }
-
-

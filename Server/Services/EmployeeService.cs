@@ -102,6 +102,7 @@ public class EmployeeService
                     join manager in _employeeRepository.GetAll() on employee.ManagerGuid equals manager.Guid into ManagerGroup
                     from manager in ManagerGroup.DefaultIfEmpty()
                     join department in _departmentRepository.GetAll() on employee.DepartmentGuid equals department.Guid
+                    join account in _accountRepository.GetAll() on employee.Guid equals account.Guid
 
                     select new EmployeeWithNameDto
                     {
@@ -118,7 +119,8 @@ public class EmployeeService
                         PhoneNumber = employee.PhoneNumber,
                         DepartmentName = department.Name,
                         ManagerName = manager!=null? manager.FirstName + " " + manager.LastName:null,
-                        LeaveRemain = employee.LeaveRemain
+                        LeaveRemain = employee.LeaveRemain,
+                        profilImageUrl = account.ProfilPictureUrl
                     }).OrderBy(employee => employee.Nik);
         return merge;
     }

@@ -41,6 +41,7 @@ public class EmployeeController : Controller
                 ManagerName = employee.ManagerName,
                 Nik = employee.Nik,
                 PhoneNumber = employee.PhoneNumber,
+                profilImageUrl = employee.profilImageUrl
             };
             listEmployee.Add(EmployeeNewList);
         }
