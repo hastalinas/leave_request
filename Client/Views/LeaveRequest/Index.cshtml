@@ -12,7 +12,7 @@
 <div id="accordionExample" class="accordion accordion-without-arrow">
 <div class="row">
 <div class="col">
-    @foreach (var item in Model.OrderByDescending(item => item.RequestNumber).OrderBy(item => item.Status))
+    @foreach (var item in Model.OrderByDescending(item => item.RequestNumber).ThenBy(item => item.Status))
     {
         if (item.Status == Status.Draft)
         {
@@ -21,10 +21,13 @@
         else
         {
             var accordionId = $"accordion_{item.RequestNumber.Replace(" ", "_")}";
+            var isLastItem = Model.Last() == item; // Menentukan apakah item adalah item terakhir
             <div class="card accordion-item mt-2">
                 <h2 class="accordion-header" id="heading_@accordionId">
                     <button type="button"
-                            class="accordion-button collapsed"
+                            class="accordion-button @if (isLastItem) {
+                                        <text>show</text>
+                            } collapsed"
                             data-bs-toggle="collapse"
                             data-bs-target="#@accordionId"
                             aria-controls="@accordionId">
@@ -53,7 +56,9 @@
                     </button>
                 </h2>
                 <div id="@accordionId"
-                     class="accordion-collapse collapse"
+                     class="accordion-button @if (isLastItem) {
+                                 <text>show</text>
+                     } collapsed"
                      aria-labelledby="heading_@accordionId"
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body card-body">
