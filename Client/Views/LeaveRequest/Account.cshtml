@@ -155,7 +155,7 @@
                                     @if (item.Status is Status.Draft or Status.Rejected)
                                     {
                                         <div class="m-1">
-                                            <form method="post" action="/LeaveRequest/Send" class="""formSend">
+                                            <form method="post" action="/LeaveRequest/Send" class="formSend">
                                                 <input type="hidden" value="@item.Guid" name="guid"/>
                                                 <button value="" class="btn rounded-pill btn-outline-success">
                                                     <span class="tf-icons bx bx-send d-none d-sm-inline"></span>&nbsp; Send
