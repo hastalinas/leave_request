@@ -34,7 +34,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.ModifiedDate)
             </th>*@
-            <th>Action</th>
+            @if (User.IsInRole("admin"))
+            {
+                <th>Action</th>
+            }
+            
         </tr>
     </thead>
     <tbody>
@@ -61,18 +65,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>*@
-            <td>
-                <div class="table-actions" style="display: flex;">
-                    <form>
-                        <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
-                    </form>
-                    <form action="/Department/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
-                        <input type="hidden" value="@item.Guid" name="guid" />
-                        <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
-                    </form>
-                </div>
-                
-            </td>
+
+            @if (User.IsInRole("admin"))
+            {
+                <td>
+                    <div class="table-actions" style="display: flex;">
+                        <form>
+                            <a asp-action="Edit" asp-route-id="@item.Guid" class="fas fa-edit text-info"></a>
+                        </form>
+                        <form action="/Department/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                            <input type="hidden" value="@item.Guid" name="guid" />
+                            <button value="" style="background: none; border: none;" class="fas fa-trash text-danger" onclick="return true"></button>
+                        </form>
+                    </div>
+
+                </td>
+            }
+                       
         </tr>
         rowNumber++;
 }

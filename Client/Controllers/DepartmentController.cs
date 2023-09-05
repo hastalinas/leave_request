@@ -12,7 +12,7 @@ using Server.Utilities.Handler;
 
 namespace Client.Controllers;
 
-[Authorize(Roles = "admin")]
+[Authorize(Roles = "admin,manager")]
 
 public class DepartmentController : Controller
 {
