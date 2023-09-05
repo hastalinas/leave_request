@@ -4,9 +4,12 @@ using Server.DTOs.LeaveRequests;
 
 namespace Client.Models
 {
-    public class RegisterLeaveRequestDto
+    public class EditLeaveRequestDto
     {
+        public Guid Guid { get; set; }
+        public Guid EmployeeGuid { get; set; }
         public LeaveType LeaveType { get; set; }
+        
         public string RequestNumber { get; set; }
         public string LeaveStart { get; set; }
         public string LeaveEnd { get; set; }
@@ -14,39 +17,47 @@ namespace Client.Models
         public string? Attachment { get; set; }
         public Status Status { get; set; }
         public IFormFile? FileUpload { get; set; }
+        public string? FeedbackNotes { get; set; }
 
         // Operator implisit untuk mengonversi dari RegisterLeaveRequestDto ke RegisterLeaveDto
-        public static implicit operator RegisterLeaveDto(RegisterLeaveRequestDto source)
+        public static implicit operator LeaveRequestDto(EditLeaveRequestDto source)
         {
             if (source == null)
                 return null;
 
-            return new RegisterLeaveDto
+            return new LeaveRequestDto
             {
                 LeaveType = source.LeaveType,
+                RequestNumber = source.RequestNumber,
                 LeaveStart = DateTime.ParseExact(source.LeaveStart, "dd-MM-yyyy", CultureInfo.InvariantCulture), // Mengubah format tanggal
                 LeaveEnd = DateTime.ParseExact(source.LeaveEnd, "dd-MM-yyyy", CultureInfo.InvariantCulture), // Mengubah format tanggal
                 Notes = source.Notes,
-                Attachment = source.Attachment,
-                Status = source.Status
+                AttachmentUrl = source.Attachment,
+                Status = source.Status,
+                Guid = source.Guid,
+                EmployeeGuid = source.EmployeeGuid,
+                FeedbackNotes = source.FeedbackNotes
             };
         }
 
         // Operator eksplisit untuk mengonversi dari RegisterLeaveDto ke RegisterLeaveRequestDto
-        public static explicit operator RegisterLeaveRequestDto(RegisterLeaveDto source)
+        public static explicit operator EditLeaveRequestDto(LeaveRequestDto source)
         {
             if (source == null)
                 return null;
 
-            return new RegisterLeaveRequestDto
+            return new EditLeaveRequestDto
             {
                 LeaveType = source.LeaveType,
-                // RequestNumber = source.RequestNumber,
-                LeaveStart = ConvertDateFormat(source.LeaveStart.ToString(), "MM/dd/yyyy", "dd/MM/yyyy"), // Mengubah format tanggal
-                LeaveEnd = ConvertDateFormat(source.LeaveEnd.ToString(), "MM/dd/yyyy", "dd/MM/yyyy"), // Mengubah format tanggal
+                RequestNumber = source.RequestNumber,
+                LeaveStart = source.LeaveStart.ToString("dd-MM-yyyy"),
+                LeaveEnd = source.LeaveEnd.ToString("dd-MM-yyyy"),
                 Notes = source.Notes,
-                Attachment = source.Attachment,
-                Status = source.Status
+                Attachment = source.AttachmentUrl,
+                Status = source.Status,
+                Guid = source.Guid,
+                EmployeeGuid = source.EmployeeGuid,
+                FeedbackNotes = source.FeedbackNotes
             };
         }
 

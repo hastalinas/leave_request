@@ -16,8 +16,8 @@
 
 <div id="accordionExample" class="accordion mt-3 accordion-without-arrow d-block">
     <div class="row">
-        <div class="col-lg-6">
-            @foreach (var item in  Model.OrderByDescending(item => item.LeaveStart).Take(Model.Count()/2))
+        <div class="col">
+            @foreach (var item in  Model.OrderByDescending(item => item.LeaveStart))
                 {
                     var accordionId = $"accordion_{item.RequestNumber.Replace(" ", "_")}";
                     var isLastItem = Model.Last() == item; // Menentukan apakah item adalah item terakhir
@@ -155,199 +155,24 @@
                                     @if (item.Status is Status.Draft or Status.Rejected)
                                     {
                                         <div class="m-1">
-                                            <form>
+                                            <form id="form">
                                                 <a type="button" class="btn rounded-pill btn-outline-secondary" asp-action="EditEmployee" asp-route-id="@item.Guid">
                                                     <span class="tf-icons bx bx-edit d-none d-sm-inline"></span>&nbsp; Edit
                                                 </a>
                                             </form>
                                         </div>
                                         <div class="m-1">
-                                            <form action="/LeaveRequest/Send" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin mengajukan cuti?')">
+                                            <form method="post" action="/LeaveRequest/Send" id="formSend">
                                                 <input type="hidden" value="@item.Guid" name="guid"/>
-                                                <button value="" class="btn rounded-pill btn-outline-success" onclick="return true">
+                                                <button value="" class="btn rounded-pill btn-outline-success">
                                                     <span class="tf-icons bx bx-send d-none d-sm-inline"></span>&nbsp; Send
                                                 </button>
                                             </form>
                                         </div>
                                         <div class="m-1">
-                                            <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
+                                            <form action="/LeaveRequest/Delete" method="post" id="formDelete">
                                                 <input type="hidden" value="@item.Guid" name="guid"/>
-                                                <button value="" class="btn rounded-pill btn-outline-danger" onclick="return true">
-                                                    <span class="tf-icons bx bx-trash d-none d-sm-inline"></span>&nbsp; Delete
-                                                </button>
-                                            </form>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="m-1">
-                                            <button class="btn rounded-pill btn-outline-secondary" disabled>
-                                                <span class="tf-icons bx bx-edit d-none d-sm-inline"></span>&nbsp; Edit
-                                            </button>
-                                        </div>
-                                        <div class="m-1">
-                                            <button class="btn rounded-pill btn-outline-success" disabled>
-                                                <span class="tf-icons bx bx-send d-none d-sm-inline"></span>&nbsp; Send
-                                            </button>
-                                        </div>
-                                        <div class="m-1">
-                                            <button class="btn rounded-pill btn-outline-danger" disabled>
-                                                <span class="tf-icons bx bx-trash d-none d-sm-inline"></span>&nbsp; Delete
-                                            </button>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-        </div>
-        <div class="col-lg-6">
-            @foreach (var item in  Model.OrderByDescending(item => item.LeaveStart).Skip(Model.Count()/2))
-                {
-                    var accordionId = $"accordion_{item.RequestNumber.Replace(" ", "_")}";
-                    <div class="card accordion-item mt-2">
-                        <h2 class="accordion-header" id="heading_@accordionId">
-                            <button type="button"
-                                    class="accordion-button collapsed"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#@accordionId"
-                                    aria-controls="@accordionId">
-                                <span class="col">@Html.DisplayFor(modelItem => item.RequestNumber)</span>
-                                <div class="row">
-                                    <div class="col">
-                                        <span class="badge bg-secondary">@item.LeaveDays Days</span>
-                                        @if (item.Status == Status.Draft)
-                                        {
-                                            <span class="badge bg-secondary">Draft</span>
-                                        }
-                                        else if (item.Status == Status.OnProcess)
-                                        {
-                                            <span class="badge bg-primary">OnProcess</span>
-                                        }
-                                        else if (item.Status == Status.Success)
-                                        {
-                                            <span class="badge bg-success">Success</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-danger">Rejected</span>
-                                        }
-                                    </div>
-                                </div>
-                            </button>
-                        </h2>
-                        <div id="@accordionId"
-                             class="accordion-collapse collapse"
-                             aria-labelledby="heading_@accordionId"
-                             data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <div class="d-grid table">
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Relation Manager
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.RelationManager)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Leave Type
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.LeaveType)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Leave Start
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.LeaveStart)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Leave End
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.LeaveEnd)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Phone Number
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Notes
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.Notes)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Leave Days
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.LeaveDays) Days
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Status
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.Status)
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Attachment
-                                        </div>
-                                        <div class="col-7 col-md-8">: 
-                                            <a href="@Html.DisplayFor(modelItem => item.Attachment)">
-                                                @Html.DisplayFor(modelItem => item.Attachment)
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-5 col-md-4">
-                                            Feedback Notes
-                                        </div>
-                                        <div class="col-7 col-md-8">
-                                            : @Html.DisplayFor(modelItem => item.FeedbackNotes)
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    @if (item.Status is Status.Draft or Status.Rejected)
-                                    {
-                                        <div class="m-1">
-                                            <form>
-                                                <a type="button" class="btn rounded-pill btn-outline-secondary" asp-action="EditEmployee" asp-route-id="@item.Guid">
-                                                    <span class="tf-icons bx bx-edit d-none d-sm-inline"></span>&nbsp; Edit
-                                                </a>
-                                            </form>
-                                        </div>
-                                        <div class="m-1">
-                                            <form action="/LeaveRequest/Send" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin mengajukan cuti?')">
-                                                <input type="hidden" value="@item.Guid" name="guid"/>
-                                                <button value="" class="btn rounded-pill btn-outline-success" onclick="return true">
-                                                    <span class="tf-icons bx bx-send d-none d-sm-inline"></span>&nbsp; Send
-                                                </button>
-                                            </form>
-                                        </div>
-                                        <div class="m-1">
-                                            <form action="/LeaveRequest/Delete" method="post" onsubmit="return confirm('Apakah Anda Yakin Ingin menghapus data ini?')">
-                                                <input type="hidden" value="@item.Guid" name="guid"/>
-                                                <button value="" class="btn rounded-pill btn-outline-danger" onclick="return true">
+                                                <button value="" class="btn rounded-pill btn-outline-danger">
                                                     <span class="tf-icons bx bx-trash d-none d-sm-inline"></span>&nbsp; Delete
                                                 </button>
                                             </form>
@@ -409,6 +234,56 @@
             }).fail(function () {
                 $('#profilePicture').attr('src', '/assets/img/avatars/1.png');
                 $('#profilePictureDropDown').attr('src', '/assets/img/avatars/1.png');
+            });
+        });
+        
+        $('#formSend').on('submit', function (e) {
+            e.preventDefault();
+            var form = this;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will edit this request!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Edit!'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        title: 'Submitted!',
+                        type: 'success',
+                        text: 'Your leave request has been submitted!',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    form.submit();
+                }
+            });
+        });
+        
+        $('#formDelete').on('submit', function (e) {
+            e.preventDefault();
+            var form = this;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will delete this request!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Delete!'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        title: 'Submitted!',
+                        type: 'success',
+                        text: 'Your leave request has been deleted!',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    form.submit();
+                }
             });
         });
     </script>

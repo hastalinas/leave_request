@@ -147,6 +147,7 @@ public class LeaveRequestService
             where employee.Guid == guid
             select new LeaveRequestDetailDto
             {
+                FullName = $"{employee.FirstName} {employee.LastName}",
                 Guid = leaveRequest.Guid,
                 RequestNumber = leaveRequest.RequestNumber,
                 RelationManager = $"{manager.Nik} - {manager.FirstName} {manager.LastName}",

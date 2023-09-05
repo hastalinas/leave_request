@@ -101,6 +101,7 @@ public class AccountController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> Login()
     {
+        HttpContext.Session.Remove("JWToken");
         return View();
     }
 
@@ -189,7 +190,7 @@ public class AccountController : Controller
     {
         return View();
     }
-
+    
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> ChangePassword(ChangePasswordDto changePassword)
