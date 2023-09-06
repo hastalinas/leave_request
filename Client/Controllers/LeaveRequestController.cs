@@ -347,9 +347,9 @@ public class LeaveRequestController : Controller
                 
             }
         }
-        catch (Exception ex)
+        catch 
         {
-            TempData["Error"] = $"Error: {ex.Message}";
+            TempData["Error"] = $"Error";
         }
         
         var result = await _repository.Put(leave.Guid, leave);
@@ -494,6 +494,110 @@ public class LeaveRequestController : Controller
                     _emailHandler.SendEmail(userEmail, subject, bodyManager);
                     _emailHandler.SendEmail(data.Email, subject, body);
                 }
+            }
+            else
+            {
+                var data = employee.Data.FirstOrDefault(e => e.Guid == entity.EmployeeGuid);
+                var checkDays = new CheckDaysHandler();
+                var leaveDays = checkDays.Get(entity.LeaveStart, entity.LeaveEnd);
+
+                var userEmail = User.FindFirst("Email")?.Value;
+                // Informasi pengajuan cuti
+                var leaveType = entity.LeaveType;
+                var leaveStart = entity.LeaveStart;
+                var leaveEnd = entity.LeaveEnd;
+                var notes = entity.FeedbackNotes;
+                var status = entity.Status;
+                var attachmentLink = $"{_env.WebRootPath}{entity.AttachmentUrl}";
+
+                var subject = "Pengajuan Cuti Anda";
+
+                // Membuat konten HTML
+                var content = $@"<h1>Pengajuan Cuti Anda</h1>
+                            <table>
+                                <tr>
+                                    <th>Status Pengajuan Cuti</th>
+                                    <td><strong>{status}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th colspan='2'>Berikut ini adalah rincian pengajuan cuti Anda:</th>
+                                </tr>
+                                <tr>
+                                    <th>Tipe Cuti</th>
+                                    <td>{leaveType}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal Mulai Cuti</th>
+                                    <td>{leaveStart:dddd, dd/MM/yyyy}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal Berakhir Cuti</th>
+                                    <td>{leaveEnd:dddd, dd/MM/yyyy}</td>
+                                </tr>
+                                <tr>
+                                    <th>Notes</th>
+                                    <td>{notes}</td>
+                                </tr>
+                                <!-- Jika Anda memiliki data attachment, Anda bisa menambahkannya di sini -->
+                                <tr>
+                                    <th>Attachment</th>
+                                    <td><a href='{attachmentLink}'>Download Attachment</a></td>
+                                </tr>
+                            </table>
+                            <p>Terima kasih atas pengajuan cuti Anda.</p>
+                            <p>Harap jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan lebih lanjut.</p>
+                            <br>
+                            <p>Salam,</p>
+                            <p>Leave Request Management System</p>";
+
+                var managerContent = $@"
+                    <h1>Pengajuan Cuti Karyawan</h1>
+                    <table>
+                        <tr>
+                            <th>Nama Karyawan</th>
+                            <td><strong>{data.FirstName} {data.LastName}</strong></td>
+                        </tr>
+                        <tr>
+                            <th>Status Pengajuan Cuti</th>
+                            <td><strong>{status}</strong></td>
+                        </tr>
+                        <tr>
+                            <th colspan='2'>Berikut ini adalah rincian pengajuan cuti karyawan:</th>
+                        </tr>
+                        <tr>
+                            <th>Tipe Cuti</th>
+                            <td>{leaveType}</td>
+                        </tr>
+                        <tr>
+                            <th>Tanggal Mulai Cuti</th>
+                            <td>{leaveStart:dddd, dd/MM/yyyy}</td>
+                        </tr>
+                        <tr>
+                            <th>Tanggal Berakhir Cuti</th>
+                            <td>{leaveEnd:dddd, dd/MM/yyyy}</td>
+                        </tr>
+                        <tr>
+                            <th>Notes</th>
+                            <td>{notes}</td>
+                        </tr>
+                        <!-- Jika karyawan memiliki data attachment, Anda bisa menambahkannya di sini -->
+                        <tr>
+                            <th>Attachment</th>
+                            <td><a href='{attachmentLink}'>Download Attachment</a></td>
+                        </tr>
+                    </table>
+                    <p>Silakan tinjau pengajuan cuti karyawan ini dan ambil tindakan yang sesuai.</p>
+                    <p>Jangan ragu untuk menghubungi karyawan ini jika Anda memiliki pertanyaan lebih lanjut.</p>
+                    <br>
+                    <p>Salam,</p>
+                    <p>Leave Request Management System</p>";
+
+                var bodyManager = Body(managerContent);
+                var body = Body(content);
+
+                // Mengirim email dengan HTML
+                _emailHandler.SendEmail(userEmail, subject, bodyManager);
+                _emailHandler.SendEmail(data.Email, subject, body);
             }
         }
         catch

@@ -23,7 +23,7 @@ public class TokenHandler : ITokenHandler
             issuer: _configuration["JWTConfig:Issuer"],
             audience: _configuration["JWTConfig:Audience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(10),
+            expires: DateTime.Now.AddMinutes(30),
             signingCredentials: signatureCredentials);
         var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         return token;
